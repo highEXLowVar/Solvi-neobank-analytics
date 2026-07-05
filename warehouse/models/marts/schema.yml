@@ -1,0 +1,233 @@
+version: 2
+
+models:
+  - name: dim_users
+    description: >
+      One row per sign-up start, wide: acquisition, funnel progress with
+      timestamps, activation, experiment membership, bonus payouts.
+    columns:
+      - name: user_id
+        tests: [unique, not_null]
+        meta:
+          metrics:
+            n_signups:
+              type: count
+              label: Sign-ups
+      - name: cac_eur
+        description: Assumed acquisition cost for the user's channel (finance input).
+        tests: [not_null]
+        meta:
+          metrics:
+            avg_cac:
+              type: average
+              label: Avg CAC
+              format: eur
+              round: 2
+      - name: variant
+        tests:
+          - accepted_values:
+              arguments:
+                values: [control, treatment]
+      # Lightdash semantic layer: the dimensions/metrics below define the
+      # funnel numbers once, in the warehouse, instead of once per dashboard
+      - name: channel
+        description: Acquisition channel.
+        meta:
+          dimension:
+            label: Acquisition channel
+      - name: country
+        meta:
+          dimension:
+            label: Country
+      - name: device
+        meta:
+          dimension:
+            label: Device
+      - name: age_band
+        meta:
+          dimension:
+            label: Age band
+      - name: signup_date
+        meta:
+          dimension:
+            label: Sign-up date
+      - name: is_kyc_approved
+        meta:
+          metrics:
+            kyc_approval_rate:
+              type: average
+              label: KYC approval rate
+              description: Share of sign-ups whose KYC ends approved.
+              sql: "CASE WHEN ${TABLE}.is_kyc_approved THEN 1 ELSE 0 END"
+              format: percent
+              round: 1
+      - name: is_activated
+        meta:
+          metrics:
+            activation_rate:
+              type: average
+              label: Activation rate
+              description: Share of sign-ups that reach a first card transaction.
+              sql: "CASE WHEN ${TABLE}.is_activated THEN 1 ELSE 0 END"
+              format: percent
+              round: 1
+
+  - name: fct_activity_monthly
+    description: >
+      User-month activity and economics. contribution_margin_eur =
+      interchange + FX fees + other fees + subscription, minus variable cost and bonus payouts.
+    columns:
+      - name: user_id
+        tests: [not_null]
+        meta:
+          metrics:
+            active_users:
+              type: count_distinct
+              label: Active users
+              description: Distinct users with a card transaction or top-up in the month.
+              sql: "CASE WHEN ${TABLE}.is_active THEN ${TABLE}.user_id END"
+      - name: contribution_margin_eur
+        tests: [not_null]
+        meta:
+          metrics:
+            total_contribution_margin:
+              type: sum
+              label: Contribution margin
+              format: eur
+              round: 0
+            margin_per_user_month:
+              type: average
+              label: Margin per user-month
+              format: eur
+              round: 2
+      - name: month
+        meta:
+          dimension:
+            label: Month
+      - name: channel
+        meta:
+          dimension:
+            label: Acquisition channel
+      - name: months_since_activation
+        meta:
+          dimension:
+            label: Months since activation
+      - name: revenue_eur
+        meta:
+          metrics:
+            total_revenue:
+              type: sum
+              label: Revenue
+              format: eur
+              round: 0
+      - name: card_spend_eur
+        meta:
+          metrics:
+            total_card_spend:
+              type: sum
+              label: Card spend
+              format: eur
+              round: 0
+
+  - name: fct_kyc_attempts
+    description: One row per KYC document submission attempt.
+    columns:
+      - name: event_id
+        tests: [unique, not_null]
+        meta:
+          metrics:
+            n_attempts:
+              type: count
+              label: KYC attempts
+      - name: platform
+        tests:
+          - accepted_values:
+              arguments:
+                values: [ios, android]
+        meta:
+          dimension:
+            label: Platform
+      - name: doc_type
+        meta:
+          dimension:
+            label: Document type
+      - name: event_date
+        meta:
+          dimension:
+            label: Attempt date
+      - name: app_version
+        meta:
+          dimension:
+            label: App version
+      - name: is_kyc_approved
+        meta:
+          metrics:
+            approval_rate:
+              type: average
+              label: Approval rate (attempt-weighted)
+              description: Share of attempts by users whose KYC ends approved. Slice by platform x document type x date to see the v5.27 incident.
+              sql: "CASE WHEN ${TABLE}.is_kyc_approved THEN 1 ELSE 0 END"
+              format: percent
+              round: 1
+
+  - name: fct_experiment_users
+    description: >
+      One row per TOPUP10 subject with identically-windowed outcomes for both
+      arms (14-day conversion, 60-day net margin).
+    columns:
+      - name: user_id
+        tests: [unique, not_null]
+        meta:
+          metrics:
+            n_subjects:
+              type: count
+              label: Experiment subjects
+      - name: variant
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [control, treatment]
+        meta:
+          dimension:
+            label: Variant
+      - name: conv_14d
+        tests: [not_null]
+        meta:
+          metrics:
+            conversion_rate_14d:
+              type: average
+              label: 14-day top-up conversion
+              description: Primary outcome. Group by Variant for the headline read-out.
+              sql: "CASE WHEN ${TABLE}.conv_14d THEN 1 ELSE 0 END"
+              format: percent
+              round: 1
+      - name: channel
+        meta:
+          dimension:
+            label: Acquisition channel
+      - name: redeemed
+        meta:
+          metrics:
+            redemption_rate:
+              type: average
+              label: Bonus redemption rate
+              sql: "CASE WHEN ${TABLE}.redeemed THEN 1 ELSE 0 END"
+              format: percent
+              round: 1
+      - name: margin_60d_eur
+        meta:
+          metrics:
+            avg_margin_60d:
+              type: average
+              label: 60-day margin per user (net of bonus)
+              format: eur
+              round: 2
+      - name: bonus_cost_eur
+        meta:
+          metrics:
+            total_bonus_cost:
+              type: sum
+              label: Bonus cost
+              format: eur
+              round: 0

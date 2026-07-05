@@ -1,0 +1,14 @@
+# generated data, rebuild with scripts/run_pipeline.py
+data/
+analysis/out/
+
+# environments & caches
+.venv/
+__pycache__/
+*.pyc
+
+# dbt artefacts
+warehouse/target/
+warehouse/logs/
+warehouse/dbt_packages/
+logs/

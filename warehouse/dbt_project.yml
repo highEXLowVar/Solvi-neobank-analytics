@@ -1,0 +1,27 @@
+name: solvi_warehouse
+version: "1.0.0"
+profile: solvi
+
+model-paths: ["models"]
+test-paths: ["tests"]
+target-path: target
+clean-targets: [target, dbt_packages]
+
+vars:
+  # economics assumptions: the same constants finance would hand an analyst
+  interchange_rate: 0.002          # EU consumer card interchange cap
+  fx_fee_rate: 0.007               # weekday FX fee on converted spend
+  other_fees_per_active_month: 0.35
+  variable_cost_per_active_month: 0.45
+  warehouse_end_month: "2026-05-01"  # last fully observed month
+
+models:
+  solvi_warehouse:
+    staging:
+      +materialized: view
+    intermediate:
+      +materialized: view
+    marts:
+      +materialized: table
+    exports:
+      +materialized: table

@@ -1,0 +1,32 @@
+version: 2
+
+sources:
+  - name: raw
+    description: >
+      Raw event data as landed by the (simulated) ingestion layer. Parquet files
+      in data/raw/. The warehouse's only view of the world.
+    meta:
+      external_location: "../data/raw/{name}.parquet"
+    tables:
+      - name: users
+        description: One row per sign-up start, with acquisition context.
+      - name: funnel_events
+        description: Onboarding funnel events; KYC submissions have one row per attempt.
+      - name: card_transactions
+        description: Card transactions of activated users.
+      - name: topups
+        description: All top-ups, including the first one that gates activation.
+      - name: subscriptions
+        description: One row per user-month on a paid plan.
+      - name: incentive_payouts
+        description: Promotional credits paid out (TOPUP10 campaign).
+      - name: experiment_assignments
+        description: Randomised assignments for the TOPUP10 experiment.
+      - name: app_releases
+        description: App release calendar per platform (CSV).
+        meta:
+          external_location: "read_csv('../data/raw/app_releases.csv')"
+      - name: channels
+        description: Acquisition channels with assumed CAC (CSV, finance input).
+        meta:
+          external_location: "read_csv('../data/raw/channels.csv')"

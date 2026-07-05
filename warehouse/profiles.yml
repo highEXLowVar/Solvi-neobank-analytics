@@ -1,0 +1,7 @@
+solvi:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: ../data/solvi.duckdb
+      threads: 4

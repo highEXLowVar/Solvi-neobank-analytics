@@ -1,0 +1,84 @@
+version: 2
+
+models:
+  - name: stg_users
+    description: Sign-up starts with acquisition context.
+    columns:
+      - name: user_id
+        tests: [unique, not_null]
+      - name: channel
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [organic, referral, paid_social, influencer]
+      - name: device
+        tests:
+          - accepted_values:
+              arguments:
+                values: [ios, android]
+      - name: country
+        tests:
+          - accepted_values:
+              arguments:
+                values: [FR, ES, PT, PL, RO]
+      - name: age_band
+        tests:
+          - accepted_values:
+              arguments:
+                values: ["18-24", "25-34", "35-44", "45+"]
+
+  - name: stg_funnel_events
+    description: Onboarding events at event grain.
+    columns:
+      - name: event_id
+        tests: [unique, not_null]
+      - name: user_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_users')
+                field: user_id
+      - name: event_type
+        tests:
+          - accepted_values:
+              arguments:
+                values: [signup_start, email_verified, kyc_start,
+                         kyc_doc_submitted, kyc_approved, kyc_rejected]
+
+  - name: stg_card_transactions
+    columns:
+      - name: txn_id
+        tests: [unique, not_null]
+      - name: user_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_users')
+                field: user_id
+
+  - name: stg_topups
+    columns:
+      - name: topup_id
+        tests: [unique, not_null]
+
+  - name: stg_subscriptions
+    columns:
+      - name: plan
+        tests:
+          - accepted_values:
+              arguments:
+                values: [plus, premium]
+
+  - name: stg_experiment_assignments
+    columns:
+      - name: user_id
+        tests: [unique, not_null]
+      - name: variant
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [control, treatment]

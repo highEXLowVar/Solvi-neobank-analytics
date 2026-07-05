@@ -1,0 +1,10 @@
+numpy>=2.0
+pandas>=2.2
+pyarrow>=17.0
+duckdb>=1.1
+scipy>=1.14
+statsmodels>=0.14
+dbt-core>=1.9
+dbt-duckdb>=1.9
+scikit-learn>=1.5
+matplotlib>=3.9
