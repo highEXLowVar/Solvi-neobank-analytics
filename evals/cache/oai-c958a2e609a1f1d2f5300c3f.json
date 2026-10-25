@@ -1,0 +1,19 @@
+{
+ "latency_s": 5.78,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":false,\"root_cause_hypothesis\":\"The query returned no Romanian March or May spend-per-active-user values and no historical two-month comparisons, so it cannot establish whether usage declined or whether any change exceeds normal variation.\",\"supporting_metrics\":[{\"name\":\"Romania card spend per active user\",\"baseline_value\":null,\"anomaly_value\":null,\"unit\":\"EUR/user\",\"sql\":\"The single DuckDB query in the conversation: monthly Romania card spend per distinct transacting user, comparing March and May 2026; returned march_spend_per_active_user_eur = NULL and may_spend_per_active_user_eur = NULL.\"},{\"name\":\"Historical Romanian two-month change comparison count\",\"baseline_value\":null,\"anomaly_value\":0,\"unit\":\"count\",\"sql\":\"The single DuckDB query in the conversation: count of historical two-month changes before May 2026; returned historical_two_month_comparisons = 0.\"}],\"recommended_action\":\"NO_ACTION_NOISE\",\"reasoning_summary\":\"0 historical comparisons were available, and March and May spend per active user both returned NULL. There is not enough data in this result to confirm a decline or assess it against normal variation; no incident is established.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 1546,
+   "output_tokens": 396,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

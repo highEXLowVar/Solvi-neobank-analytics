@@ -1,0 +1,19 @@
+{
+ "latency_s": 10.583,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"sql\":\"WITH monthly_retention AS (\\n    SELECT\\n        channel,\\n        months_since_activation AS k,\\n        SUM(n_active) AS active_at_k,\\n        SUM(cohort_size) AS cohort_users\\n    FROM agg_retention_cohorts\\n    WHERE months_since_activation BETWEEN 2 AND 12\\n    GROUP BY channel, months_since_activation\\n),\\nmonthly_churn AS (\\n    SELECT\\n        cur.channel,\\n        SUM(prev.active_at_k - cur.active_at_k)::DOUBLE / NULLIF(SUM(prev.active_at_k), 0) AS steady_state_monthly_churn,\\n        SUM(prev.active_at_k) AS churn_denominator_users,\\n        COUNT(*) AS observed_transitions\\n    FROM monthly_retention cur\\n    JOIN monthly_retention prev\\n      ON prev.channel = cur.channel\\n     AND prev.k = cur.k - 1\\n    WHERE cur.k BETWEEN 3 AND 12\\n    GROUP BY cur.channel\\n),\\neconomics_12m AS (\\n    SELECT\\n        channel,\\n        SUM(avg_margin_eur) AS cumulative_margin_through_month_12_eur,\\n        AVG(cac_eur) AS avg_cac_eur,\\n        MAX(months_since_activation) AS max_observed_tenure_month\\n    FROM agg_unit_economics\\n    WHERE months_since_activation BETWEEN 0 AND 12\\n    GROUP BY channel\\n)\\nSELECT\\n    c.channel,\\n    c.steady_state_monthly_churn,\\n    c.churn_denominator_users,\\n    c.observed_transitions,\\n    e.cumulative_margin_through_month_12_eur,\\n    e.avg_cac_eur,\\n    e.max_observed_tenure_month,\\n    e.cumulative_margin_through_month_12_eur >= e.avg_cac_eur AS pays_back_cac_within_12_months\\nFROM monthly_churn c\\nJOIN economics_12m e USING (channel)\\nORDER BY c.channel;\",\"rationale\":\"Estimate steady-state monthly churn as the pooled active-user loss across fully observed month-to-month retention transitions from tenure months 2\u201312, then compare each channel\u2019s cumulative margin through month 12 with CAC to identify channels that do not pay back acquisition spend.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 2239,
+   "output_tokens": 991,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

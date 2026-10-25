@@ -1,0 +1,19 @@
+{
+ "latency_s": 5.575,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":true,\"root_cause_hypothesis\":\"Paid acquisition economics are negative: paid_social and influencer each have 36-month LTV below CAC per activated user. Their implied monthly churn is also higher than organic and referral. The estimator uses a geometric fit to retention in months 3\u201324, so these are steady-state modeled churn rates, not direct monthly account-closure counts.\",\"supporting_metrics\":[{\"name\":\"influencer implied monthly churn\",\"baseline_value\":null,\"anomaly_value\":0.0676,\"unit\":\"fraction\",\"sql\":\"calculate_uplift_or_stats: analysis='channel_unit_economics', channel=null\"},{\"name\":\"organic implied monthly churn\",\"baseline_value\":null,\"anomaly_value\":0.0412,\"unit\":\"fraction\",\"sql\":\"calculate_uplift_or_stats: analysis='channel_unit_economics', channel=null\"},{\"name\":\"paid_social implied monthly churn\",\"baseline_value\":null,\"anomaly_value\":0.0766,\"unit\":\"fraction\",\"sql\":\"calculate_uplift_or_stats: analysis='channel_unit_economics', channel=null\"},{\"name\":\"referral implied monthly churn\",\"baseline_value\":null,\"anomaly_value\":0.0326,\"unit\":\"fraction\",\"sql\":\"calculate_uplift_or_stats: analysis='channel_unit_economics', channel=null\"},{\"name\":\"influencer CAC per activated user vs 36-month LTV\",\"baseline_value\":54.95,\"anomaly_value\":15.24,\"unit\":\"EUR/user\",\"sql\":\"calculate_uplift_or_stats: analysis='channel_unit_economics', channel=null\"},{\"name\":\"paid_social CAC per activated user vs 36-month LTV\",\"baseline_value\":97.96,\"anomaly_value\":11.2,\"unit\":\"EUR/user\",\"sql\":\"calculate_uplift_or_stats: analysis='channel_unit_economics', channel=null\"},{\"name\":\"organic CAC per activated user vs 36-month LTV\",\"baseline_value\":5.03,\"anomaly_value\":24.62,\"unit\":\"EUR/user\",\"sql\":\"calculate_uplift_or_stats: analysis='channel_unit_economics', channel=null\"},{\"name\":\"referral CAC per activated user vs 36-month LTV\",\"baseline_value\":26.28,\"anomaly_value\":31.89,\"unit\":\"EUR/user\",\"sql\":\"calculate_uplift_or_stats: analysis='channel_unit_economics', channel=null\"}],\"recommended_action\":\"PAUSE_ACQUISITION_CHANNEL\",\"reasoning_summary\":\"Modeled steady-state monthly churn is 7.66% paid_social, 6.76% influencer, 4.12% organic, and 3.26% referral. Paid_social CAC per activated user is \u20ac97.96 versus \u20ac11.20 36-month LTV; influencer is \u20ac54.95 versus \u20ac15.24. Cut spend on both loss-making channels; organic and referral have LTV above CAC.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 3593,
+   "output_tokens": 602,
+   "cache_read_input_tokens": 3590,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

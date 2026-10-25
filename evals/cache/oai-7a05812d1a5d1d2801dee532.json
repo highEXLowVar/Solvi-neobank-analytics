@@ -1,0 +1,19 @@
+{
+ "latency_s": 8.079,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":false,\"root_cause_hypothesis\":\"Paid social is not proven profitable on the warehouse measures returned: observed subscription revenue is far below acquisition cost, even before treating this as a complete measure of customer lifetime value or all revenue.\",\"supporting_metrics\":[{\"name\":\"Paid social acquired users\",\"baseline_value\":null,\"anomaly_value\":59750,\"unit\":\"count\",\"sql\":\"DuckDB query result supplied in conversation; query filtered users.channel with lower(channel) LIKE '%paid%social%' and counted distinct user_id.\"},{\"name\":\"Paid social acquisition cost\",\"baseline_value\":null,\"anomaly_value\":1553500.0,\"unit\":\"EUR\",\"sql\":\"DuckDB query result supplied in conversation; calculated acquired_users * avg CAC from channels.\"},{\"name\":\"Observed subscription revenue\",\"baseline_value\":null,\"anomaly_value\":25814.66,\"unit\":\"EUR\",\"sql\":\"DuckDB query result supplied in conversation; sum of subscriptions.mrr_eur joined to paid-social users.\"},{\"name\":\"Incentive cost\",\"baseline_value\":null,\"anomaly_value\":9880.0,\"unit\":\"EUR\",\"sql\":\"DuckDB query result supplied in conversation; sum of incentive_payouts.amount_eur joined to paid-social users.\"},{\"name\":\"Observed net after acquisition and incentives\",\"baseline_value\":null,\"anomaly_value\":-1537565.34,\"unit\":\"EUR\",\"sql\":\"DuckDB query result supplied in conversation; observed subscription revenue - incentive cost - acquisition cost.\"}],\"recommended_action\":\"PAUSE_ACQUISITION_CHANNEL\",\"reasoning_summary\":\"Observed subscription revenue was \u20ac25,814.66 versus \u20ac1,533,500 acquisition cost and \u20ac9,880 incentive cost, giving observed net of -\u20ac1,537,565.34. This does not establish total customer profitability: the query does not measure other revenue or lifetime value, and its user-level joins can multiply subscription and payout rows. The available result therefore does not support continuing paid social on profitability grounds.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 1336,
+   "output_tokens": 743,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

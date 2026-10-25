@@ -1,0 +1,19 @@
+{
+ "latency_s": 10.239,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"sql\":\"WITH organic_cohorts AS (\\n  SELECT user_id, signup_ts, date_trunc('month', signup_ts)::DATE AS cohort_month\\n  FROM users\\n  WHERE lower(channel) = 'organic'\\n    AND signup_ts >= TIMESTAMP '2024-01-01'\\n    AND signup_ts < TIMESTAMP '2026-05-01'\\n), monthly AS (\\n  SELECT c.cohort_month,\\n         count(DISTINCT c.user_id) AS signups,\\n         count(DISTINCT CASE WHEN lower(e.event_type) LIKE '%activ%' THEN c.user_id END) AS activated,\\n         count(DISTINCT CASE WHEN lower(e.event_type) LIKE '%activ%' AND e.event_ts < c.signup_ts + INTERVAL 30 DAY THEN c.user_id END) AS activated_30d,\\n         string_agg(DISTINCT e.event_type, ', ' ORDER BY e.event_type) AS observed_event_types\\n  FROM organic_cohorts c\\n  LEFT JOIN funnel_events e\\n    ON e.user_id = c.user_id\\n   AND e.event_ts >= c.signup_ts\\n   AND e.event_ts < c.signup_ts + INTERVAL 30 DAY\\n  GROUP BY c.cohort_month\\n), rates AS (\\n  SELECT *, activated_30d::DOUBLE / NULLIF(signups, 0) AS activation_rate_30d\\n  FROM monthly\\n)\\nSELECT cohort_month, signups, activated_30d, activation_rate_30d,\\n       observed_event_types,\\n       (SELECT stddev_samp(activation_rate_30d) FROM rates\\n         WHERE cohort_month >= DATE '2025-01-01' AND cohort_month < DATE '2026-03-01') AS historical_monthly_sd_before_march_2026\\nFROM rates\\nORDER BY cohort_month\",\"rationale\":\"Measures 30-day activation for organic signup cohorts by month and reports pre-March monthly variation; the event-type list makes the activation-event definition auditable.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 625,
+   "output_tokens": 903,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

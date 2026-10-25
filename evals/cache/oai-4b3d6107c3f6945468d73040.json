@@ -1,0 +1,19 @@
+{
+ "latency_s": 6.187,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"sql\":\"SELECT\\n  variant,\\n  COUNT(*) AS n_subjects,\\n  AVG(CASE WHEN conv_14d THEN 1.0 ELSE 0.0 END) AS conversion_rate_14d,\\n  AVG(margin_60d_eur) AS avg_margin_60d_eur,\\n  AVG(CASE WHEN redeemed THEN 1.0 ELSE 0.0 END) AS redemption_rate,\\n  SUM(bonus_cost_eur) AS total_bonus_cost_eur\\nFROM fct_experiment_users\\nWHERE experiment_id = 'TOPUP10'\\nGROUP BY variant\\nORDER BY variant;\",\"rationale\":\"Compare the \u20ac10-bonus and control arms on the primary 14-day conversion outcome and the 60-day net-margin guardrail before deciding whether to roll out.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 2233,
+   "output_tokens": 523,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

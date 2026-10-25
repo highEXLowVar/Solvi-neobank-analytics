@@ -1,0 +1,19 @@
+{
+ "latency_s": 8.149,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":true,\"root_cause_hypothesis\":\"Android national-ID KYC approval suffered a substantial decline beginning in November 2025. The monthly data show improvement after the December low, but approval had not returned to the pre-decline level by May 2026; these results alone do not identify the cause.\",\"supporting_metrics\":[{\"name\":\"Android national-ID KYC approval rate\",\"baseline_value\":0.885005,\"anomaly_value\":0.678761,\"unit\":\"fraction\",\"sql\":\"SELECT date_trunc('month', decision_date)::DATE AS month, SUM(n_decisions) AS decisions, SUM(n_approved) AS approvals, SUM(n_approved)::DOUBLE / NULLIF(SUM(n_decisions), 0) AS approval_rate FROM agg_kyc_daily WHERE lower(platform) = 'android' AND lower(doc_type) LIKE '%national%' GROUP BY 1 ORDER BY 1; \u2014 returned October 2025 baseline 0.885005 and December 2025 low 0.678761.\"},{\"name\":\"Android national-ID KYC approval rate\",\"baseline_value\":0.678761,\"anomaly_value\":0.814167,\"unit\":\"fraction\",\"sql\":\"SELECT date_trunc('month', decision_date)::DATE AS month, SUM(n_decisions) AS decisions, SUM(n_approved) AS approvals, SUM(n_approved)::DOUBLE / NULLIF(SUM(n_decisions), 0) AS approval_rate FROM agg_kyc_daily WHERE lower(platform) = 'android' AND lower(doc_type) LIKE '%national%' GROUP BY 1 ORDER BY 1; \u2014 returned December 2025 low 0.678761 and March 2026 0.814167.\"},{\"name\":\"Android national-ID KYC approval rate\",\"baseline_value\":0.885005,\"anomaly_value\":0.792279,\"unit\":\"fraction\",\"sql\":\"SELECT date_trunc('month', decision_date)::DATE AS month, SUM(n_decisions) AS decisions, SUM(n_approved) AS approvals, SUM(n_approved)::DOUBLE / NULLIF(SUM(n_decisions), 0) AS approval_rate FROM agg_kyc_daily WHERE lower(platform) = 'android' AND lower(doc_type) LIKE '%national%' GROUP BY 1 ORDER BY 1; \u2014 returned October 2025 baseline 0.885005 and May 2026 0.792279.\"}],\"recommended_action\":\"DO_NOT_SHIP\",\"reasoning_summary\":\"Approval was 0.885005 in October 2025, fell to 0.754130 in November and bottomed at 0.678761 in December. It improved to 0.814167 in March 2026, but was only 0.792279 in May, still below the pre-decline level. The sustained drop is much larger than the fluctuations in the preceding monthly results; June 2026 is only a partial month and is not used to assess recovery.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 3308,
+   "output_tokens": 832,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

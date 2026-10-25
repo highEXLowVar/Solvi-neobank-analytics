@@ -1,0 +1,19 @@
+{
+ "latency_s": 10.567,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"sql\":\"WITH scoped AS (\\n    SELECT channel AS scope, variant, conv_14d, margin_60d_eur\\n    FROM fct_experiment_users\\n    WHERE experiment_id = 'TOPUP10'\\n    UNION ALL\\n    SELECT 'ALL_CHANNELS' AS scope, variant, conv_14d, margin_60d_eur\\n    FROM fct_experiment_users\\n    WHERE experiment_id = 'TOPUP10'\\n), arms AS (\\n    SELECT\\n        scope,\\n        variant,\\n        COUNT(*) AS n,\\n        AVG(CASE WHEN conv_14d THEN 1.0 ELSE 0.0 END) AS conversion_rate_14d,\\n        AVG(margin_60d_eur) AS avg_margin_60d_eur,\\n        STDDEV_SAMP(CASE WHEN conv_14d THEN 1.0 ELSE 0.0 END) AS conversion_sd,\\n        STDDEV_SAMP(margin_60d_eur) AS margin_sd\\n    FROM scoped\\n    GROUP BY scope, variant\\n)\\nSELECT\\n    scope AS channel_or_total,\\n    MAX(CASE WHEN variant = 'control' THEN n END) AS control_n,\\n    MAX(CASE WHEN variant <> 'control' THEN n END) AS bonus_n,\\n    MAX(CASE WHEN variant = 'control' THEN conversion_rate_14d END) AS control_conversion_rate_14d,\\n    MAX(CASE WHEN variant <> 'control' THEN conversion_rate_14d END) AS bonus_conversion_rate_14d,\\n    MAX(CASE WHEN variant <> 'control' THEN conversion_rate_14d END)\\n      - MAX(CASE WHEN variant = 'control' THEN conversion_rate_14d END) AS conversion_uplift,\\n    SQRT(\\n        POWER(MAX(CASE WHEN variant = 'control' THEN conversion_sd END), 2)\\n          / NULLIF(MAX(CASE WHEN variant = 'control' THEN n END), 0)\\n        + POWER(MAX(CASE WHEN variant <> 'control' THEN conversion_sd END), 2)\\n          / NULLIF(MAX(CASE WHEN variant <> 'control' THEN n END), 0)\\n    ) AS conversion_uplift_se,\\n    MAX(CASE WHEN variant = 'control' THEN avg_margin_60d_eur END) AS control_avg_margin_60d_eur,\\n    MAX(CASE WHEN variant <> 'control' THEN avg_margin_60d_eur END) AS bonus_avg_margin_60d_eur,\\n    MAX(CASE WHEN variant <> 'control' THEN avg_margin_60d_eur END)\\n      - MAX(CASE WHEN variant = 'control' THEN avg_margin_60d_eur END) AS margin_change_60d_eur,\\n    SQRT(\\n        POWER(MAX(CASE WHEN variant = 'control' THEN margin_sd END), 2)\\n          / NULLIF(MAX(CASE WHEN variant = 'control' THEN n END), 0)\\n        + POWER(MAX(CASE WHEN variant <> 'control' THEN margin_sd END), 2)\\n          / NULLIF(MAX(CASE WHEN variant <> 'control' THEN n END), 0)\\n    ) AS margin_change_se_eur\\nFROM arms\\nGROUP BY scope\\nORDER BY CASE WHEN scope = 'ALL_CHANNELS' THEN 1 ELSE 0 END, scope;\",\"rationale\":\"Compare TOPUP10 bonus versus control by acquisition channel and overall, reporting conversion and 60-day net-margin differences with standard errors to assess channel-level benefit despite overall economics.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 2243,
+   "output_tokens": 1134,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

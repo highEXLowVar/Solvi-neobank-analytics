@@ -1,0 +1,19 @@
+{
+ "latency_s": 5.383,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":true,\"root_cause_hypothesis\":\"Android national-ID KYC approval rate dropped sharply in November 2025 and has not returned to its earlier level by the end of the available data; the query does not establish a cause.\",\"supporting_metrics\":[{\"name\":\"Android national-ID KYC approval rate\",\"baseline_value\":0.890805,\"anomaly_value\":0.678761,\"unit\":\"fraction\",\"sql\":\"Monthly query result: approvals / decisions, Android users, national-ID documents; 2025-09 rate 0.890805, 2025-12 rate 0.678761.\"},{\"name\":\"Android national-ID KYC approval rate\",\"baseline_value\":0.678761,\"anomaly_value\":0.814167,\"unit\":\"fraction\",\"sql\":\"Monthly query result: approvals / decisions, Android users, national-ID documents; 2025-12 rate 0.678761, 2026-03 rate 0.814167.\"},{\"name\":\"Android national-ID KYC approval rate\",\"baseline_value\":0.890805,\"anomaly_value\":0.792279,\"unit\":\"fraction\",\"sql\":\"Monthly query result: approvals / decisions, Android users, national-ID documents; 2025-09 rate 0.890805, 2026-05 rate 0.792279.\"}],\"recommended_action\":\"NO_ACTION_NOISE\",\"reasoning_summary\":\"Approval rate was 0.890805 in September 2025, then fell to 0.754130 in November and 0.678761 in December. It improved to 0.814167 by March 2026, but was 0.792279 in May, so it has not recovered to the pre-drop level. The sustained, large shift is unlikely to be normal variation, but this query cannot identify a cause or justify a release rollback; investigate the KYC decision funnel.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 1775,
+   "output_tokens": 397,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

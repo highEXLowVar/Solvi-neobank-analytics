@@ -1,0 +1,87 @@
+{
+ "latency_s": 2.576,
+ "response": {
+  "model": "gpt-5.6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_AFo8d76Ze4ki0HEufh7CCVy9",
+    "name": "calculate_uplift_or_stats",
+    "input": {
+     "metric_slice": {
+      "analysis": "channel_unit_economics",
+      "platform": null,
+      "doc_type": null,
+      "channel": "influencer",
+      "segment_by": null,
+      "k_a": null,
+      "n_a": null,
+      "k_b": null,
+      "n_b": null
+     }
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_eM7WJDpBGzCt4zsfNBdgyx0N",
+    "name": "calculate_uplift_or_stats",
+    "input": {
+     "metric_slice": {
+      "analysis": "channel_unit_economics",
+      "platform": null,
+      "doc_type": null,
+      "channel": "organic",
+      "segment_by": null,
+      "k_a": null,
+      "n_a": null,
+      "k_b": null,
+      "n_b": null
+     }
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_m6B8YEXqzkiFKFsmG8xUMhtP",
+    "name": "calculate_uplift_or_stats",
+    "input": {
+     "metric_slice": {
+      "analysis": "channel_unit_economics",
+      "platform": null,
+      "doc_type": null,
+      "channel": "paid_social",
+      "segment_by": null,
+      "k_a": null,
+      "n_a": null,
+      "k_b": null,
+      "n_b": null
+     }
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_CufSmVuyLL0XmniFhx3AWVZI",
+    "name": "calculate_uplift_or_stats",
+    "input": {
+     "metric_slice": {
+      "analysis": "channel_unit_economics",
+      "platform": null,
+      "doc_type": null,
+      "channel": "referral",
+      "segment_by": null,
+      "k_a": null,
+      "n_a": null,
+      "k_b": null,
+      "n_b": null
+     }
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 3192,
+   "output_tokens": 277,
+   "cache_read_input_tokens": 3062,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

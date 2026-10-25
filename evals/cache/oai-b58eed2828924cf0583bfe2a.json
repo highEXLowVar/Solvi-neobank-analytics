@@ -1,0 +1,49 @@
+{
+ "latency_s": 3.43,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_KNDbhecLTwtw79jiLlO8zRXB",
+    "name": "calculate_uplift_or_stats",
+    "input": {
+     "metric_slice": {
+      "analysis": "kyc_changepoint",
+      "platform": "iOS",
+      "doc_type": "driving licence",
+      "channel": null,
+      "segment_by": null,
+      "k_a": null,
+      "n_a": null,
+      "k_b": null,
+      "n_b": null
+     }
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_V5xBjrPhxEkjmu7SotQlcZbN",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT date_trunc('week', decision_date)::DATE AS week_start, SUM(n_decisions) AS decisions, SUM(n_approved) AS approved, SUM(n_approved)::DOUBLE / NULLIF(SUM(n_decisions),0) AS approval_rate FROM agg_kyc_daily WHERE lower(platform) IN ('ios','iphone') AND lower(doc_type) LIKE '%driv%' AND decision_date >= DATE '2026-03-01' GROUP BY 1 ORDER BY 1"
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_hvjd6cOohGwqrsDC8cc19Y5b",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT platform, doc_type, app_version, COUNT(*) AS attempts, AVG(CASE WHEN is_kyc_approved THEN 1.0 ELSE 0.0 END) AS approval_rate, MIN(event_date) AS first_date, MAX(event_date) AS last_date FROM fct_kyc_attempts WHERE lower(platform) LIKE '%ios%' AND lower(doc_type) LIKE '%driv%' AND event_date >= DATE '2026-03-01' GROUP BY 1,2,3 ORDER BY 1,2,3"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 3085,
+   "output_tokens": 330,
+   "cache_read_input_tokens": 3082,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

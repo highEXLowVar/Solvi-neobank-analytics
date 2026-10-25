@@ -1,0 +1,23 @@
+{
+ "latency_s": 2.79,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_QU5qiVKqEE1nN6iIHg4FMvue",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT a.month, COUNT(DISTINCT CASE WHEN a.is_active THEN a.user_id END) AS active_users, SUM(a.card_spend_eur) AS card_spend_eur, SUM(a.card_spend_eur) / NULLIF(COUNT(DISTINCT CASE WHEN a.is_active THEN a.user_id END),0) AS spend_per_active_user, SUM(a.n_card_txns) AS card_txns, SUM(a.n_card_txns)*1.0 / NULLIF(COUNT(DISTINCT CASE WHEN a.is_active THEN a.user_id END),0) AS txns_per_active_user FROM fct_activity_monthly a JOIN dim_users u USING (user_id) WHERE u.country = 'Romania' AND a.month >= DATE '2024-01-01' AND a.month < DATE '2026-06-01' GROUP BY a.month ORDER BY a.month"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 3251,
+   "output_tokens": 234,
+   "cache_read_input_tokens": 2950,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

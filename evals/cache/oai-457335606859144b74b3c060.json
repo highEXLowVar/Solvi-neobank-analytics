@@ -1,0 +1,19 @@
+{
+ "latency_s": 4.589,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":true,\"root_cause_hypothesis\":\"The TOPUP10 bonus increases 14-day conversion across channels, but its 60-day net margin is negative in every tested channel. Organic has the strongest channel economics and the bonus is not shown to be worthwhile on its own there: its 60-day net-margin delta is materially negative.\",\"supporting_metrics\":[{\"name\":\"organic TOPUP10 conversion rate\",\"baseline_value\":0.6923,\"anomaly_value\":0.7488,\"unit\":\"fraction\",\"sql\":\"calculate_uplift_or_stats: ab_test_readout, segment_by=channel; organic result\"},{\"name\":\"organic TOPUP10 conversion lift\",\"baseline_value\":null,\"anomaly_value\":5.65,\"unit\":\"pp\",\"sql\":\"calculate_uplift_or_stats: ab_test_readout, segment_by=channel; organic result (95% CI 2.66\u20138.64 pp; p=0.000224)\"},{\"name\":\"organic TOPUP10 60-day net margin per user\",\"baseline_value\":0.863,\"anomaly_value\":-6.294,\"unit\":\"EUR/user\",\"sql\":\"calculate_uplift_or_stats: ab_test_readout, segment_by=channel; organic result (net margin delta -7.157 EUR/user)\"},{\"name\":\"organic 36-month LTV minus CAC\",\"baseline_value\":null,\"anomaly_value\":19.58,\"unit\":\"EUR\",\"sql\":\"calculate_uplift_or_stats: channel_unit_economics, channel=organic (LTV 24.62 EUR; CAC per activated user 5.03 EUR)\"},{\"name\":\"paid_social TOPUP10 60-day net margin per user\",\"baseline_value\":0.493,\"anomaly_value\":-5.316,\"unit\":\"EUR/user\",\"sql\":\"calculate_uplift_or_stats: ab_test_readout, segment_by=channel; paid_social result (net margin delta -5.808 EUR/user)\"}],\"recommended_action\":\"DO_NOT_SHIP\",\"reasoning_summary\":\"Organic is the strongest candidate economically (36-month LTV minus CAC: \u20ac19.58), and TOPUP10 significantly lifts its conversion by 5.65 pp (95% CI 2.66\u20138.64; p=0.000224). But its 60-day net margin is \u20ac6.294 per treatment user versus \u20ac0.863 for control, a -\u20ac7.157/user delta. No channel in the readout has positive 60-day net-margin delta, so there is no evidence to roll out the bonus by channel on its own.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 4999,
+   "output_tokens": 539,
+   "cache_read_input_tokens": 4051,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

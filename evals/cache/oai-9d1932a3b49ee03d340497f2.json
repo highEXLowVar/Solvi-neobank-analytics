@@ -1,0 +1,41 @@
+{
+ "latency_s": 2.191,
+ "response": {
+  "model": "gpt-5.6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_InSl7nX22vnTsHB0fd7Uqo5E",
+    "name": "calculate_uplift_or_stats",
+    "input": {
+     "metric_slice": {
+      "analysis": "ab_test_readout",
+      "platform": null,
+      "doc_type": null,
+      "channel": null,
+      "segment_by": null,
+      "k_a": null,
+      "n_a": null,
+      "k_b": null,
+      "n_b": null
+     }
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_BtPYm2O1EP5KwvkOpSs3BTu2",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT variant, COUNT(*) AS n_subjects, AVG(CASE WHEN conv_14d THEN 1.0 ELSE 0.0 END) AS conversion_rate_14d, AVG(margin_60d_eur) AS avg_margin_60d_eur, SUM(bonus_cost_eur) AS total_bonus_cost_eur FROM fct_experiment_users GROUP BY variant ORDER BY variant"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 3059,
+   "output_tokens": 209,
+   "cache_read_input_tokens": 3056,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

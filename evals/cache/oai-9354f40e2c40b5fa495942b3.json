@@ -1,0 +1,33 @@
+{
+ "latency_s": 1.67,
+ "response": {
+  "model": "gpt-6.1-sol",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_64VdsYzTCtcrFpQtPD2Icw36",
+    "name": "calculate_uplift_or_stats",
+    "input": {
+     "metric_slice": {
+      "analysis": "channel_unit_economics",
+      "platform": null,
+      "doc_type": null,
+      "channel": null,
+      "segment_by": null,
+      "k_a": null,
+      "n_a": null,
+      "k_b": null,
+      "n_b": null
+     }
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 3065,
+   "output_tokens": 67,
+   "cache_read_input_tokens": 3062,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

@@ -1,0 +1,23 @@
+{
+ "latency_s": 3.698,
+ "response": {
+  "model": "gpt-6.1-sol",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_SKXVnYHE81RU1DyC5GpPCrSq",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "WITH fits AS (SELECT channel, activation_month, regr_slope(ln(retention), months_since_activation) AS slope, count(*) AS n FROM agg_retention_cohorts WHERE months_since_activation BETWEEN 3 AND 24 AND cohort_size >= 200 AND retention > 0 GROUP BY channel, activation_month HAVING count(*) >= 6) SELECT channel, count(*) AS eligible_cohorts, median(1-exp(slope)) AS median_cohort_monthly_churn, min(1-exp(slope)) AS min_cohort_monthly_churn, max(1-exp(slope)) AS max_cohort_monthly_churn FROM fits GROUP BY channel ORDER BY channel"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 3593,
+   "output_tokens": 175,
+   "cache_read_input_tokens": 3590,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

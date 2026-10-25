@@ -1,0 +1,19 @@
+{
+ "latency_s": 8.193,
+ "response": {
+  "model": "gpt-6.1-sol",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\n  \"incident_detected\": true,\n  \"root_cause_hypothesis\": \"Paid social is structurally unprofitable: acquisition costs are incurred per signup, but low activation raises CAC per activated user far above projected lifetime contribution margin. This is a unit-economics problem, not evidence of a sudden operational incident.\",\n  \"supporting_metrics\": [\n    {\n      \"name\": \"paid_social CAC per activated user versus 36-month contribution LTV\",\n      \"baseline_value\": 97.96,\n      \"anomaly_value\": 11.2,\n      \"unit\": \"EUR/user\",\n      \"sql\": \"calculate_uplift_or_stats({\\\"metric_slice\\\":{\\\"analysis\\\":\\\"channel_unit_economics\\\",\\\"platform\\\":null,\\\"doc_type\\\":null,\\\"channel\\\":\\\"paid_social\\\",\\\"segment_by\\\":null,\\\"k_a\\\":null,\\\"n_a\\\":null,\\\"k_b\\\":null,\\\"n_b\\\":null}})\"\n    },\n    {\n      \"name\": \"paid_social 36-month LTV minus CAC per activated user\",\n      \"baseline_value\": null,\n      \"anomaly_value\": -86.76,\n      \"unit\": \"EUR/user\",\n      \"sql\": \"calculate_uplift_or_stats({\\\"metric_slice\\\":{\\\"analysis\\\":\\\"channel_unit_economics\\\",\\\"platform\\\":null,\\\"doc_type\\\":null,\\\"channel\\\":\\\"paid_social\\\",\\\"segment_by\\\":null,\\\"k_a\\\":null,\\\"n_a\\\":null,\\\"k_b\\\":null,\\\"n_b\\\":null}})\"\n    },\n    {\n      \"name\": \"paid_social activation rate\",\n      \"baseline_value\": null,\n      \"anomaly_value\": 0.265,\n      \"unit\": \"fraction\",\n      \"sql\": \"calculate_uplift_or_stats({\\\"metric_slice\\\":{\\\"analysis\\\":\\\"channel_unit_economics\\\",\\\"platform\\\":null,\\\"doc_type\\\":null,\\\"channel\\\":\\\"paid_social\\\",\\\"segment_by\\\":null,\\\"k_a\\\":null,\\\"n_a\\\":null,\\\"k_b\\\":null,\\\"n_b\\\":null}})\"\n    }\n  ],\n  \"recommended_action\": \"PAUSE_ACQUISITION_CHANNEL\",\n  \"reasoning_summary\": \"No: paid social costs EUR97.96 per activated user against projected 36-month contribution LTV of EUR11.20, implying a loss of EUR86.76 per activated user. The activation rate is 0.265, and the model finds no payback within its projection horizon. This assessment uses cumulative cohort economics rather than a single weak period; LTV includes an extrapolated retention tail. Pause spend until acquisition cost or downstream contribution improves enough to close the gap.\"\n}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 3611,
+   "output_tokens": 564,
+   "cache_read_input_tokens": 3382,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

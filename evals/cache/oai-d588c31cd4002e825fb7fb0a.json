@@ -1,0 +1,19 @@
+{
+ "latency_s": 4.333,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":true,\"root_cause_hypothesis\":\"Android national ID approval rates showed a statistically strong changepoint on 2025-11-10, coinciding with the v5.27 release. The rate fell sharply and later partially recovered.\",\"supporting_metrics\":[{\"name\":\"Android national ID KYC approval rate before break\",\"baseline_value\":0.888,\"anomaly_value\":0.888,\"unit\":\"fraction\",\"sql\":\"calculate_uplift_or_stats: analysis='kyc_changepoint', platform='android', doc_type='national_id'\"},{\"name\":\"Android national ID KYC approval rate during drop\",\"baseline_value\":0.888,\"anomaly_value\":0.686,\"unit\":\"fraction\",\"sql\":\"calculate_uplift_or_stats: analysis='kyc_changepoint', platform='android', doc_type='national_id'\"},{\"name\":\"Android national ID KYC approval rate after recovery\",\"baseline_value\":0.686,\"anomaly_value\":0.794,\"unit\":\"fraction\",\"sql\":\"calculate_uplift_or_stats: analysis='kyc_changepoint', platform='android', doc_type='national_id'\"},{\"name\":\"Android national ID changepoint scan max LLR\",\"baseline_value\":25.0,\"anomaly_value\":568.4,\"unit\":\"count\",\"sql\":\"calculate_uplift_or_stats: analysis='kyc_changepoint', platform='android', doc_type='national_id'\"}],\"recommended_action\":\"ROLLBACK_RELEASE\",\"reasoning_summary\":\"The approval rate fell from 0.888 to 0.686 at the 2025-11-10 changepoint, then recovered to 0.794 on 2026-01-08. The scan's max LLR was 568.4, well above the 25.0 threshold, and the closest preceding release was v5.27 on the break date. The recovery was partial; the rate remained below its pre-break level.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 3181,
+   "output_tokens": 409,
+   "cache_read_input_tokens": 2954,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

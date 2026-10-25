@@ -1,0 +1,19 @@
+{
+ "latency_s": 5.845,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":false,\"root_cause_hypothesis\":\"The March-to-May dip in Romanian card spend per active user is modest and does not indicate a clear decline in card usage. Spend per active user fell from \u20ac319.55 in March to \u20ac312.60 in May, while active users and total card spend both increased. Transaction frequency per active user softened slightly, but remained close to March\u2019s level; the longer monthly history also shows normal variation, including a sharp December spike.\",\"supporting_metrics\":[{\"name\":\"Romania card spend per active user\",\"baseline_value\":319.548121,\"anomaly_value\":312.602723,\"unit\":\"EUR/user\",\"sql\":\"SELECT a.month, SUM(a.card_spend_eur) / NULLIF(COUNT(DISTINCT a.user_id) FILTER (WHERE a.is_active),0) AS spend_per_active_user FROM fct_activity_monthly a JOIN dim_users u USING(user_id) WHERE u.country='RO' AND a.month BETWEEN DATE '2026-03-01' AND DATE '2026-05-01' GROUP BY a.month ORDER BY a.month\"},{\"name\":\"Romania active card users\",\"baseline_value\":5483,\"anomaly_value\":6042,\"unit\":\"count\",\"sql\":\"SELECT a.month, COUNT(DISTINCT a.user_id) FILTER (WHERE a.is_active) AS active_users FROM fct_activity_monthly a JOIN dim_users u USING(user_id) WHERE u.country='RO' AND a.month BETWEEN DATE '2026-03-01' AND DATE '2026-05-01' GROUP BY a.month ORDER BY a.month\"},{\"name\":\"Romania total card spend\",\"baseline_value\":1752082.35,\"anomaly_value\":1888745.65,\"unit\":\"EUR\",\"sql\":\"SELECT a.month, SUM(a.card_spend_eur) AS total_card_spend FROM fct_activity_monthly a JOIN dim_users u USING(user_id) WHERE u.country='RO' AND a.month BETWEEN DATE '2026-03-01' AND DATE '2026-05-01' GROUP BY a.month ORDER BY a.month\"},{\"name\":\"Romania card transactions per active user\",\"baseline_value\":11.947109,\"anomaly_value\":11.793446,\"unit\":\"count/user\",\"sql\":\"SELECT a.month, SUM(a.n_card_txns) / NULLIF(COUNT(DISTINCT a.user_id) FILTER (WHERE a.is_active),0) AS txns_per_active_user FROM fct_activity_monthly a JOIN dim_users u USING(user_id) WHERE u.country='RO' AND a.month BETWEEN DATE '2026-03-01' AND DATE '2026-05-01' GROUP BY a.month ORDER BY a.month\"}],\"recommended_action\":\"NO_ACTION_NOISE\",\"reasoning_summary\":\"Spend per active user eased from \u20ac319.55 in March to \u20ac312.60 in May, but active users rose from 5,483 to 6,042 and total card spend increased from \u20ac1,752,082.35 to \u20ac1,888,745.65. Transactions per active user moved only slightly, from 11.95 to 11.79. Against the wider monthly history, this does not establish a meaningful usage decline; monitor rather than treat as an incident.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 4521,
+   "output_tokens": 681,
+   "cache_read_input_tokens": 3921,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

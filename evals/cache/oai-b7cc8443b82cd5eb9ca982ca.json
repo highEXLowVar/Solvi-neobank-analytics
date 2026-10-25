@@ -1,0 +1,19 @@
+{
+ "latency_s": 9.363,
+ "response": {
+  "model": "gpt-6.1-sol",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\n  \"incident_detected\": false,\n  \"root_cause_hypothesis\": \"The iOS driving-licence dip is consistent with sampling variation in a small weekly slice, not evidence of a broken iOS release. Approvals rebounded the following week, and the changepoint scan detected no sustained break.\",\n  \"supporting_metrics\": [\n    {\n      \"name\": \"ios driving_licence weekly KYC approval rate\",\n      \"baseline_value\": 0.886076,\n      \"anomaly_value\": 0.804598,\n      \"unit\": \"fraction\",\n      \"sql\": \"SELECT date_trunc('week', decision_date)::DATE AS week, sum(n_decisions) AS n, sum(n_approved) AS k, sum(n_approved)::DOUBLE /sum(n_decisions) AS rate FROM agg_kyc_daily WHERE platform='ios' AND doc_type='driving_licence' GROUP BY 1 ORDER BY 1\"\n    },\n    {\n      \"name\": \"ios driving_licence weekly KYC decisions\",\n      \"baseline_value\": 79,\n      \"anomaly_value\": 87,\n      \"unit\": \"count\",\n      \"sql\": \"SELECT date_trunc('week', decision_date)::DATE AS week, sum(n_decisions) AS n, sum(n_approved) AS k, sum(n_approved)::DOUBLE /sum(n_decisions) AS rate FROM agg_kyc_daily WHERE platform='ios' AND doc_type='driving_licence' GROUP BY 1 ORDER BY 1\"\n    },\n    {\n      \"name\": \"ios driving_licence week-over-week approval two-proportion test p-value\",\n      \"baseline_value\": null,\n      \"anomaly_value\": 0.149,\n      \"unit\": \"fraction\",\n      \"sql\": \"calculate_uplift_or_stats(metric_slice={analysis:'two_proportion_test',platform:null,doc_type:null,channel:null,segment_by:null,k_a:70,n_a:79,k_b:70,n_b:87})\"\n    },\n    {\n      \"name\": \"ios driving_licence baseline weekly approval rate standard deviation, 2026-01-05 to 2026-04-06\",\n      \"baseline_value\": 0.033685,\n      \"anomaly_value\": null,\n      \"unit\": \"fraction\",\n      \"sql\": \"WITH w AS (SELECT date_trunc('week',decision_date)::DATE AS week_start,sum(n_approved)::DOUBLE/sum(n_decisions) AS rate FROM agg_kyc_daily WHERE platform='ios' AND doc_type='driving_licence' GROUP BY 1) SELECT avg(rate) baseline_weekly_mean,stddev_samp(rate) baseline_weekly_sd,min(rate) baseline_weekly_min,max(rate) baseline_weekly_max FROM w WHERE week_start >= DATE '2026-01-05' AND week_start < DATE '2026-04-13'\"\n    },\n    {\n      \"name\": \"ios driving_licence KYC changepoint maximum LLR versus detection threshold\",\n      \"baseline_value\": 25,\n      \"anomaly_value\": 3.1,\n      \"unit\": \"LLR\",\n      \"sql\": \"calculate_uplift_or_stats(metric_slice={analysis:'kyc_changepoint',platform:'ios',doc_type:'driving_licence',channel:null,segment_by:null,k_a:null,n_a:null,k_b:null,n_b:null})\"\n    },\n    {\n      \"name\": \"ios driving_licence KYC approval rate, week of 2026-04-20\",\n      \"baseline_value\": 0.886076,\n      \"anomaly_value\": 0.882353,\n      \"unit\": \"fraction\",\n      \"sql\": \"SELECT date_trunc('week', decision_date)::DATE AS week, sum(n_decisions) AS n, sum(n_approved) AS k, sum(n_approved)::DOUBLE /sum(n_decisions) AS rate FROM agg_kyc_daily WHERE platform='ios' AND doc_type='driving_licence' GROUP BY 1 ORDER BY 1\"\n    }\n  ],\n  \"recommended_action\": \"NO_ACTION_NOISE\",\n  \"reasoning_summary\": \"Approvals were 70/87 in the week of 13 April versus 70/79 the preceding week; the difference is not statistically distinguishable from sampling noise (p=0.149). Historical weekly variability and the changepoint scan provide no evidence of a sustained incident: maximum LLR was 3.1 against a detection threshold of 25. The following week's approval rate recovered to 0.882353. Do not roll back iOS based on this dip; continue routine monitoring.\"\n}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 6691,
+   "output_tokens": 987,
+   "cache_read_input_tokens": 6457,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

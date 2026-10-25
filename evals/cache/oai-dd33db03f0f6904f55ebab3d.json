@@ -1,0 +1,31 @@
+{
+ "latency_s": 2.819,
+ "response": {
+  "model": "gpt-5.6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_4OG44m7GxWnvIlBc3SWk88ED",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT month, reject_reason, n_rejections FROM agg_kyc_reject_reasons_monthly WHERE platform='ios' AND doc_type='driving_licence' AND month BETWEEN DATE '2026-03-01' AND DATE '2026-05-01' ORDER BY month, reject_reason"
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_ed3fHNHKaLj395tGCTOcImpE",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT DATE_TRUNC('week', decision_date)::DATE AS week_start, SUM(n_decisions) AS decisions, SUM(n_approved) AS approved, SUM(n_approved)::DOUBLE/SUM(n_decisions) AS approval_rate FROM agg_kyc_daily WHERE platform='ios' AND doc_type='driving_licence' AND decision_date BETWEEN DATE '2026-01-01' AND DATE '2026-05-31' GROUP BY 1 ORDER BY 1"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 4444,
+   "output_tokens": 277,
+   "cache_read_input_tokens": 3816,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

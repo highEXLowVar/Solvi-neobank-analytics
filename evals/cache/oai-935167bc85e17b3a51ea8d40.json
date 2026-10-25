@@ -1,0 +1,23 @@
+{
+ "latency_s": 2.604,
+ "response": {
+  "model": "gpt-6.1-sol",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_VqddDVZhDeGJmAtrR1ND9zHO",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT channel, variant, count(*) AS n_subjects, avg(CASE WHEN conv_14d THEN 1.0 ELSE 0.0 END) AS conversion_rate_14d, avg(margin_60d_eur) AS avg_margin_60d_net_bonus_eur, avg(bonus_cost_eur) AS bonus_cost_per_user_eur FROM fct_experiment_users WHERE experiment_id = 'topup10_2026q1' GROUP BY channel, variant ORDER BY channel, variant"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 4171,
+   "output_tokens": 138,
+   "cache_read_input_tokens": 4168,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

@@ -1,0 +1,23 @@
+{
+ "latency_s": 3.306,
+ "response": {
+  "model": "gpt-6.1-sol",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_7Z0w8q7BgHFa90iJYCwdskcg",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT channel, count(*) AS observed_tenure_months, sum(avg_margin_eur) AS observed_cumulative_margin_eur, min(cac_eur) AS cac_per_activated_eur_min, max(cac_eur) AS cac_per_activated_eur_max, max(avg_margin_eur) AS highest_monthly_margin_eur FROM agg_unit_economics WHERE channel='paid_social' GROUP BY channel"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 3385,
+   "output_tokens": 127,
+   "cache_read_input_tokens": 3146,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

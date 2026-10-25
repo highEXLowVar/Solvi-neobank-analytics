@@ -1,0 +1,19 @@
+{
+ "latency_s": 3.347,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":false,\"root_cause_hypothesis\":\"The query returned no rows for experiment_id = 'TOPUP10', so the available result does not establish whether any acquisition channel benefits from the bonus.\",\"supporting_metrics\":[],\"recommended_action\":\"DO_NOT_SHIP\",\"reasoning_summary\":\"The query returned zero rows, leaving no channel-level or overall comparison of conversion and 60-day margin. There is no evidence in this result to justify rolling out the bonus on its own; this is an inconclusive read, not evidence that the bonus has no effect.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 3351,
+   "output_tokens": 225,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

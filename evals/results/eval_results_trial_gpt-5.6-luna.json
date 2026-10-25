@@ -1,0 +1,408 @@
+{
+ "complete": false,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "n_cases": 9,
+ "n_ground_truth_checks": 17,
+ "n_noise_traps": 3,
+ "configs": {
+  "A_raw_text_to_sql": "Raw text-to-SQL",
+  "B_dbt_single_pass": "Single-pass dbt SQL",
+  "C_tool_agent": "Multi-step agent + guardrails"
+ },
+ "ablations": {
+  "C_no_guardrail": "Agent without the guardrail"
+ },
+ "summary": {
+  "C_tool_agent": {
+   "retrieval": {
+    "hits": 12,
+    "total": 17
+   },
+   "decision_accuracy": 1.0,
+   "decisions": {
+    "correct": 8,
+    "total": 8
+   },
+   "supported_decisions": {
+    "correct": 8,
+    "total": 8
+   },
+   "false_positive_rate_noise": 0.0,
+   "noise_false_positives": {
+    "count": 0,
+    "total": 3
+   },
+   "fabricated_metric_rate": 0.0,
+   "fabricated": {
+    "count": 0,
+    "reported_values": 94
+   },
+   "hallucination_rate": 0.0,
+   "sql": {
+    "queries": 19,
+    "failed": 1,
+    "recovered": 1,
+    "valid_execution_rate": 0.9474,
+    "self_correction_rate": 1.0
+   },
+   "latency_p50_s": 12.91,
+   "cost_per_triage_usd": 0.0023,
+   "cost_total_usd": 0.0203,
+   "parse_failures": 0
+  }
+ },
+ "per_case": [
+  {
+   "case_id": "kyc_drop",
+   "config": "C_tool_agent",
+   "action": "ROLLBACK_RELEASE",
+   "expected_action": "ROLLBACK_RELEASE",
+   "decision_ok": true,
+   "decision_supported": true,
+   "incident_detected": true,
+   "false_positive": null,
+   "targets": [
+    {
+     "check": "affected segment",
+     "label": "Affected segment",
+     "hit": true
+    },
+    {
+     "check": "break date",
+     "label": "Break date",
+     "hit": true
+    }
+   ],
+   "extra_targets": [],
+   "fabricated": [],
+   "n_reported_values": 11,
+   "n_queries": 4,
+   "n_failed_queries": 0,
+   "n_recovered": 0,
+   "parse_error": null,
+   "latency_s": 27.29,
+   "cost_usd": 0.00365,
+   "llm_calls": 4,
+   "usage": {
+    "input_tokens": 24870,
+    "output_tokens": 1497,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 17313
+   },
+   "guardrail_rejections": 0
+  },
+  {
+   "case_id": "kyc_recovery",
+   "config": "C_tool_agent",
+   "action": "ROLLBACK_RELEASE",
+   "expected_action": null,
+   "decision_ok": null,
+   "decision_supported": null,
+   "incident_detected": true,
+   "false_positive": null,
+   "targets": [
+    {
+     "check": "recovery date",
+     "label": "Recovery date",
+     "hit": true
+    },
+    {
+     "check": "level during incident",
+     "label": "Approval rate during incident",
+     "hit": true
+    },
+    {
+     "check": "level after hotfix",
+     "label": "Approval rate after hotfix",
+     "hit": true
+    }
+   ],
+   "extra_targets": [],
+   "fabricated": [],
+   "n_reported_values": 5,
+   "n_queries": 0,
+   "n_failed_queries": 0,
+   "n_recovered": 0,
+   "parse_error": null,
+   "latency_s": 6.46,
+   "cost_usd": 0.00128,
+   "llm_calls": 3,
+   "usage": {
+    "input_tokens": 7580,
+    "output_tokens": 622,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 5481
+   },
+   "guardrail_rejections": 0
+  },
+  {
+   "case_id": "topup10_rollout",
+   "config": "C_tool_agent",
+   "action": "DO_NOT_SHIP",
+   "expected_action": "DO_NOT_SHIP",
+   "decision_ok": true,
+   "decision_supported": true,
+   "incident_detected": true,
+   "false_positive": null,
+   "targets": [
+    {
+     "check": "uplift model calibrated on average (held-out)",
+     "label": "Conversion lift (pp)",
+     "hit": true
+    },
+    {
+     "check": "model finds no profitable slice; truth agrees",
+     "label": "60-day margin delta net of bonus (EUR/user)",
+     "hit": true
+    },
+    {
+     "check": "incremental users are low-intent",
+     "label": "60-day margin delta excl. bonus (EUR/user)",
+     "hit": false
+    }
+   ],
+   "extra_targets": [],
+   "fabricated": [],
+   "n_reported_values": 11,
+   "n_queries": 1,
+   "n_failed_queries": 0,
+   "n_recovered": 0,
+   "parse_error": null,
+   "latency_s": 9.37,
+   "cost_usd": 0.00134,
+   "llm_calls": 3,
+   "usage": {
+    "input_tokens": 7831,
+    "output_tokens": 904,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 7302
+   },
+   "guardrail_rejections": 0
+  },
+  {
+   "case_id": "topup10_targeting",
+   "config": "C_tool_agent",
+   "action": "DO_NOT_SHIP",
+   "expected_action": "DO_NOT_SHIP",
+   "decision_ok": true,
+   "decision_supported": true,
+   "incident_detected": false,
+   "false_positive": null,
+   "targets": [
+    {
+     "check": "uplift influencer",
+     "label": "Lift, influencer (pp)",
+     "hit": false
+    },
+    {
+     "check": "uplift organic",
+     "label": "Lift, organic (pp)",
+     "hit": false
+    },
+    {
+     "check": "uplift paid_social",
+     "label": "Lift, paid social (pp)",
+     "hit": false
+    },
+    {
+     "check": "uplift referral",
+     "label": "Lift, referral (pp)",
+     "hit": false
+    },
+    {
+     "check": "TOPUP10 unprofitable even for an oracle",
+     "label": "Cheapest cost per incremental conversion (EUR)",
+     "hit": true
+    }
+   ],
+   "extra_targets": [],
+   "fabricated": [],
+   "n_reported_values": 16,
+   "n_queries": 0,
+   "n_failed_queries": 0,
+   "n_recovered": 0,
+   "parse_error": null,
+   "latency_s": 12.91,
+   "cost_usd": 0.00196,
+   "llm_calls": 2,
+   "usage": {
+    "input_tokens": 5907,
+    "output_tokens": 1538,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 5901
+   },
+   "guardrail_rejections": 0
+  },
+  {
+   "case_id": "paid_social",
+   "config": "C_tool_agent",
+   "action": "PAUSE_ACQUISITION_CHANNEL",
+   "expected_action": "PAUSE_ACQUISITION_CHANNEL",
+   "decision_ok": true,
+   "decision_supported": true,
+   "incident_detected": true,
+   "false_positive": null,
+   "targets": [],
+   "extra_targets": [
+    {
+     "label": "Paid social CAC per activated user (EUR)",
+     "hit": true
+    },
+    {
+     "label": "Paid social 36-month LTV (EUR)",
+     "hit": true
+    }
+   ],
+   "fabricated": [],
+   "n_reported_values": 5,
+   "n_queries": 1,
+   "n_failed_queries": 0,
+   "n_recovered": 0,
+   "parse_error": null,
+   "latency_s": 9.61,
+   "cost_usd": 0.00118,
+   "llm_calls": 5,
+   "usage": {
+    "input_tokens": 8296,
+    "output_tokens": 620,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 6811
+   },
+   "guardrail_rejections": 0
+  },
+  {
+   "case_id": "channel_churn",
+   "config": "C_tool_agent",
+   "action": "PAUSE_ACQUISITION_CHANNEL",
+   "expected_action": "PAUSE_ACQUISITION_CHANNEL",
+   "decision_ok": true,
+   "decision_supported": true,
+   "incident_detected": true,
+   "false_positive": null,
+   "targets": [
+    {
+     "check": "monthly churn influencer",
+     "label": "Monthly churn, influencer",
+     "hit": true
+    },
+    {
+     "check": "monthly churn organic",
+     "label": "Monthly churn, organic",
+     "hit": true
+    },
+    {
+     "check": "monthly churn paid_social",
+     "label": "Monthly churn, paid social",
+     "hit": true
+    },
+    {
+     "check": "monthly churn referral",
+     "label": "Monthly churn, referral",
+     "hit": true
+    }
+   ],
+   "extra_targets": [],
+   "fabricated": [],
+   "n_reported_values": 14,
+   "n_queries": 1,
+   "n_failed_queries": 0,
+   "n_recovered": 0,
+   "parse_error": null,
+   "latency_s": 11.73,
+   "cost_usd": 0.00195,
+   "llm_calls": 4,
+   "usage": {
+    "input_tokens": 11593,
+    "output_tokens": 1266,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 10509
+   },
+   "guardrail_rejections": 0
+  },
+  {
+   "case_id": "noise_ios_licence_week",
+   "config": "C_tool_agent",
+   "action": "NO_ACTION_NOISE",
+   "expected_action": "NO_ACTION_NOISE",
+   "decision_ok": true,
+   "decision_supported": true,
+   "incident_detected": false,
+   "false_positive": false,
+   "targets": [],
+   "extra_targets": [],
+   "fabricated": [],
+   "n_reported_values": 7,
+   "n_queries": 7,
+   "n_failed_queries": 1,
+   "n_recovered": 1,
+   "parse_error": null,
+   "latency_s": 18.44,
+   "cost_usd": 0.00364,
+   "llm_calls": 5,
+   "usage": {
+    "input_tokens": 18155,
+    "output_tokens": 2093,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 13881
+   },
+   "guardrail_rejections": 0
+  },
+  {
+   "case_id": "noise_organic_activation",
+   "config": "C_tool_agent",
+   "action": "NO_ACTION_NOISE",
+   "expected_action": "NO_ACTION_NOISE",
+   "decision_ok": true,
+   "decision_supported": true,
+   "incident_detected": false,
+   "false_positive": false,
+   "targets": [],
+   "extra_targets": [],
+   "fabricated": [],
+   "n_reported_values": 18,
+   "n_queries": 4,
+   "n_failed_queries": 0,
+   "n_recovered": 0,
+   "parse_error": null,
+   "latency_s": 18.9,
+   "cost_usd": 0.00324,
+   "llm_calls": 4,
+   "usage": {
+    "input_tokens": 16461,
+    "output_tokens": 1903,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 12988
+   },
+   "guardrail_rejections": 0
+  },
+  {
+   "case_id": "noise_ro_card_spend",
+   "config": "C_tool_agent",
+   "action": "NO_ACTION_NOISE",
+   "expected_action": "NO_ACTION_NOISE",
+   "decision_ok": true,
+   "decision_supported": true,
+   "incident_detected": false,
+   "false_positive": false,
+   "targets": [],
+   "extra_targets": [],
+   "fabricated": [],
+   "n_reported_values": 7,
+   "n_queries": 1,
+   "n_failed_queries": 0,
+   "n_recovered": 0,
+   "parse_error": null,
+   "latency_s": 13.21,
+   "cost_usd": 0.00204,
+   "llm_calls": 3,
+   "usage": {
+    "input_tokens": 8118,
+    "output_tokens": 1449,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 7335
+   },
+   "guardrail_rejections": 0
+  }
+ ]
+}

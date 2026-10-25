@@ -1,0 +1,33 @@
+{
+ "latency_s": 1.38,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_kKDE27D6C6CxbBvn27RjTRhk",
+    "name": "calculate_uplift_or_stats",
+    "input": {
+     "metric_slice": {
+      "analysis": "channel_unit_economics",
+      "platform": null,
+      "doc_type": null,
+      "channel": null,
+      "segment_by": null,
+      "k_a": null,
+      "n_a": null,
+      "k_b": null,
+      "n_b": null
+     }
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 2948,
+   "output_tokens": 67,
+   "cache_read_input_tokens": 1079,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

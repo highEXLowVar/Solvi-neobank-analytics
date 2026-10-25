@@ -1,0 +1,19 @@
+{
+ "latency_s": 6.952,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":false,\"root_cause_hypothesis\":\"No incident is established. The query shows higher observed top-up rates in treatment across channels, but it does not establish that any channel\u2019s incremental value exceeds the bonus cost; its joined outcome totals also cannot be treated as clean per-user economics.\",\"supporting_metrics\":[{\"name\":\"referral topup_user_rate\",\"baseline_value\":0.761101,\"anomaly_value\":0.821062,\"unit\":\"fraction\",\"sql\":\"Prior DuckDB query: grouped by experiment_id, variant, and channel; calculated AVG((topups > 0)::INT) as topup_user_rate from experiment_assignments joined to users and post-assignment outcomes.\"},{\"name\":\"referral mrr_eur_per_user\",\"baseline_value\":102.123419,\"anomaly_value\":201.492852,\"unit\":\"EUR/user\",\"sql\":\"Prior DuckDB query: grouped by experiment_id, variant, and channel; calculated AVG(mrr_eur) as mrr_eur_per_user from the joined post-assignment outcomes.\"},{\"name\":\"referral incentive_eur_per_user\",\"baseline_value\":0.0,\"anomaly_value\":1978.685927,\"unit\":\"EUR/user\",\"sql\":\"Prior DuckDB query: grouped by experiment_id, variant, and channel; calculated AVG(incentive_eur) as incentive_eur_per_user from the joined post-assignment outcomes.\"},{\"name\":\"referral CAC\",\"baseline_value\":12.0,\"anomaly_value\":12.0,\"unit\":\"EUR\",\"sql\":\"Prior DuckDB query: joined channels on channel and returned c.cac_eur for each experiment variant and channel.\"}],\"recommended_action\":\"DO_NOT_SHIP\",\"reasoning_summary\":\"Referral has the highest observed treatment top-up rate in the returned channel rows (0.821062 versus 0.761101 control), but the query does not provide a valid incremental profit comparison or normal-variation check. The joined outcome totals may be multiplied across tables, so they cannot support a claim that the bonus pays back in referral. Do not roll it out on this evidence.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 2052,
+   "output_tokens": 679,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

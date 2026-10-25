@@ -1,0 +1,39 @@
+{
+ "latency_s": 2.797,
+ "response": {
+  "model": "gpt-5.6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_Br9sfZ5kBsistrfdQHomaELr",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT doc_type, platform, MIN(decision_date) AS min_date, MAX(decision_date) AS max_date FROM agg_kyc_daily WHERE platform ILIKE '%ios%' GROUP BY 1,2 ORDER BY 1"
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_pL3qrS5qjN0yJ4em42ssbYzo",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT platform, version, release_date FROM stg_app_releases WHERE platform ILIKE '%ios%' AND release_date BETWEEN DATE '2026-03-15' AND DATE '2026-05-01' ORDER BY release_date"
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_zEWXVldnw6EILhgiofykZMOx",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT doc_type, platform, SUM(n_decisions) AS decisions, SUM(n_approved) AS approved, SUM(n_approved)::DOUBLE/SUM(n_decisions) AS approval_rate FROM agg_kyc_daily WHERE platform ILIKE '%ios%' AND decision_date BETWEEN DATE '2026-04-06' AND DATE '2026-04-26' GROUP BY 1,2"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 3195,
+   "output_tokens": 276,
+   "cache_read_input_tokens": 1216,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

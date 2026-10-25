@@ -1,0 +1,31 @@
+{
+ "latency_s": 1.613,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_mW8MsXBy6bJerZdFZKLchFiF",
+    "name": "get_dbt_schema_context",
+    "input": {
+     "mart_name": null
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_7cJ8omN4L11qv6r8MVkuCQhF",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT table_name FROM information_schema.tables WHERE table_schema NOT IN ('information_schema','pg_catalog') ORDER BY table_name"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 1209,
+   "output_tokens": 79,
+   "cache_read_input_tokens": 1206,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

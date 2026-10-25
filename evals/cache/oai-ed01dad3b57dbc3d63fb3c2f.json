@@ -1,0 +1,19 @@
+{
+ "latency_s": 10.286,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"sql\":\"WITH assignments AS (\\n  SELECT ea.user_id, ea.experiment_id, ea.variant, ea.assigned_ts,\\n         u.channel\\n  FROM experiment_assignments ea\\n  JOIN users u USING (user_id)\\n), outcomes AS (\\n  SELECT a.experiment_id, a.variant, a.channel, a.user_id,\\n         COUNT(DISTINCT t.topup_id) FILTER (WHERE t.topup_ts >= a.assigned_ts) AS topups,\\n         COALESCE(SUM(t.amount_eur) FILTER (WHERE t.topup_ts >= a.assigned_ts), 0) AS topup_eur,\\n         COALESCE(SUM(ct.amount_eur) FILTER (WHERE ct.txn_ts >= a.assigned_ts), 0) AS card_spend_eur,\\n         COALESCE(SUM(s.mrr_eur) FILTER (WHERE s.month >= DATE_TRUNC('month', a.assigned_ts)), 0) AS mrr_eur,\\n         COALESCE(SUM(ip.amount_eur) FILTER (WHERE ip.payout_ts >= a.assigned_ts), 0) AS incentive_eur,\\n         COUNT(DISTINCT ip.user_id) FILTER (WHERE ip.payout_ts >= a.assigned_ts AND ip.amount_eur = 10) AS users_paid_10_eur\\n  FROM assignments a\\n  LEFT JOIN topups t ON t.user_id = a.user_id\\n  LEFT JOIN card_transactions ct ON ct.user_id = a.user_id\\n  LEFT JOIN subscriptions s ON s.user_id = a.user_id\\n  LEFT JOIN incentive_payouts ip ON ip.user_id = a.user_id\\n  GROUP BY a.experiment_id, a.variant, a.channel, a.user_id\\n)\\nSELECT o.experiment_id, o.variant, o.channel,\\n       COUNT(*) AS assigned_users,\\n       AVG((o.topups > 0)::INT) AS topup_user_rate,\\n       AVG(o.topup_eur) AS topup_eur_per_user,\\n       AVG(o.card_spend_eur) AS card_spend_eur_per_user,\\n       AVG(o.mrr_eur) AS mrr_eur_per_user,\\n       AVG(o.incentive_eur) AS incentive_eur_per_user,\\n       SUM(o.users_paid_10_eur) AS users_paid_10_eur,\\n       c.cac_eur\\nFROM outcomes o\\nLEFT JOIN channels c ON c.channel = o.channel\\nGROUP BY o.experiment_id, o.variant, o.channel, c.cac_eur\\nORDER BY o.experiment_id, o.channel, o.variant;\",\"rationale\":\"Compare experiment variants within each acquisition channel on post-assignment funding and value proxies alongside \u20ac10 payout cost and channel CAC; this can reveal channel-specific lift, but these fields do not directly measure net revenue or profitability.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 619,
+   "output_tokens": 1010,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

@@ -1,0 +1,19 @@
+{
+ "latency_s": 5.478,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":false,\"root_cause_hypothesis\":\"No convincing evidence that the iOS app is broken. The week of 13 April had a lower approval rate, but the daily changepoint scan found no break; subsequent weeks also moved back up and down, consistent with ordinary variation rather than a sustained release-linked drop. iOS 8.32 had already been released on 5 April, but the data do not establish it as the cause.\",\"supporting_metrics\":[{\"name\":\"iOS driving-licence KYC approval rate\",\"baseline_value\":0.886076,\"anomaly_value\":0.804598,\"unit\":\"fraction\",\"sql\":\"SELECT date_trunc('week', decision_date)::DATE, SUM(n_approved)::DOUBLE / NULLIF(SUM(n_decisions),0) FROM agg_kyc_daily WHERE lower(platform) IN ('ios','iphone') AND lower(doc_type) LIKE '%driv%' AND decision_date >= DATE '2026-03-01' GROUP BY 1 ORDER BY 1; baseline week 2026-04-06; anomaly week 2026-04-13.\"},{\"name\":\"iOS driving-licence KYC approval-rate changepoint scan\",\"baseline_value\":0.8673,\"anomaly_value\":3.1,\"unit\":\"fraction; max LLR (threshold 25.0)\",\"sql\":\"calculate_uplift_or_stats(analysis='kyc_changepoint', platform='ios', doc_type='driving_licence'); returned overall_rate 0.8673, max_llr 3.1, break_detected false.\"},{\"name\":\"iOS app release version 8.32\",\"baseline_value\":null,\"anomaly_value\":8.32,\"unit\":\"version\",\"sql\":\"SELECT platform, version, release_date FROM stg_app_releases WHERE lower(platform) LIKE '%ios%' ORDER BY release_date DESC; returned iOS 8.32 release date 2026-04-05.\"}],\"recommended_action\":\"NO_ACTION_NOISE\",\"reasoning_summary\":\"The observed weekly rate moved from 0.886076 to 0.804598, but the changepoint scan found no break (max LLR 3.1 versus threshold 25.0). The rate was 0.882353 the following week, 0.909091 the week after, then lower again later, so this is not a sustained release-linked signal. Treat as normal variation; the warehouse evidence does not support calling the app broken or rolling back a release.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 5613,
+   "output_tokens": 531,
+   "cache_read_input_tokens": 4160,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

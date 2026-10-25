@@ -1,0 +1,49 @@
+{
+ "latency_s": 3.198,
+ "response": {
+  "model": "gpt-5.6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_Lw9anfD4DW3d2N4ztxJZ0Cft",
+    "name": "calculate_uplift_or_stats",
+    "input": {
+     "metric_slice": {
+      "analysis": "kyc_changepoint",
+      "platform": null,
+      "doc_type": null,
+      "channel": null,
+      "segment_by": null,
+      "k_a": null,
+      "n_a": null,
+      "k_b": null,
+      "n_b": null
+     }
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_mx9SjBszltKIoKXyD4dWaPVh",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "WITH d AS (SELECT decision_date, SUM(n_approved) AS approved, SUM(n_decisions) AS decisions, SUM(n_approved)::DOUBLE/NULLIF(SUM(n_decisions),0) AS approval_rate FROM agg_kyc_daily WHERE decision_date >= DATE '2025-10-01' AND decision_date <= DATE '2025-12-15' GROUP BY 1) SELECT * FROM d ORDER BY decision_date"
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_y2LFAR7eVkPfMroORwjqzqBn",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT month, platform, doc_type, reject_reason, SUM(n_rejections) AS n_rejections FROM agg_kyc_reject_reasons_monthly WHERE month >= DATE '2025-08-01' AND month <= DATE '2025-12-01' GROUP BY 1,2,3,4 ORDER BY month, platform, doc_type, n_rejections DESC"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 3086,
+   "output_tokens": 331,
+   "cache_read_input_tokens": 3083,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

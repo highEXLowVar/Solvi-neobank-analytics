@@ -1,0 +1,19 @@
+{
+ "latency_s": 3.768,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":false,\"root_cause_hypothesis\":\"The query returned no rows for either comparison week, so it did not validate the reported approval-rate drop or establish an iOS app failure. The filters may not match the warehouse\u2019s device, document-type, or event-type values; the cause remains undetermined.\",\"supporting_metrics\":[],\"recommended_action\":\"NO_ACTION_NOISE\",\"reasoning_summary\":\"No matching weekly records were returned, so there are no rates, counts, or historical variation values to assess. This is insufficient evidence to call an incident or blame an iOS release; no corrective action is supported by this result.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 1577,
+   "output_tokens": 262,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

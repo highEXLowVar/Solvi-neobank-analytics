@@ -1,0 +1,19 @@
+{
+ "latency_s": 2.193,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":false,\"root_cause_hypothesis\":\"The query returned no rows, so the March and May 2026 Romanian spend-per-active-user comparison and its historical-variation benchmark could not be evaluated. There is not enough evidence to conclude that Romanian card usage is declining.\",\"supporting_metrics\":[],\"recommended_action\":\"NO_ACTION_NOISE\",\"reasoning_summary\":\"The query returned 0 rows, leaving both the March\u2013May comparison and historical variation unavailable. The reported roughly 2% decline is not independently verified by the warehouse result, so it cannot be distinguished from normal variation. Do not treat this as a confirmed incident.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 3044,
+   "output_tokens": 137,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

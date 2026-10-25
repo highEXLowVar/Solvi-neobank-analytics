@@ -1,0 +1,23 @@
+{
+ "latency_s": 2.227,
+ "response": {
+  "model": "gpt-6.1-sol",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_KHbEYmXKADTDlwwTLaOmGzyH",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT date_trunc('week',decision_date) AS week, platform, doc_type, sum(n_decisions) n, sum(n_approved)::DOUBLE/sum(n_decisions) approval_rate FROM agg_kyc_daily WHERE decision_date BETWEEN DATE '2025-09-01' AND DATE '2025-12-15' GROUP BY 1,2,3 ORDER BY 1,2,3"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 3086,
+   "output_tokens": 106,
+   "cache_read_input_tokens": 3083,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

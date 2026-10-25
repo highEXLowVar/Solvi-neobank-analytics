@@ -1,0 +1,77 @@
+{
+ "latency_s": 3.896,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_F0US8vNULoPDUBhmXFkHJhJJ",
+    "name": "calculate_uplift_or_stats",
+    "input": {
+     "metric_slice": {
+      "analysis": "kyc_changepoint",
+      "platform": "android",
+      "doc_type": "national_id",
+      "channel": null,
+      "segment_by": null,
+      "k_a": null,
+      "n_a": null,
+      "k_b": null,
+      "n_b": null
+     }
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_Sg8it8HvLgWfm2mypYelhCRX",
+    "name": "calculate_uplift_or_stats",
+    "input": {
+     "metric_slice": {
+      "analysis": "kyc_changepoint",
+      "platform": "ios",
+      "doc_type": "national_id",
+      "channel": null,
+      "segment_by": null,
+      "k_a": null,
+      "n_a": null,
+      "k_b": null,
+      "n_b": null
+     }
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_vsCmeSdnXMmkoimdrAXerPIr",
+    "name": "calculate_uplift_or_stats",
+    "input": {
+     "metric_slice": {
+      "analysis": "kyc_changepoint",
+      "platform": "android",
+      "doc_type": "passport",
+      "channel": null,
+      "segment_by": null,
+      "k_a": null,
+      "n_a": null,
+      "k_b": null,
+      "n_b": null
+     }
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_IM0FZ8gL7jN35HQEojwTki87",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT platform, doc_type, app_version, count(*) AS attempts, avg(CASE WHEN is_kyc_approved THEN 1.0 ELSE 0.0 END) AS approval_rate, sum(CASE WHEN reject_reason='doc_unreadable' THEN 1 ELSE 0 END) AS unreadable_rejections FROM fct_kyc_attempts WHERE event_date >= DATE '2025-10-01' AND event_date <= DATE '2025-12-15' GROUP BY 1,2,3 ORDER BY 1,2,3"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 3260,
+   "output_tokens": 344,
+   "cache_read_input_tokens": 3083,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

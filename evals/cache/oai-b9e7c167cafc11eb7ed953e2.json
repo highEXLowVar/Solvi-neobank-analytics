@@ -1,0 +1,19 @@
+{
+ "latency_s": 6.687,
+ "response": {
+  "model": "gpt-5.6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":true,\"root_cause_hypothesis\":\"The KYC conversion drop is a statistically significant Android national_id incident caused by app release 5.27, released 2025-11-10. The affected slice fell from 0.879234 approval rate before 2025-11-13 to 0.685105 afterward, and rejection data shows a sharp increase in doc_unreadable rejections for Android national_id.\",\"supporting_metrics\":[{\"name\":\"all-platform KYC approval rate before changepoint\",\"baseline_value\":0.889,\"anomaly_value\":0.821,\"unit\":\"fraction\",\"sql\":\"calculate_uplift_or_stats({\\\"analysis\\\":\\\"kyc_changepoint\\\",\\\"platform\\\":null,\\\"doc_type\\\":null})\"},{\"name\":\"all-platform KYC changepoint maximum LLR\",\"baseline_value\":25.0,\"anomaly_value\":119.5,\"unit\":\"count\",\"sql\":\"calculate_uplift_or_stats({\\\"analysis\\\":\\\"kyc_changepoint\\\",\\\"platform\\\":null,\\\"doc_type\\\":null})\"},{\"name\":\"android national_id KYC approval rate\",\"baseline_value\":0.879234,\"anomaly_value\":0.685105,\"unit\":\"fraction\",\"sql\":\"SELECT CASE WHEN decision_date < DATE '2025-11-13' THEN 'before' ELSE 'after' END AS period, SUM(n_approved)::DOUBLE/SUM(n_decisions) AS rate FROM agg_kyc_daily WHERE decision_date BETWEEN DATE '2025-10-01' AND DATE '2025-12-15' AND platform='android' AND doc_type='national_id' GROUP BY 1\"},{\"name\":\"android national_id KYC changepoint maximum LLR\",\"baseline_value\":25.0,\"anomaly_value\":307.1,\"unit\":\"count\",\"sql\":\"calculate_uplift_or_stats({\\\"analysis\\\":\\\"kyc_changepoint\\\",\\\"platform\\\":\\\"android\\\",\\\"doc_type\\\":\\\"national_id\\\"})\"},{\"name\":\"Android national_id doc_unreadable rejections\",\"baseline_value\":364,\"anomaly_value\":542,\"unit\":\"count\",\"sql\":\"SELECT month, SUM(n_rejections) AS n_rejections FROM agg_kyc_reject_reasons_monthly WHERE platform='android' AND doc_type='national_id' AND reject_reason='doc_unreadable' AND month IN (DATE '2025-11-01', DATE '2025-12-01') GROUP BY month\"},{\"name\":\"app release closest before Android national_id changepoint\",\"baseline_value\":null,\"anomaly_value\":5.27,\"unit\":\"count\",\"sql\":\"SELECT platform, version, release_date FROM stg_app_releases WHERE platform='android' AND release_date BETWEEN DATE '2025-10-01' AND DATE '2025-12-15' ORDER BY release_date\"}],\"recommended_action\":\"ROLLBACK_RELEASE\",\"reasoning_summary\":\"This is a real incident, not normal variation: the all-platform changepoint scan detected a break on 2025-11-13, with approval falling from 0.889 to 0.821 and maximum LLR 119.5 versus a 25.0 threshold. The concentrated failure is Android national_id, where approval fell from 0.879234 to 0.685105 and the slice LLR reached 307.1. Release 5.27 went live on 2025-11-10, immediately before the break, while doc_unreadable Android national_id rejections rose from 364 in November to 542 in December; roll back 5.27 and investigate document-readability handling.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 10631,
+   "output_tokens": 805,
+   "cache_read_input_tokens": 9951,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

@@ -1,0 +1,19 @@
+{
+ "latency_s": 6.766,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":true,\"root_cause_hypothesis\":\"A genuine KYC approval-rate break began around 2025-11-13. The strongest fingerprint is Android national-ID submissions: November doc_unreadable rejections surged, consistent with a document capture/readability regression. The data supports that as the likely cause, but does not identify a specific app release; the initial version-attribution query could not run because dim_users has no platform column.\",\"supporting_metrics\":[{\"name\":\"overall KYC approval rate before break\",\"baseline_value\":0.889,\"anomaly_value\":0.821,\"unit\":\"fraction\",\"sql\":\"calculate_uplift_or_stats, analysis=kyc_changepoint, all platforms and document types; break date 2025-11-13\"},{\"name\":\"weekly KYC approval rate\",\"baseline_value\":0.893204,\"anomaly_value\":0.819102,\"unit\":\"fraction\",\"sql\":\"SELECT date_trunc('week', decision_date)::DATE AS wk, SUM(n_decisions) decisions, SUM(n_approved)::DOUBLE/SUM(n_decisions) rate FROM agg_kyc_daily WHERE decision_date >= DATE '2025-09-01' GROUP BY 1 ORDER BY 1; baseline week 2025-09-29, anomaly week 2025-11-17\"},{\"name\":\"Android national_id KYC approval rate\",\"baseline_value\":0.88786,\"anomaly_value\":0.766505,\"unit\":\"fraction\",\"sql\":\"SELECT platform, doc_type, SUM(n_decisions) n, SUM(n_approved)::DOUBLE/SUM(n_decisions) rate FROM agg_kyc_daily WHERE decision_date BETWEEN DATE '2025-09-01' AND DATE '2025-10-31' GROUP BY 1,2; anomaly value from SELECT platform, doc_type, SUM(n_decisions), SUM(n_approved)::DOUBLE/SUM(n_decisions) FROM agg_kyc_daily WHERE decision_date BETWEEN DATE '2025-10-15' AND DATE '2025-12-15' GROUP BY 1,2\"},{\"name\":\"Android national_id doc_unreadable rejections\",\"baseline_value\":76,\"anomaly_value\":364,\"unit\":\"count\",\"sql\":\"SELECT month, platform, doc_type, reject_reason, SUM(n_rejections) n FROM agg_kyc_reject_reasons_monthly WHERE month >= TIMESTAMP '2025-09-01' GROUP BY 1,2,3,4; comparing October and November 2025\"}],\"recommended_action\":\"ROLLBACK_RELEASE\",\"reasoning_summary\":\"The changepoint scan detects a break on 2025-11-13, with approval falling from 0.889 to 0.821\u2014well beyond ordinary weekly movement (roughly 0.88\u20130.90 before the break, then about 0.82). Android national-ID approval was 0.88786 in September\u2013October and 0.766505 in the recent window; its doc_unreadable rejection count jumped from 76 in October to 364 in November. This points to a likely Android document-capture/readability regression; investigate and roll back the implicated release, while confirming release attribution before executing the rollback.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 8567,
+   "output_tokens": 671,
+   "cache_read_input_tokens": 8279,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

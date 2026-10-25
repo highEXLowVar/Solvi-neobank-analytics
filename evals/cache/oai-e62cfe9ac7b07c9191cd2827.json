@@ -1,0 +1,23 @@
+{
+ "latency_s": 5.082,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_iKJIkrGokYPtu8X39PoOiPjj",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT platform, doc_type, MIN(decision_date) min_date, MAX(decision_date) max_date, SUM(n_decisions) n FROM agg_kyc_daily GROUP BY 1,2 ORDER BY 1,2"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 3065,
+   "output_tokens": 90,
+   "cache_read_input_tokens": 2965,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

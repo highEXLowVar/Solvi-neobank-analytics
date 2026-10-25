@@ -1,0 +1,19 @@
+{
+ "latency_s": 9.502,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"sql\":\"WITH paid_social_users AS (\\n  SELECT user_id, channel\\n  FROM users\\n  WHERE lower(channel) LIKE '%paid%social%'\\n),\\nchannel_cac AS (\\n  SELECT lower(channel) AS channel_key, avg(cac_eur) AS cac_eur\\n  FROM channels\\n  GROUP BY 1\\n),\\nmetrics AS (\\n  SELECT\\n    count(DISTINCT u.user_id) AS acquired_users,\\n    avg(c.cac_eur) AS cac_eur_per_user,\\n    sum(s.mrr_eur) AS observed_subscription_revenue_eur,\\n    sum(p.amount_eur) AS incentive_cost_eur\\n  FROM paid_social_users u\\n  LEFT JOIN channel_cac c ON lower(u.channel) = c.channel_key\\n  LEFT JOIN subscriptions s ON s.user_id = u.user_id\\n  LEFT JOIN incentive_payouts p ON p.user_id = u.user_id\\n)\\nSELECT\\n  acquired_users,\\n  cac_eur_per_user,\\n  acquired_users * cac_eur_per_user AS acquisition_cost_eur,\\n  observed_subscription_revenue_eur,\\n  incentive_cost_eur,\\n  observed_subscription_revenue_eur - incentive_cost_eur - acquired_users * cac_eur_per_user AS observed_net_eur,\\n  CASE\\n    WHEN observed_subscription_revenue_eur - incentive_cost_eur > acquired_users * cac_eur_per_user THEN 'PROFITABLE'\\n    ELSE 'NOT_PROVEN_PROFITABLE'\\n  END AS verdict\\nFROM metrics;\",\"rationale\":\"Compare observed subscription revenue less incentive payouts with paid-social CAC; transaction volume is not counted as Solvi revenue because the schema provides no transaction-revenue measure.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 602,
+   "output_tokens": 757,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

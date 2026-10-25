@@ -1,0 +1,19 @@
+{
+ "latency_s": 10.034,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"sql\":\"WITH active AS (\\n    SELECT DISTINCT user_id, CAST(month AS DATE) AS month\\n    FROM subscriptions\\n    WHERE mrr_eur > 0\\n), transitions AS (\\n    SELECT\\n        a.user_id,\\n        a.month,\\n        CASE WHEN n.user_id IS NULL THEN 1 ELSE 0 END AS churned\\n    FROM active a\\n    LEFT JOIN active n\\n      ON n.user_id = a.user_id\\n     AND n.month = a.month + INTERVAL '1 month'\\n    WHERE a.month < DATE '2026-05-01'\\n), monthly AS (\\n    SELECT\\n        u.channel,\\n        t.month,\\n        COUNT(*) AS opening_subscribers,\\n        SUM(t.churned) AS churned_subscribers,\\n        SUM(t.churned)::DOUBLE / COUNT(*) AS monthly_churn\\n    FROM transitions t\\n    JOIN users u USING (user_id)\\n    GROUP BY u.channel, t.month\\n), channel_summary AS (\\n    SELECT\\n        channel,\\n        SUM(churned_subscribers)::DOUBLE / SUM(opening_subscribers) AS steady_state_monthly_churn,\\n        AVG(monthly_churn) AS mean_monthly_churn,\\n        STDDEV_SAMP(monthly_churn) AS sd_monthly_churn,\\n        COUNT(*) AS observed_months,\\n        SUM(opening_subscribers) AS subscriber_months\\n    FROM monthly\\n    GROUP BY channel\\n), revenue AS (\\n    SELECT u.channel, AVG(s.mrr_eur) AS avg_monthly_mrr_per_active_subscriber\\n    FROM subscriptions s\\n    JOIN users u USING (user_id)\\n    WHERE s.mrr_eur > 0\\n      AND s.month >= TIMESTAMP '2024-01-01'\\n      AND s.month < TIMESTAMP '2026-05-01'\\n    GROUP BY u.channel\\n)\\nSELECT\\n    cs.channel,\\n    cs.steady_state_monthly_churn,\\n    cs.mean_monthly_churn,\\n    cs.sd_monthly_churn,\\n    cs.observed_months,\\n    cs.subscriber_months,\\n    r.avg_monthly_mrr_per_active_subscriber,\\n    c.cac_eur,\\n    CASE WHEN cs.steady_state_monthly_churn > 0\\n         THEN r.avg_monthly_mrr_per_active_subscriber / cs.steady_state_monthly_churn\\n    END AS implied_gross_revenue_ltv_eur\\nFROM channel_summary cs\\nLEFT JOIN revenue r USING (channel)\\nLEFT JOIN channels c USING (channel)\\nORDER BY cs.channel;\",\"rationale\":\"Calculates each channel\u2019s subscriber-weighted monthly churn from consecutive active subscription months through April 2026, then compares implied gross-revenue LTV (average active MRR divided by churn) with CAC to identify channels whose acquisition cost exceeds this revenue proxy.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 615,
+   "output_tokens": 968,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

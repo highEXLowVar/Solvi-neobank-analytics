@@ -1,0 +1,41 @@
+{
+ "latency_s": 2.581,
+ "response": {
+  "model": "gpt-6.1-sol",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_kAIlvhLQICUrZ9zmcd5Wlfyf",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT date_trunc('week', decision_date)::DATE AS week, sum(n_decisions) AS n, sum(n_approved) AS k, sum(n_approved)::DOUBLE /sum(n_decisions) AS rate FROM agg_kyc_daily WHERE platform='ios' AND doc_type='driving_licence' GROUP BY 1 ORDER BY 1"
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_kA2YkKsjTWkzf01PZd2BlRBN",
+    "name": "calculate_uplift_or_stats",
+    "input": {
+     "metric_slice": {
+      "analysis": "kyc_changepoint",
+      "platform": "ios",
+      "doc_type": "driving_licence",
+      "channel": null,
+      "segment_by": null,
+      "k_a": null,
+      "n_a": null,
+      "k_b": null,
+      "n_b": null
+     }
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 3085,
+   "output_tokens": 179,
+   "cache_read_input_tokens": 3082,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

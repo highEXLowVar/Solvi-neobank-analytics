@@ -1,0 +1,23 @@
+{
+ "latency_s": 1.956,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_pY0FPOaFJ0mpe15ycxNIYGf8",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT app_version, count(*) AS attempts, sum(CASE WHEN reject_reason='doc_unreadable' THEN 1 ELSE 0 END) AS unreadable_rejections, avg(CASE WHEN is_kyc_approved THEN 1.0 ELSE 0.0 END) AS approval_rate FROM fct_kyc_attempts WHERE platform='android' AND doc_type='national_id' AND event_date BETWEEN DATE '2025-10-01' AND DATE '2025-12-15' GROUP BY app_version ORDER BY app_version"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 5078,
+   "output_tokens": 133,
+   "cache_read_input_tokens": 3257,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

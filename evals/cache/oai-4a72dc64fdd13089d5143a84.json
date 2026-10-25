@@ -1,0 +1,19 @@
+{
+ "latency_s": 7.166,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":true,\"root_cause_hypothesis\":\"An Android KYC regression introduced with app version 5.27 is causing national-ID documents to be rejected as unreadable. The changepoint is concentrated in Android national IDs, not seen in the tested iOS national-ID or Android passport slices; version 5.28 remains similarly affected.\",\"supporting_metrics\":[{\"name\":\"Overall KYC approval rate before vs during break\",\"baseline_value\":0.889,\"anomaly_value\":0.821,\"unit\":\"fraction\",\"sql\":\"calculate_uplift_or_stats: analysis='kyc_changepoint', platform=null, doc_type=null\"},{\"name\":\"Android national_id approval rate before vs during break\",\"baseline_value\":0.888,\"anomaly_value\":0.692,\"unit\":\"fraction\",\"sql\":\"calculate_uplift_or_stats: analysis='kyc_changepoint', platform='android', doc_type='national_id' (LLR 307.1; break detected; break date 2025-11-10; closest release v5.27 dated 2025-11-10)\"},{\"name\":\"Android national_id approval rate, app v5.26 vs v5.27 attempts\",\"baseline_value\":0.855083,\"anomaly_value\":0.619533,\"unit\":\"fraction\",\"sql\":\"SELECT app_version, count(*), avg(CASE WHEN is_kyc_approved THEN 1.0 ELSE 0.0 END) FROM fct_kyc_attempts WHERE platform='android' AND doc_type='national_id' AND event_date BETWEEN DATE '2025-10-01' AND DATE '2025-12-15' GROUP BY app_version\"},{\"name\":\"Android national_id unreadable rejections, app v5.26 vs v5.27 attempts\",\"baseline_value\":88,\"anomaly_value\":684,\"unit\":\"count\",\"sql\":\"SELECT app_version, sum(CASE WHEN reject_reason='doc_unreadable' THEN 1 ELSE 0 END) FROM fct_kyc_attempts WHERE platform='android' AND doc_type='national_id' AND event_date BETWEEN DATE '2025-10-01' AND DATE '2025-12-15' GROUP BY app_version\"},{\"name\":\"iOS national_id changepoint scan\",\"baseline_value\":null,\"anomaly_value\":2.3,\"unit\":\"LLR (no break; threshold 25.0)\",\"sql\":\"calculate_uplift_or_stats: analysis='kyc_changepoint', platform='ios', doc_type='national_id'\"},{\"name\":\"Android passport changepoint scan\",\"baseline_value\":null,\"anomaly_value\":0.7,\"unit\":\"LLR (no break; threshold 25.0)\",\"sql\":\"calculate_uplift_or_stats: analysis='kyc_changepoint', platform='android', doc_type='passport'\"}],\"recommended_action\":\"ROLLBACK_RELEASE\",\"reasoning_summary\":\"The overall approval rate broke downward on 2025-11-13 from 0.889 to 0.821, with a strong changepoint signal (LLR 119.5 vs threshold 25.0). The clearest cause is Android national IDs: the break begins 2025-11-10, coincident with v5.27, and approval falls from 0.855083 on v5.26 to 0.619533 on v5.27 while unreadable rejections rise from 88 to 684. No comparable changepoint appears for iOS national IDs or Android passports; v5.28 is still low at 0.628611, so roll back the affected Android release and investigate document readability.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 5378,
+   "output_tokens": 763,
+   "cache_read_input_tokens": 5075,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

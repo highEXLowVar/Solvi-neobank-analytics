@@ -1,0 +1,19 @@
+{
+ "latency_s": 7.336,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":true,\"root_cause_hypothesis\":\"Paid social has not earned back its acquisition cost: cumulative average contribution margin remains below CAC through the latest observed tenure.\",\"supporting_metrics\":[{\"name\":\"paid_social cumulative contribution margin per activated user at latest observed tenure\",\"baseline_value\":26.0,\"anomaly_value\":9.981345,\"unit\":\"EUR/user\",\"sql\":\"WITH paid_social AS (SELECT months_since_activation, n_observable, avg_margin_eur, cac_eur, SUM(avg_margin_eur) OVER (ORDER BY months_since_activation ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS cumulative_margin_eur FROM agg_unit_economics WHERE channel = 'paid_social'), summary AS (SELECT MAX(months_since_activation) AS latest_observed_month, MAX(cumulative_margin_eur) FILTER (WHERE months_since_activation = (SELECT MAX(months_since_activation) FROM paid_social)) AS cumulative_margin_at_latest_month_eur, MAX(cac_eur) AS cac_eur, MIN(months_since_activation) FILTER (WHERE cumulative_margin_eur >= cac_eur) AS first_payback_month, MAX(n_observable) FILTER (WHERE months_since_activation = (SELECT MAX(months_since_activation) FROM paid_social)) AS n_observable_at_latest_month FROM paid_social) SELECT latest_observed_month, cumulative_margin_at_latest_month_eur, cac_eur, cumulative_margin_at_latest_month_eur - cac_eur AS net_margin_after_cac_eur, first_payback_month, n_observable_at_latest_month, cumulative_margin_at_latest_month_eur >= cac_eur AS paid_back_by_latest_observed_month FROM summary;\"},{\"name\":\"paid_social net margin after CAC at latest observed tenure\",\"baseline_value\":26.0,\"anomaly_value\":-16.018655,\"unit\":\"EUR/user\",\"sql\":\"Same query as above; returned cumulative_margin_at_latest_month_eur - cac_eur.\"},{\"name\":\"paid_social observable users at latest observed tenure\",\"baseline_value\":null,\"anomaly_value\":139,\"unit\":\"count\",\"sql\":\"Same query as above; returned n_observable_at_latest_month.\"}],\"recommended_action\":\"PAUSE_ACQUISITION_CHANNEL\",\"reasoning_summary\":\"At 28 months of observed tenure, cumulative contribution margin is \u20ac9.981345 per user against \u20ac26.00 CAC, leaving -\u20ac16.018655 per user. The channel has not reached payback by the latest observed tenure; 139 users were observable at that tenure. Pause paid-social spend.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 2951,
+   "output_tokens": 676,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

@@ -1,0 +1,19 @@
+{
+ "latency_s": 7.322,
+ "response": {
+  "model": "gpt-6.1-sol",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\n  \"incident_detected\": true,\n  \"root_cause_hypothesis\": \"The drop began on 2025-11-10, coinciding with Android release 5.27, making that release a plausible cause rather than a proven one. Recovery began on 2026-01-08 but remained incomplete.\",\n  \"supporting_metrics\": [\n    {\n      \"name\": \"android national_id KYC approval rate before versus during incident\",\n      \"baseline_value\": 0.887856,\n      \"anomaly_value\": 0.685816,\n      \"unit\": \"fraction\",\n      \"sql\": \"SELECT CASE WHEN decision_date < DATE '2025-11-10' THEN 'before' WHEN decision_date < DATE '2026-01-08' THEN 'during' ELSE 'after' END AS period, SUM(n_approved) AS approved, SUM(n_decisions) AS decisions, SUM(n_approved)::DOUBLE/SUM(n_decisions) AS approval_rate FROM agg_kyc_daily WHERE platform = 'android' AND doc_type = 'national_id' GROUP BY 1 ORDER BY 1\"\n    },\n    {\n      \"name\": \"android national_id KYC approval rate after recovery began on 2026-01-08\",\n      \"baseline_value\": 0.887856,\n      \"anomaly_value\": 0.793953,\n      \"unit\": \"fraction\",\n      \"sql\": \"SELECT CASE WHEN decision_date < DATE '2025-11-10' THEN 'before' WHEN decision_date < DATE '2026-01-08' THEN 'during' ELSE 'after' END AS period, SUM(n_approved) AS approved, SUM(n_decisions) AS decisions, SUM(n_approved)::DOUBLE/SUM(n_decisions) AS approval_rate FROM agg_kyc_daily WHERE platform = 'android' AND doc_type = 'national_id' GROUP BY 1 ORDER BY 1\"\n    },\n    {\n      \"name\": \"android national_id KYC changepoint maximum LLR versus detection threshold\",\n      \"baseline_value\": 25,\n      \"anomaly_value\": 568.4,\n      \"unit\": \"LLR\",\n      \"sql\": \"calculate_uplift_or_stats({\\\"metric_slice\\\":{\\\"analysis\\\":\\\"kyc_changepoint\\\",\\\"platform\\\":\\\"android\\\",\\\"doc_type\\\":\\\"national_id\\\",\\\"channel\\\":null,\\\"segment_by\\\":null,\\\"k_a\\\":null,\\\"n_a\\\":null,\\\"k_b\\\":null,\\\"n_b\\\":null}})\"\n    }\n  ],\n  \"recommended_action\": \"ROLLBACK_RELEASE\",\n  \"reasoning_summary\": \"Android national-ID approval rates fell from 0.887856 to 0.685816 on 2025-11-10. They partially recovered starting 2026-01-08 to 0.793953, still below the pre-incident level. This was not normal variation: the changepoint LLR was 568.4 against a detection threshold of 25. The onset coincides with release 5.27; target its KYC changes for rollback, while validating causality.\"\n}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 3531,
+   "output_tokens": 645,
+   "cache_read_input_tokens": 3295,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

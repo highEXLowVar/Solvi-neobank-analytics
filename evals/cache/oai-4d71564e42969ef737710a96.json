@@ -1,0 +1,19 @@
+{
+ "latency_s": 9.578,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":true,\"root_cause_hypothesis\":\"Influencer and paid_social acquisition have not paid back CAC within the observed first 12 months: their cumulative margin is below CAC. Organic and referral pay back within that period.\",\"supporting_metrics\":[{\"name\":\"influencer steady-state monthly churn\",\"baseline_value\":null,\"anomaly_value\":0.125479,\"unit\":\"fraction\",\"sql\":\"DuckDB query above: pooled month-to-month retention loss from agg_retention_cohorts, tenure transitions 2\u21923 through 11\u219212, grouped by channel.\"},{\"name\":\"organic steady-state monthly churn\",\"baseline_value\":null,\"anomaly_value\":0.107975,\"unit\":\"fraction\",\"sql\":\"DuckDB query above: pooled month-to-month retention loss from agg_retention_cohorts, tenure transitions 2\u21923 through 11\u219212, grouped by channel.\"},{\"name\":\"paid_social steady-state monthly churn\",\"baseline_value\":null,\"anomaly_value\":0.156692,\"unit\":\"fraction\",\"sql\":\"DuckDB query above: pooled month-to-month retention loss from agg_retention_cohorts, tenure transitions 2\u21923 through 11\u219212, grouped by channel.\"},{\"name\":\"referral steady-state monthly churn\",\"baseline_value\":null,\"anomaly_value\":0.106392,\"unit\":\"fraction\",\"sql\":\"DuckDB query above: pooled month-to-month retention loss from agg_retention_cohorts, tenure transitions 2\u21923 through 11\u219212, grouped by channel.\"},{\"name\":\"influencer cumulative margin through month 12 vs CAC\",\"baseline_value\":19.0,\"anomaly_value\":8.068207,\"unit\":\"EUR/user\",\"sql\":\"DuckDB query above: SUM(avg_margin_eur) for tenure months 0\u201312 and AVG(cac_eur) from agg_unit_economics, by channel.\"},{\"name\":\"paid_social cumulative margin through month 12 vs CAC\",\"baseline_value\":26.0,\"anomaly_value\":5.975641,\"unit\":\"EUR/user\",\"sql\":\"DuckDB query above: SUM(avg_margin_eur) for tenure months 0\u201312 and AVG(cac_eur) from agg_unit_economics, by channel.\"},{\"name\":\"organic cumulative margin through month 12 vs CAC\",\"baseline_value\":2.0,\"anomaly_value\":10.195145,\"unit\":\"EUR/user\",\"sql\":\"DuckDB query above: SUM(avg_margin_eur) for tenure months 0\u201312 and AVG(cac_eur) from agg_unit_economics, by channel.\"},{\"name\":\"referral cumulative margin through month 12 vs CAC\",\"baseline_value\":12.0,\"anomaly_value\":12.458329,\"unit\":\"EUR/user\",\"sql\":\"DuckDB query above: SUM(avg_margin_eur) for tenure months 0\u201312 and AVG(cac_eur) from agg_unit_economics, by channel.\"}],\"recommended_action\":\"PAUSE_ACQUISITION_CHANNEL\",\"reasoning_summary\":\"Influencer churn is 0.125479 per month and paid_social churn is 0.156692; their cumulative margin through month 12 is EUR 8.068207 and EUR 5.975641 per user, respectively, versus CAC of EUR 19 and EUR 26. Organic (0.107975 churn) and referral (0.106392) pay back within 12 months, at EUR 10.195145 versus EUR 2 CAC and EUR 12.458329 versus EUR 12 CAC. Pause influencer and paid_social spend; the query observed 10 monthly retention transitions per channel, but payback beyond month 12 was not assessed.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 3191,
+   "output_tokens": 1042,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

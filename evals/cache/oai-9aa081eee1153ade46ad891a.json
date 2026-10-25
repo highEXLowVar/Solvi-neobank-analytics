@@ -1,0 +1,33 @@
+{
+ "latency_s": 1.808,
+ "response": {
+  "model": "gpt-6.1-sol",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_CyQX94QoGnV8zmWEUTJgYwxm",
+    "name": "calculate_uplift_or_stats",
+    "input": {
+     "metric_slice": {
+      "analysis": "ab_test_readout",
+      "platform": null,
+      "doc_type": null,
+      "channel": null,
+      "segment_by": "channel",
+      "k_a": null,
+      "n_a": null,
+      "k_b": null,
+      "n_b": null
+     }
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 3069,
+   "output_tokens": 66,
+   "cache_read_input_tokens": 3066,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

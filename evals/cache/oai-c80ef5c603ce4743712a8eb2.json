@@ -1,0 +1,39 @@
+{
+ "latency_s": 3.401,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_vponCDApjnr4N5iEAKykHWHG",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT platform, doc_type, SUM(n_decisions) n_decisions, SUM(n_approved) n_approved, SUM(n_approved)::DOUBLE/SUM(n_decisions) approval_rate FROM agg_kyc_daily WHERE decision_date BETWEEN DATE '2025-10-15' AND DATE '2025-12-15' GROUP BY 1,2 ORDER BY approval_rate"
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_QjMseT9KmrwcZ3QhY0J9IUWU",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT month, platform, doc_type, reject_reason, SUM(n_rejections) n FROM agg_kyc_reject_reasons_monthly WHERE month >= TIMESTAMP '2025-09-01' GROUP BY 1,2,3,4 ORDER BY month, platform, doc_type, n DESC"
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_bIo4YVVo3HXyUXqdZ4XBXtaS",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT platform, doc_type, kyc_app_version, COUNT(*) n, AVG(CASE WHEN is_kyc_approved THEN 1.0 ELSE 0.0 END) approval_rate FROM dim_users WHERE signup_date BETWEEN DATE '2025-10-15' AND DATE '2025-12-15' AND is_doc_submitted GROUP BY 1,2,3 ORDER BY 1,2,3"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 3143,
+   "output_tokens": 299,
+   "cache_read_input_tokens": 2966,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

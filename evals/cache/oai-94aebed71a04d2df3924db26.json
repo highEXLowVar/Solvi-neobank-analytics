@@ -1,0 +1,19 @@
+{
+ "latency_s": 8.226,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":true,\"root_cause_hypothesis\":\"Organic activation declined significantly month over month, but the funnel points to a drop after first top-up rather than an upstream onboarding failure: first-top-up-to-activation conversion fell, while email, KYC-start, document-submission and KYC-approval rates were broadly stable. This flags a real outcome change, not proof that onboarding software broke; investigate the post-top-up activation step and cohort/channel mix before attributing it to a release.\",\"supporting_metrics\":[{\"name\":\"organic activation rate (March 2026)\",\"baseline_value\":0.4207,\"anomaly_value\":null,\"unit\":\"fraction\",\"sql\":\"calculate_uplift_or_stats: two_proportion_test, March k=1254, n=2981\"},{\"name\":\"organic activation rate (April 2026)\",\"baseline_value\":null,\"anomaly_value\":0.3945,\"unit\":\"fraction\",\"sql\":\"calculate_uplift_or_stats: two_proportion_test, April k=1168, n=2961\"},{\"name\":\"organic activation rate change, March to April 2026\",\"baseline_value\":0.4207,\"anomaly_value\":0.3945,\"unit\":\"pp\",\"sql\":\"calculate_uplift_or_stats: two_proportion_test; delta_pp = -2.62, 95% CI for decline = 0.12 to 5.12 pp, p=0.0399\"},{\"name\":\"organic first-top-up-to-activation conversion\",\"baseline_value\":0.898925,\"anomaly_value\":0.867112,\"unit\":\"fraction\",\"sql\":\"SELECT signup_month, SUM(n_activated)::DOUBLE/SUM(n_first_topup) FROM agg_funnel_monthly WHERE channel='organic' AND signup_month IN (DATE '2026-03-01',DATE '2026-04-01') GROUP BY 1\"},{\"name\":\"organic KYC approval rate among document submitters\",\"baseline_value\":0.859347,\"anomaly_value\":0.863553,\"unit\":\"fraction\",\"sql\":\"SELECT signup_month, SUM(n_kyc_approved)::DOUBLE/SUM(n_doc_submitted) FROM agg_funnel_monthly WHERE channel='organic' AND signup_month IN (DATE '2026-03-01',DATE '2026-04-01') GROUP BY 1\"},{\"name\":\"organic activation rate historical monthly range, Jan 2025\u2013Apr 2026\",\"baseline_value\":0.371915,\"anomaly_value\":0.434097,\"unit\":\"fraction\",\"sql\":\"SELECT signup_month, SUM(n_activated)::DOUBLE/SUM(n_signups) FROM agg_funnel_monthly WHERE channel='organic' AND signup_month >= DATE '2025-01-01' AND signup_month <= DATE '2026-04-01' GROUP BY 1\"}],\"recommended_action\":\"NO_ACTION_NOISE\",\"reasoning_summary\":\"The stated rates correspond closely to the warehouse\u2019s overall monthly rates; the organic-only activation rates are 0.4207 in March and 0.3945 in April, a 2.62 pp decline (95% CI 0.12\u20135.12 pp; p=0.0399). The decline is concentrated after first top-up (0.8989 to 0.8671), while organic KYC approval did not fall (0.8593 to 0.8636). Although statistically detectable, the change is modest against the historical monthly organic range of 0.3719\u20130.4341, and the data does not establish a product break; investigate the post-top-up step rather than roll back a release.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 5725,
+   "output_tokens": 756,
+   "cache_read_input_tokens": 5060,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

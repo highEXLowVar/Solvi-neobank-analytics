@@ -1,0 +1,49 @@
+{
+ "latency_s": 3.479,
+ "response": {
+  "model": "gpt-6.1-sol",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_nXnfW4ou2G0I6vQevq6iZxB9",
+    "name": "calculate_uplift_or_stats",
+    "input": {
+     "metric_slice": {
+      "analysis": "two_proportion_test",
+      "platform": null,
+      "doc_type": null,
+      "channel": null,
+      "segment_by": null,
+      "k_a": 70,
+      "n_a": 79,
+      "k_b": 70,
+      "n_b": 87
+     }
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_PrBH3E5UgsGYxfj4qPtzczq3",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "WITH w AS (SELECT date_trunc('week',decision_date)::DATE week,sum(n_approved)::DOUBLE/sum(n_decisions) rate FROM agg_kyc_daily WHERE platform='ios' AND doc_type='driving_licence' GROUP BY 1) SELECT avg(rate) baseline_weekly_mean,stddev_samp(rate) baseline_weekly_sd,min(rate) baseline_weekly_min,max(rate) baseline_weekly_max FROM w WHERE week >= DATE '2026-01-05' AND week < DATE '2026-04-13'"
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_ZZ1QpuvEmZQer5EzXWGTBpUk",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT release_date,version FROM stg_app_releases WHERE platform='ios' AND release_date BETWEEN DATE '2026-03-01' AND DATE '2026-05-01' ORDER BY release_date"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 5945,
+   "output_tokens": 274,
+   "cache_read_input_tokens": 3082,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

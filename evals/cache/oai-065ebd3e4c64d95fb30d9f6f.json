@@ -1,0 +1,23 @@
+{
+ "latency_s": 1.108,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_tq95QaUsHQLrWPFvzTyVqrxV",
+    "name": "get_dbt_schema_context",
+    "input": {
+     "mart_name": "agg_unit_economics"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 1777,
+   "output_tokens": 26,
+   "cache_read_input_tokens": 1414,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

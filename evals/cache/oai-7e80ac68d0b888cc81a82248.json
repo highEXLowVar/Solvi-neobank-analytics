@@ -1,0 +1,19 @@
+{
+ "latency_s": 3.347,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":false,\"root_cause_hypothesis\":\"No statistically meaningful iOS driving-licence approval changepoint was detected. The reported weekly dip is consistent with normal variation, not evidence that the app is broken.\",\"supporting_metrics\":[{\"name\":\"iOS driving_licence overall KYC approval rate\",\"baseline_value\":null,\"anomaly_value\":0.8673,\"unit\":\"fraction\",\"sql\":\"calculate_uplift_or_stats: analysis='kyc_changepoint', platform='ios', doc_type='driving_licence' (893 days scanned)\"} ,{\"name\":\"iOS driving_licence maximum changepoint LLR\",\"baseline_value\":25.0,\"anomaly_value\":3.1,\"unit\":\"LLR\",\"sql\":\"calculate_uplift_or_stats: analysis='kyc_changepoint', platform='ios', doc_type='driving_licence' (llr_threshold=25.0; max_llr=3.1; break_detected=false)\"}],\"recommended_action\":\"NO_ACTION_NOISE\",\"reasoning_summary\":\"The reported change from about 0.89 to 0.80 over one week does not by itself establish an incident. Across 893 scanned days, the vetted changepoint test found a maximum LLR of 3.1, below its 25.0 threshold, and detected no break. This is not evidence of an app failure; continue monitoring rather than roll back.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 3569,
+   "output_tokens": 309,
+   "cache_read_input_tokens": 3415,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

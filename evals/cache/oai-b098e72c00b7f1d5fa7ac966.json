@@ -1,0 +1,19 @@
+{
+ "latency_s": 5.109,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":true,\"root_cause_hypothesis\":\"Organic activation fell significantly versus March, but the funnel does not point to an onboarding-stage break: email verification, KYC start, document submission, and KYC approval rates were essentially flat. The decline is concentrated after first top-up, so investigate the top-up-to-activation journey; the available data does not identify a specific cause.\",\"supporting_metrics\":[{\"name\":\"organic activation rate\",\"baseline_value\":0.420664,\"anomaly_value\":0.394461,\"unit\":\"fraction\",\"sql\":\"SELECT signup_month, SUM(n_activated)::DOUBLE/SUM(n_signups) FROM agg_funnel_monthly WHERE channel='organic' AND signup_month IN (TIMESTAMP '2026-03-01', TIMESTAMP '2026-04-01') GROUP BY 1\"},{\"name\":\"organic sign-ups\",\"baseline_value\":2981,\"anomaly_value\":2961,\"unit\":\"count\",\"sql\":\"SELECT signup_month, SUM(n_signups) FROM agg_funnel_monthly WHERE channel='organic' AND signup_month IN (TIMESTAMP '2026-03-01', TIMESTAMP '2026-04-01') GROUP BY 1\"},{\"name\":\"organic top-up rate\",\"baseline_value\":0.467964,\"anomaly_value\":0.454914,\"unit\":\"fraction\",\"sql\":\"SELECT signup_month, SUM(n_first_topup)::DOUBLE/SUM(n_signups) FROM agg_funnel_monthly WHERE channel='organic' AND signup_month IN (TIMESTAMP '2026-03-01', TIMESTAMP '2026-04-01') GROUP BY 1\"},{\"name\":\"organic KYC approval rate\",\"baseline_value\":0.635357,\"anomaly_value\":0.636947,\"unit\":\"fraction\",\"sql\":\"SELECT signup_month, SUM(n_kyc_approved)::DOUBLE/SUM(n_signups) FROM agg_funnel_monthly WHERE channel='organic' AND signup_month IN (TIMESTAMP '2026-03-01', TIMESTAMP '2026-04-01') GROUP BY 1\"},{\"name\":\"organic activation rate comparison (two-proportion test)\",\"baseline_value\":0.4207,\"anomaly_value\":0.3945,\"unit\":\"fraction\",\"sql\":\"calculate_uplift_or_stats: two_proportion_test (March k=1254,n=2981; April k=1168,n=2961); delta -2.62 pp, 95% CI [-5.12,-0.12], p=0.0399\"}],\"recommended_action\":\"NO_ACTION_NOISE\",\"reasoning_summary\":\"Activation moved from 0.4207 in March to 0.3945 in April among roughly 3,000 organic sign-ups per month; the two-proportion test gives a -2.62 pp change (95% CI -5.12 to -0.12, p=0.0399). However, April's 0.3945 rate is within the range of prior observed monthly organic rates, including 0.3719 in December 2025 and 0.3919 in January 2026, so this is not enough evidence of a new break. Upstream funnel rates are stable, with top-up-to-activation worth further monitoring rather than treating this as a confirmed onboarding incident.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 4808,
+   "output_tokens": 687,
+   "cache_read_input_tokens": 4049,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

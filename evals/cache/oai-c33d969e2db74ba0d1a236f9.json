@@ -1,0 +1,19 @@
+{
+ "latency_s": 10.798,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"sql\":\"WITH ro_monthly AS (\\n  SELECT\\n    CAST(a.month AS DATE) AS month,\\n    SUM(a.card_spend_eur) / NULLIF(COUNT(DISTINCT CASE WHEN a.is_active THEN a.user_id END), 0) AS spend_per_active_user\\n  FROM fct_activity_monthly a\\n  JOIN dim_users u ON a.user_id = u.user_id\\n  WHERE u.country = 'Romania'\\n  GROUP BY 1\\n),\\ncomparison AS (\\n  SELECT\\n    mar.spend_per_active_user AS march_2026,\\n    may.spend_per_active_user AS may_2026,\\n    may.spend_per_active_user / NULLIF(mar.spend_per_active_user, 0) - 1 AS change_mar_to_may\\n  FROM ro_monthly mar\\n  JOIN ro_monthly may ON may.month = mar.month + INTERVAL '2 months'\\n  WHERE mar.month = DATE '2026-03-01'\\n),\\nhistorical_two_month_changes AS (\\n  SELECT later.spend_per_active_user / NULLIF(earlier.spend_per_active_user, 0) - 1 AS change\\n  FROM ro_monthly earlier\\n  JOIN ro_monthly later ON later.month = earlier.month + INTERVAL '2 months'\\n  WHERE later.month < DATE '2026-03-01'\\n)\\nSELECT\\n  c.march_2026,\\n  c.may_2026,\\n  c.change_mar_to_may,\\n  quantile_cont(h.change, 0.10) AS historical_two_month_change_p10,\\n  quantile_cont(h.change, 0.50) AS historical_two_month_change_median,\\n  quantile_cont(h.change, 0.90) AS historical_two_month_change_p90,\\n  quantile_cont(ABS(h.change), 0.90) AS historical_abs_two_month_change_p90\\nFROM comparison c\\nCROSS JOIN historical_two_month_changes h\\nGROUP BY ALL;\",\"rationale\":\"Compare Romania's March-to-May 2026 card spend per active user with the historical distribution of same-length changes to distinguish a real decline from ordinary variation.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 2244,
+   "output_tokens": 904,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

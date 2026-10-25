@@ -1,0 +1,49 @@
+{
+ "latency_s": 2.968,
+ "response": {
+  "model": "gpt-5.6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_RkKS5IJHlXHvnuL2oy1nA6ZH",
+    "name": "calculate_uplift_or_stats",
+    "input": {
+     "metric_slice": {
+      "analysis": "kyc_changepoint",
+      "platform": "android",
+      "doc_type": "national_id",
+      "channel": null,
+      "segment_by": null,
+      "k_a": null,
+      "n_a": null,
+      "k_b": null,
+      "n_b": null
+     }
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_C2ObfIpBrvW6ffrzQDhafiB4",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT platform, version, release_date FROM stg_app_releases WHERE release_date BETWEEN DATE '2025-10-01' AND DATE '2025-12-15' ORDER BY release_date, platform"
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_W5yU5Tu6Jht4apFjZYEcp6kJ",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "WITH x AS (SELECT CASE WHEN decision_date < DATE '2025-11-13' THEN 'before' ELSE 'after' END AS period, platform, doc_type, SUM(n_approved) approved, SUM(n_decisions) decisions FROM agg_kyc_daily WHERE decision_date BETWEEN DATE '2025-10-01' AND DATE '2025-12-15' GROUP BY 1,2,3) SELECT period, platform, doc_type, approved, decisions, approved::DOUBLE/decisions AS rate FROM x WHERE platform='android' AND doc_type='national_id' ORDER BY period"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 9954,
+   "output_tokens": 312,
+   "cache_read_input_tokens": 3083,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

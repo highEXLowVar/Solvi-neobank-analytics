@@ -1,0 +1,19 @@
+{
+ "latency_s": 7.131,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":true,\"root_cause_hypothesis\":\"Paid social is unprofitable: estimated 36-month LTV per activated user is substantially below the CAC per activated user, with no payback observed.\",\"supporting_metrics\":[{\"name\":\"paid social CAC per activated user\",\"baseline_value\":null,\"anomaly_value\":97.96,\"unit\":\"EUR/activated user\",\"sql\":\"calculate_uplift_or_stats(analysis='channel_unit_economics', channel='paid_social')\"},{\"name\":\"paid social 36-month LTV per activated user\",\"baseline_value\":null,\"anomaly_value\":11.2,\"unit\":\"EUR/activated user\",\"sql\":\"calculate_uplift_or_stats(analysis='channel_unit_economics', channel='paid_social')\"},{\"name\":\"paid social LTV minus CAC per activated user\",\"baseline_value\":null,\"anomaly_value\":-86.76,\"unit\":\"EUR/activated user\",\"sql\":\"calculate_uplift_or_stats(analysis='channel_unit_economics', channel='paid_social')\"},{\"name\":\"paid social payback month\",\"baseline_value\":null,\"anomaly_value\":null,\"unit\":\"months\",\"sql\":\"calculate_uplift_or_stats(analysis='channel_unit_economics', channel='paid_social')\"}],\"recommended_action\":\"PAUSE_ACQUISITION_CHANNEL\",\"reasoning_summary\":\"Paid social has CAC of \u20ac97.96 per activated user versus estimated 36-month LTV of \u20ac11.20, leaving a \u2212\u20ac86.76 gap per activated user. Payback is not observed. The vetted unit-economics estimate indicates the channel loses money, so pause its spend.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 3171,
+   "output_tokens": 345,
+   "cache_read_input_tokens": 2932,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

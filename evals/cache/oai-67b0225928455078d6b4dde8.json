@@ -1,0 +1,33 @@
+{
+ "latency_s": 2.387,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_405B0iHMJUh0GvpNAMPE3pj3",
+    "name": "calculate_uplift_or_stats",
+    "input": {
+     "metric_slice": {
+      "analysis": "two_proportion_test",
+      "platform": null,
+      "doc_type": null,
+      "channel": null,
+      "segment_by": null,
+      "k_a": 1168,
+      "n_a": 2961,
+      "k_b": 1254,
+      "n_b": 2981
+     }
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 3905,
+   "output_tokens": 70,
+   "cache_read_input_tokens": 3329,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

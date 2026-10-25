@@ -1,0 +1,23 @@
+{
+ "latency_s": 2.349,
+ "response": {
+  "model": "gpt-6.1-sol",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_f7oyrD2XJVGbXU05H7ZYagQY",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "WITH w AS (SELECT date_trunc('week',decision_date)::DATE AS week_start,sum(n_approved)::DOUBLE/sum(n_decisions) AS rate FROM agg_kyc_daily WHERE platform='ios' AND doc_type='driving_licence' GROUP BY 1) SELECT avg(rate) baseline_weekly_mean,stddev_samp(rate) baseline_weekly_sd,min(rate) baseline_weekly_min,max(rate) baseline_weekly_max FROM w WHERE week_start >= DATE '2026-01-05' AND week_start < DATE '2026-04-13'"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 6460,
+   "output_tokens": 140,
+   "cache_read_input_tokens": 5942,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

@@ -1,0 +1,19 @@
+{
+ "latency_s": 3.783,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":true,\"root_cause_hypothesis\":\"Android national ID KYC approvals experienced a statistically significant changepoint beginning 2025-11-10, coinciding with app release 5.27. The approval rate fell and later recovered partially.\",\"supporting_metrics\":[{\"name\":\"Android national ID KYC approval rate before break\",\"baseline_value\":0.888,\"anomaly_value\":null,\"unit\":\"fraction\",\"sql\":\"calculate_uplift_or_stats: analysis='kyc_changepoint', platform='android', doc_type='national_id'\"},{\"name\":\"Android national ID KYC approval rate during incident\",\"baseline_value\":0.888,\"anomaly_value\":0.686,\"unit\":\"fraction\",\"sql\":\"calculate_uplift_or_stats: analysis='kyc_changepoint', platform='android', doc_type='national_id'\"},{\"name\":\"Android national ID KYC approval rate after recovery\",\"baseline_value\":0.686,\"anomaly_value\":0.794,\"unit\":\"fraction\",\"sql\":\"calculate_uplift_or_stats: analysis='kyc_changepoint', platform='android', doc_type='national_id'\"}],\"recommended_action\":\"ROLLBACK_RELEASE\",\"reasoning_summary\":\"The changepoint scan detected a break on 2025-11-10: approval rate fell from 0.888 to 0.686. It recovered on 2026-01-08 to 0.794, still below the pre-break level. Release 5.27 was the closest release before the break (2025-11-10).\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 1665,
+   "output_tokens": 329,
+   "cache_read_input_tokens": 1438,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

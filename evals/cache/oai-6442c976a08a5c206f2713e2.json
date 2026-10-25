@@ -1,0 +1,19 @@
+{
+ "latency_s": 7.042,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":false,\"root_cause_hypothesis\":\"The query returned zero 30-day activations in both arms, so it does not establish whether the bonus improves activation; the activation event may not be captured by the query's event-type match.\",\"supporting_metrics\":[{\"name\":\"topup10_2026q1 control 30-day activation rate\",\"baseline_value\":null,\"anomaly_value\":0.0,\"unit\":\"fraction\",\"sql\":\"SELECT experiment_id, variant, COUNT(*) AS assigned_users, SUM(activated_30d) AS activated_users_30d, AVG(activated_30d::DOUBLE) AS activation_rate_30d, SUM(payout_eur_30d) AS payout_total_eur_30d, AVG(payout_eur_30d) AS payout_per_assigned_user_eur_30d FROM user_outcomes GROUP BY experiment_id, variant; result: control activation_rate_30d = 0.0.\"},{\"name\":\"topup10_2026q1 treatment 30-day activation rate\",\"baseline_value\":0.0,\"anomaly_value\":0.0,\"unit\":\"fraction\",\"sql\":\"SELECT experiment_id, variant, COUNT(*) AS assigned_users, SUM(activated_30d) AS activated_users_30d, AVG(activated_30d::DOUBLE) AS activation_rate_30d, SUM(payout_eur_30d) AS payout_total_eur_30d, AVG(payout_eur_30d) AS payout_per_assigned_user_eur_30d FROM user_outcomes GROUP BY experiment_id, variant; result: treatment activation_rate_30d = 0.0.\"},{\"name\":\"topup10_2026q1 treatment payout per assigned user\",\"baseline_value\":0.0,\"anomaly_value\":6.868707,\"unit\":\"EUR/user\",\"sql\":\"SELECT experiment_id, variant, COUNT(*) AS assigned_users, SUM(activated_30d) AS activated_users_30d, AVG(activated_30d::DOUBLE) AS activation_rate_30d, SUM(payout_eur_30d) AS payout_total_eur_30d, AVG(payout_eur_30d) AS payout_per_assigned_user_eur_30d FROM user_outcomes GROUP BY experiment_id, variant; result: control payout_per_assigned_user_eur_30d = 0.0; treatment = 6.868707.\"}],\"recommended_action\":\"DO_NOT_SHIP\",\"reasoning_summary\":\"Control and treatment each show a 0.0 activation rate, so the result provides no evidence of an activation lift. Treatment payout was 6.868707 EUR per assigned user versus 0.0 in control. Because the activation signal is zero in both arms, the test is inconclusive; do not roll out based on this result.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 1420,
+   "output_tokens": 763,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

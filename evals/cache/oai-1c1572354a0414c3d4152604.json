@@ -1,0 +1,19 @@
+{
+ "latency_s": 11.99,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":false,\"root_cause_hypothesis\":\"No evidence of a new April onboarding break. Activation fell mainly alongside a modest decline in first-top-up conversion; KYC approval was essentially unchanged. April activation is also within the historical monthly variation shown in the results.\",\"supporting_metrics\":[{\"name\":\"organic activation rate\",\"baseline_value\":0.420664,\"anomaly_value\":0.394461,\"unit\":\"fraction\",\"sql\":\"SELECT signup_month::DATE AS signup_month, COUNT(*) AS signups, AVG(CASE WHEN is_email_verified THEN 1.0 ELSE 0.0 END) AS email_verified_rate, AVG(CASE WHEN is_kyc_started THEN 1.0 ELSE 0.0 END) AS kyc_started_rate, AVG(CASE WHEN is_doc_submitted THEN 1.0 ELSE 0.0 END) AS doc_submitted_rate, AVG(CASE WHEN is_kyc_approved THEN 1.0 ELSE 0.0 END) AS kyc_approved_rate, AVG(CASE WHEN has_topup THEN 1.0 ELSE 0.0 END) AS first_topup_rate, AVG(CASE WHEN is_activated THEN 1.0 ELSE 0.0 END) AS activation_rate FROM dim_users WHERE channel = 'organic' AND signup_month >= TIMESTAMP '2024-01-01' AND signup_month < TIMESTAMP '2026-05-01' GROUP BY signup_month ORDER BY signup_month\"},{\"name\":\"organic first-top-up rate\",\"baseline_value\":0.467964,\"anomaly_value\":0.454914,\"unit\":\"fraction\",\"sql\":\"SELECT signup_month::DATE AS signup_month, COUNT(*) AS signups, AVG(CASE WHEN is_email_verified THEN 1.0 ELSE 0.0 END) AS email_verified_rate, AVG(CASE WHEN is_kyc_started THEN 1.0 ELSE 0.0 END) AS kyc_started_rate, AVG(CASE WHEN is_doc_submitted THEN 1.0 ELSE 0.0 END) AS doc_submitted_rate, AVG(CASE WHEN is_kyc_approved THEN 1.0 ELSE 0.0 END) AS kyc_approved_rate, AVG(CASE WHEN has_topup THEN 1.0 ELSE 0.0 END) AS first_topup_rate, AVG(CASE WHEN is_activated THEN 1.0 ELSE 0.0 END) AS activation_rate FROM dim_users WHERE channel = 'organic' AND signup_month >= TIMESTAMP '2024-01-01' AND signup_month < TIMESTAMP '2026-05-01' GROUP BY signup_month ORDER BY signup_month\"},{\"name\":\"organic KYC approval rate\",\"baseline_value\":0.635357,\"anomaly_value\":0.636947,\"unit\":\"fraction\",\"sql\":\"SELECT signup_month::DATE AS signup_month, COUNT(*) AS signups, AVG(CASE WHEN is_email_verified THEN 1.0 ELSE 0.0 END) AS email_verified_rate, AVG(CASE WHEN is_kyc_started THEN 1.0 ELSE 0.0 END) AS kyc_started_rate, AVG(CASE WHEN is_doc_submitted THEN 1.0 ELSE 0.0 END) AS doc_submitted_rate, AVG(CASE WHEN is_kyc_approved THEN 1.0 ELSE 0.0 END) AS kyc_approved_rate, AVG(CASE WHEN has_topup THEN 1.0 ELSE 0.0 END) AS first_topup_rate, AVG(CASE WHEN is_activated THEN 1.0 ELSE 0.0 END) AS activation_rate FROM dim_users WHERE channel = 'organic' AND signup_month >= TIMESTAMP '2024-01-01' AND signup_month < TIMESTAMP '2026-05-01' GROUP BY signup_month ORDER BY signup_month\"}],\"recommended_action\":\"NO_ACTION_NOISE\",\"reasoning_summary\":\"Organic activation moved from 0.420664 in March 2026 to 0.394461 in April, while first-top-up rate moved from 0.467964 to 0.454914. KYC approval did not fall (0.635357 to 0.636947), and April activation is above the observed December 2025 rate of 0.371915. The results do not indicate an April-specific break; monitor the next cohort rather than rollback or intervene.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 4198,
+   "output_tokens": 1145,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

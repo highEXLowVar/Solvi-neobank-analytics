@@ -1,0 +1,19 @@
+{
+ "latency_s": 5.822,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"sql\":\"SELECT\\n  signup_month::DATE AS signup_month,\\n  COUNT(*) AS signups,\\n  AVG(CASE WHEN is_email_verified THEN 1.0 ELSE 0.0 END) AS email_verified_rate,\\n  AVG(CASE WHEN is_kyc_started THEN 1.0 ELSE 0.0 END) AS kyc_started_rate,\\n  AVG(CASE WHEN is_doc_submitted THEN 1.0 ELSE 0.0 END) AS doc_submitted_rate,\\n  AVG(CASE WHEN is_kyc_approved THEN 1.0 ELSE 0.0 END) AS kyc_approved_rate,\\n  AVG(CASE WHEN has_topup THEN 1.0 ELSE 0.0 END) AS first_topup_rate,\\n  AVG(CASE WHEN is_activated THEN 1.0 ELSE 0.0 END) AS activation_rate\\nFROM dim_users\\nWHERE channel = 'organic'\\n  AND signup_month >= TIMESTAMP '2024-01-01'\\n  AND signup_month < TIMESTAMP '2026-05-01'\\nGROUP BY signup_month\\nORDER BY signup_month\",\"rationale\":\"Returns organic signup counts and conversion rates at each onboarding stage by month, allowing the March\u2013April 2026 activation change to be compared with historical variation and localized to a funnel stage.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 2249,
+   "output_tokens": 518,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

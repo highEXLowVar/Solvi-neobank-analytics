@@ -1,0 +1,19 @@
+{
+ "latency_s": 3.426,
+ "response": {
+  "model": "gpt-5.6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":true,\"root_cause_hypothesis\":\"Paid social acquisition is structurally unprofitable: its cost per activated user materially exceeds the projected 36-month contribution margin.\",\"supporting_metrics\":[{\"name\":\"paid_social CAC per activated user\",\"baseline_value\":null,\"anomaly_value\":97.96,\"unit\":\"EUR/user\",\"sql\":\"calculate_uplift_or_stats({\\\"analysis\\\":\\\"channel_unit_economics\\\",\\\"channel\\\":\\\"paid_social\\\"})\"},{\"name\":\"paid_social 36-month LTV\",\"baseline_value\":null,\"anomaly_value\":11.2,\"unit\":\"EUR/user\",\"sql\":\"calculate_uplift_or_stats({\\\"analysis\\\":\\\"channel_unit_economics\\\",\\\"channel\\\":\\\"paid_social\\\"})\"},{\"name\":\"paid_social LTV minus CAC\",\"baseline_value\":null,\"anomaly_value\":-86.76,\"unit\":\"EUR/user\",\"sql\":\"calculate_uplift_or_stats({\\\"analysis\\\":\\\"channel_unit_economics\\\",\\\"channel\\\":\\\"paid_social\\\"})\"},{\"name\":\"paid_social activation rate\",\"baseline_value\":null,\"anomaly_value\":0.265,\"unit\":\"fraction\",\"sql\":\"calculate_uplift_or_stats({\\\"analysis\\\":\\\"channel_unit_economics\\\",\\\"channel\\\":\\\"paid_social\\\"})\"},{\"name\":\"paid_social implied monthly churn\",\"baseline_value\":null,\"anomaly_value\":0.0766,\"unit\":\"fraction\",\"sql\":\"calculate_uplift_or_stats({\\\"analysis\\\":\\\"channel_unit_economics\\\",\\\"channel\\\":\\\"paid_social\\\"})\"}],\"recommended_action\":\"PAUSE_ACQUISITION_CHANNEL\",\"reasoning_summary\":\"Paid social costs 97.96 EUR per activated user but generates only 11.2 EUR of projected 36-month LTV, a negative net value of -86.76 EUR per activated user. The channel is therefore not profitable; pause paid social spend.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 2656,
+   "output_tokens": 379,
+   "cache_read_input_tokens": 1690,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

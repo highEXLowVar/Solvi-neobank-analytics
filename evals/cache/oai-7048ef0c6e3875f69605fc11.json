@@ -1,0 +1,19 @@
+{
+ "latency_s": 21.07,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"sql\":\"SELECT date_trunc('week', event_ts)::DATE AS week_start, event_type, COALESCE(app_version, '(unknown)') AS app_version, COALESCE(reject_reason, '(none)') AS reject_reason, COUNT(*) AS event_count, COUNT(DISTINCT user_id) AS unique_users, COUNT(DISTINCT CASE WHEN attempt IS NOT NULL THEN user_id END) AS users_with_attempt, MAX(attempt) AS max_attempt FROM funnel_events WHERE event_ts >= DATE '2025-09-01' AND event_ts < TIMESTAMP '2025-12-16' GROUP BY 1, 2, 3, 4 ORDER BY 1, 2, 3, 4\",\"rationale\":\"This weekly breakdown of recent funnel events by type, app version, and rejection reason will show where KYC activity changed and whether the shift aligns with a release or specific failure reasons.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 615,
+   "output_tokens": 641,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

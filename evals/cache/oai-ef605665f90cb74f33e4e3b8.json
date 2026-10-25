@@ -1,0 +1,19 @@
+{
+ "latency_s": 11.354,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"sql\":\"WITH cohort AS (\\n  SELECT experiment_id, variant, user_id, assigned_ts\\n  FROM experiment_assignments\\n  WHERE assigned_ts >= TIMESTAMP '2024-01-01'\\n    AND assigned_ts < TIMESTAMP '2026-06-01'\\n), user_outcomes AS (\\n  SELECT\\n    c.experiment_id,\\n    c.variant,\\n    c.user_id,\\n    MAX(CASE WHEN f.event_type ILIKE '%activat%' THEN 1 ELSE 0 END) AS activated_30d,\\n    COALESCE(SUM(DISTINCT p.amount_eur), 0) AS payout_eur_30d\\n  FROM cohort c\\n  LEFT JOIN funnel_events f\\n    ON f.user_id = c.user_id\\n   AND f.event_ts >= c.assigned_ts\\n   AND f.event_ts < c.assigned_ts + INTERVAL 30 DAY\\n  LEFT JOIN incentive_payouts p\\n    ON p.user_id = c.user_id\\n   AND p.payout_ts >= c.assigned_ts\\n   AND p.payout_ts < c.assigned_ts + INTERVAL 30 DAY\\n  GROUP BY c.experiment_id, c.variant, c.user_id\\n)\\nSELECT\\n  experiment_id,\\n  variant,\\n  COUNT(*) AS assigned_users,\\n  SUM(activated_30d) AS activated_users_30d,\\n  AVG(activated_30d::DOUBLE) AS activation_rate_30d,\\n  SUM(payout_eur_30d) AS payout_total_eur_30d,\\n  AVG(payout_eur_30d) AS payout_per_assigned_user_eur_30d\\nFROM user_outcomes\\nGROUP BY experiment_id, variant\\nORDER BY experiment_id, variant\",\"rationale\":\"Compare 30-day activation and incentive payouts by experiment and variant; the schema has no experiment description, so the query returns all experiments for identifying the activation-bonus test.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 609,
+   "output_tokens": 934,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

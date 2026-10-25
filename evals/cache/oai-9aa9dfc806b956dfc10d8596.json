@@ -1,0 +1,23 @@
+{
+ "latency_s": 3.366,
+ "response": {
+  "model": "gpt-6.1-sol",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_Oauh8KxTS2u0GoJv23AkKyvk",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT CASE WHEN decision_date < DATE '2025-11-10' THEN 'baseline' ELSE 'recent' END period, CASE WHEN platform='android' AND doc_type='national_id' THEN 'android national_id' ELSE 'other slices' END slice, sum(n_decisions) decisions, sum(n_approved)::DOUBLE/sum(n_decisions) rate FROM agg_kyc_daily WHERE decision_date BETWEEN DATE '2025-09-01' AND DATE '2025-12-15' GROUP BY 1,2 UNION ALL SELECT CASE WHEN decision_date < DATE '2025-11-10' THEN 'baseline' ELSE 'recent' END, 'all',sum(n_decisions),sum(n_approved)::DOUBLE/sum(n_decisions) FROM agg_kyc_daily WHERE decision_date BETWEEN DATE '2025-09-01' AND DATE '2025-12-15' GROUP BY 1"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 7413,
+   "output_tokens": 210,
+   "cache_read_input_tokens": 7208,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

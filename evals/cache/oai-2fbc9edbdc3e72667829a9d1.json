@@ -1,0 +1,19 @@
+{
+ "latency_s": 3.312,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":true,\"root_cause_hypothesis\":\"Paid social is unprofitable: the acquisition cost per activated user substantially exceeds its estimated 36-month lifetime value.\",\"supporting_metrics\":[{\"name\":\"paid_social CAC per activated user\",\"baseline_value\":null,\"anomaly_value\":97.96,\"unit\":\"EUR/user\",\"sql\":\"calculate_uplift_or_stats: analysis='channel_unit_economics', channel='paid_social'\"},{\"name\":\"paid_social 36-month LTV\",\"baseline_value\":null,\"anomaly_value\":11.2,\"unit\":\"EUR/user\",\"sql\":\"calculate_uplift_or_stats: analysis='channel_unit_economics', channel='paid_social'\"},{\"name\":\"paid_social LTV minus CAC\",\"baseline_value\":null,\"anomaly_value\":-86.76,\"unit\":\"EUR/user\",\"sql\":\"calculate_uplift_or_stats: analysis='channel_unit_economics', channel='paid_social'\"}],\"recommended_action\":\"PAUSE_ACQUISITION_CHANNEL\",\"reasoning_summary\":\"Paid social CAC per activated user is \u20ac97.96, versus estimated 36-month LTV of \u20ac11.20. That leaves LTV \u20ac86.76 below CAC per activated user, so the channel is not profitable on the supplied unit-economics estimate. Pause paid social spend.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 3476,
+   "output_tokens": 277,
+   "cache_read_input_tokens": 3237,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

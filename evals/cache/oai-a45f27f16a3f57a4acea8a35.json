@@ -1,0 +1,19 @@
+{
+ "latency_s": 6.269,
+ "response": {
+  "model": "gpt-5.6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":true,\"root_cause_hypothesis\":\"Influencer and paid_social acquisition are structurally uneconomic: their 36-month LTV is below CAC per activated user. Their steady-state monthly churn is also higher than organic and referral, but the spend-cut decision is driven by negative unit economics.\",\"supporting_metrics\":[{\"name\":\"influencer steady-state monthly churn\",\"baseline_value\":null,\"anomaly_value\":0.0676,\"unit\":\"fraction\",\"sql\":\"calculate_uplift_or_stats: channel_unit_economics, channel=influencer\"},{\"name\":\"organic steady-state monthly churn\",\"baseline_value\":null,\"anomaly_value\":0.0412,\"unit\":\"fraction\",\"sql\":\"calculate_uplift_or_stats: channel_unit_economics, channel=organic\"},{\"name\":\"paid_social steady-state monthly churn\",\"baseline_value\":null,\"anomaly_value\":0.0766,\"unit\":\"fraction\",\"sql\":\"calculate_uplift_or_stats: channel_unit_economics, channel=paid_social\"},{\"name\":\"referral steady-state monthly churn\",\"baseline_value\":null,\"anomaly_value\":0.0326,\"unit\":\"fraction\",\"sql\":\"calculate_uplift_or_stats: channel_unit_economics, channel=referral\"},{\"name\":\"influencer CAC per activated user\",\"baseline_value\":null,\"anomaly_value\":54.95,\"unit\":\"EUR/user\",\"sql\":\"calculate_uplift_or_stats: channel_unit_economics, channel=influencer\"},{\"name\":\"influencer 36-month LTV\",\"baseline_value\":null,\"anomaly_value\":15.24,\"unit\":\"EUR/user\",\"sql\":\"calculate_uplift_or_stats: channel_unit_economics, channel=influencer\"},{\"name\":\"influencer LTV minus CAC\",\"baseline_value\":null,\"anomaly_value\":-39.71,\"unit\":\"EUR/user\",\"sql\":\"calculate_uplift_or_stats: channel_unit_economics, channel=influencer\"},{\"name\":\"paid_social CAC per activated user\",\"baseline_value\":null,\"anomaly_value\":97.96,\"unit\":\"EUR/user\",\"sql\":\"calculate_uplift_or_stats: channel_unit_economics, channel=paid_social\"},{\"name\":\"paid_social 36-month LTV\",\"baseline_value\":null,\"anomaly_value\":11.2,\"unit\":\"EUR/user\",\"sql\":\"calculate_uplift_or_stats: channel_unit_economics, channel=paid_social\"},{\"name\":\"paid_social LTV minus CAC\",\"baseline_value\":null,\"anomaly_value\":-86.76,\"unit\":\"EUR/user\",\"sql\":\"calculate_uplift_or_stats: channel_unit_economics, channel=paid_social\"},{\"name\":\"organic CAC per activated user\",\"baseline_value\":null,\"anomaly_value\":5.03,\"unit\":\"EUR/user\",\"sql\":\"calculate_uplift_or_stats: channel_unit_economics, channel=organic\"},{\"name\":\"organic 36-month LTV\",\"baseline_value\":null,\"anomaly_value\":24.62,\"unit\":\"EUR/user\",\"sql\":\"calculate_uplift_or_stats: channel_unit_economics, channel=organic\"},{\"name\":\"referral CAC per activated user\",\"baseline_value\":null,\"anomaly_value\":26.28,\"unit\":\"EUR/user\",\"sql\":\"calculate_uplift_or_stats: channel_unit_economics, channel=referral\"},{\"name\":\"referral 36-month LTV\",\"baseline_value\":null,\"anomaly_value\":31.89,\"unit\":\"EUR/user\",\"sql\":\"calculate_uplift_or_stats: channel_unit_economics, channel=referral\"}],\"recommended_action\":\"PAUSE_ACQUISITION_CHANNEL\",\"reasoning_summary\":\"Steady-state monthly churn is 0.0676 for influencer, 0.0412 for organic, 0.0766 for paid_social, and 0.0326 for referral. Influencer loses 39.71 EUR per activated user and paid_social loses 86.76 EUR per activated user because CAC exceeds 36-month LTV, so pause spend in both channels. Organic and referral remain contribution-positive, with LTV exceeding CAC by 19.58 EUR and 5.61 EUR per activated user, respectively.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 4137,
+   "output_tokens": 864,
+   "cache_read_input_tokens": 3189,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

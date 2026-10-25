@@ -1,0 +1,23 @@
+{
+ "latency_s": 1.191,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_2wCNKYP30RwSD9Cn3sFwVXtY",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT DISTINCT channel FROM dim_users ORDER BY channel"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 3146,
+   "output_tokens": 31,
+   "cache_read_input_tokens": 3143,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

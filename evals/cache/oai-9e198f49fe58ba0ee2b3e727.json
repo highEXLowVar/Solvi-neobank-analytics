@@ -1,0 +1,19 @@
+{
+ "latency_s": 7.911,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":true,\"root_cause_hypothesis\":\"The KYC conversion drop is driven by Android users submitting national IDs on app version 5.27, released November 10, 2025. The sharp approval decline coincides with a surge in `doc_unreadable` rejections; other Android document types on 5.27 do not show a comparable approval drop in the returned data.\",\"supporting_metrics\":[{\"name\":\"Android national_id KYC attempt approval rate, app version 5.26 (week of 2025-11-10)\",\"baseline_value\":0.921053,\"anomaly_value\":0.634921,\"unit\":\"fraction\",\"sql\":\"SELECT date_trunc('week', event_date)::DATE AS week_start, platform, doc_type, app_version, COUNT(*) AS n_attempts, AVG(CASE WHEN is_kyc_approved THEN 1.0 ELSE 0.0 END) AS approval_rate, COUNT(*) FILTER (WHERE reject_reason = 'doc_unreadable') AS doc_unreadable_attempts, AVG(CASE WHEN reject_reason = 'doc_unreadable' THEN 1.0 ELSE 0.0 END) AS doc_unreadable_share FROM fct_kyc_attempts WHERE event_date >= DATE '2025-09-15' AND event_date <= DATE '2025-12-15' GROUP BY 1, 2, 3, 4; returned rows for 2025-11-10: Android national_id 5.26: n=76, approval_rate=0.921053; 5.27: n=504, approval_rate=0.634921.\"},{\"name\":\"Android national_id KYC attempt doc_unreadable share, app version 5.26 vs 5.27 (week of 2025-11-10)\",\"baseline_value\":0.013158,\"anomaly_value\":0.27381,\"unit\":\"fraction\",\"sql\":\"SELECT date_trunc('week', event_date)::DATE AS week_start, platform, doc_type, app_version, COUNT(*) AS n_attempts, AVG(CASE WHEN is_kyc_approved THEN 1.0 ELSE 0.0 END) AS approval_rate, COUNT(*) FILTER (WHERE reject_reason = 'doc_unreadable') AS doc_unreadable_attempts, AVG(CASE WHEN reject_reason = 'doc_unreadable' THEN 1.0 ELSE 0.0 END) AS doc_unreadable_share FROM fct_kyc_attempts WHERE event_date >= DATE '2025-09-15' AND event_date <= DATE '2025-12-15' GROUP BY 1, 2, 3, 4; returned rows for 2025-11-10: Android national_id 5.26: 1/76 unreadable; 5.27: 138/504 unreadable.\"}],\"recommended_action\":\"ROLLBACK_RELEASE\",\"reasoning_summary\":\"On the week of November 10, Android national_id approval was 0.634921 on 5.27 (504 attempts) versus 0.921053 on 5.26 (76 attempts). The unreadable-document share rose from 0.013158 to 0.27381, while other Android document types on 5.27 had approval rates of 0.837989\u20130.932203. The concentrated, large change coincides with the 5.27 release and points to a release-specific document-readability regression; roll it back.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 12180,
+   "output_tokens": 856,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

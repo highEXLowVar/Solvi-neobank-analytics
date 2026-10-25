@@ -1,0 +1,19 @@
+{
+ "latency_s": 9.598,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":false,\"root_cause_hypothesis\":\"The anomaly-week approval rate was low, but the data does not establish that an iOS app release caused it: no iOS release is listed during that week, and the rate was close to the lowest observed in the preceding 12 weeks.\",\"supporting_metrics\":[{\"name\":\"iOS driving-licence KYC approval rate\",\"baseline_value\":0.886076,\"anomaly_value\":0.804598,\"unit\":\"fraction\",\"sql\":\"DuckDB query returned prior_week_approval_rate and anomaly_week_approval_rate from agg_kyc_daily for iOS driving licences: prior week starting 2026-04-06 versus anomaly week starting 2026-04-13.\"},{\"name\":\"iOS driving-licence KYC decisions\",\"baseline_value\":79,\"anomaly_value\":87,\"unit\":\"count\",\"sql\":\"Same DuckDB query returned prior_week_decisions and anomaly_week_decisions from agg_kyc_daily.\"},{\"name\":\"Prior 12-week iOS driving-licence approval rate: mean\",\"baseline_value\":null,\"anomaly_value\":0.876831,\"unit\":\"fraction\",\"sql\":\"Same DuckDB query calculated AVG(approval_rate) over the 12 weekly rates from 2026-01-19 through 2026-04-12.\"},{\"name\":\"Prior 12-week iOS driving-licence approval rate: standard deviation\",\"baseline_value\":null,\"anomaly_value\":0.0329,\"unit\":\"fraction\",\"sql\":\"Same DuckDB query calculated STDDEV_SAMP(approval_rate) over the 12 weekly rates from 2026-01-19 through 2026-04-12.\"},{\"name\":\"Prior 12-week iOS driving-licence approval rate: minimum\",\"baseline_value\":null,\"anomaly_value\":0.813725,\"unit\":\"fraction\",\"sql\":\"Same DuckDB query calculated MIN(approval_rate) over the 12 weekly rates from 2026-01-19 through 2026-04-12.\"},{\"name\":\"iOS release during anomaly week\",\"baseline_value\":null,\"anomaly_value\":null,\"unit\":\"date/version\",\"sql\":\"Same DuckDB query checked stg_app_releases for iOS releases dated 2026-04-13 through 2026-04-19; returned null for release date and version.\"},{\"name\":\"Latest iOS release before comparison weeks\",\"baseline_value\":8.9,\"anomaly_value\":null,\"unit\":\"version\",\"sql\":\"Same DuckDB query returned the latest iOS version before 2026-04-13 as version 8.9, released 2026-04-05.\"}],\"recommended_action\":\"NO_ACTION_NOISE\",\"reasoning_summary\":\"Approval was 0.886076 in the prior week (79 decisions) and 0.804598 in the anomaly week (87 decisions), versus a prior-12-week mean of 0.876831 and standard deviation of 0.0329. The anomaly-week rate is near the prior 12-week minimum of 0.813725, and no iOS release occurred during that week. This is a low week worth monitoring, but the evidence does not support calling the iOS app broken or rolling back a release.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 3479,
+   "output_tokens": 955,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

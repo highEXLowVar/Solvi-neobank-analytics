@@ -1,0 +1,23 @@
+{
+ "latency_s": 1.766,
+ "response": {
+  "model": "gpt-6.1-sol",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_CoLeW3KcoXUcxEGq0vOmaTxn",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT DISTINCT country FROM dim_users;"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 3070,
+   "output_tokens": 29,
+   "cache_read_input_tokens": 3067,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

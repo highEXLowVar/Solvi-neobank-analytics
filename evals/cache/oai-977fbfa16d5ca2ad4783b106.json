@@ -1,0 +1,59 @@
+{
+ "latency_s": 3.022,
+ "response": {
+  "model": "gpt-5.6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_nlDTUzyVWo4mpeg8yMMf32Ep",
+    "name": "calculate_uplift_or_stats",
+    "input": {
+     "metric_slice": {
+      "analysis": "two_proportion_test",
+      "platform": null,
+      "doc_type": null,
+      "channel": null,
+      "segment_by": null,
+      "k_a": 1254,
+      "n_a": 2981,
+      "k_b": 1168,
+      "n_b": 2961
+     }
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_aWlnS5lDXZjZ7tY5N56Rennk",
+    "name": "calculate_uplift_or_stats",
+    "input": {
+     "metric_slice": {
+      "analysis": "two_proportion_test",
+      "platform": null,
+      "doc_type": null,
+      "channel": null,
+      "segment_by": null,
+      "k_a": 890,
+      "n_a": 2139,
+      "k_b": 819,
+      "n_b": 2121
+     }
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_tYs9t3ItbkMmfCb57leQIySu",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT signup_month, SUM(n_signups) n_signups, SUM(n_activated) n_activated, SUM(n_activated)::DOUBLE/SUM(n_signups) activation_rate FROM agg_funnel_monthly WHERE channel='organic' AND signup_month BETWEEN '2025-01-01' AND '2026-04-01' GROUP BY signup_month ORDER BY signup_month"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 5641,
+   "output_tokens": 296,
+   "cache_read_input_tokens": 3072,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

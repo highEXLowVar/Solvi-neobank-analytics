@@ -1,0 +1,19 @@
+{
+ "latency_s": 8.267,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"sql\":\"WITH paid_social AS (\\n    SELECT\\n        months_since_activation,\\n        n_observable,\\n        avg_margin_eur,\\n        cac_eur,\\n        SUM(avg_margin_eur) OVER (\\n            ORDER BY months_since_activation\\n            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW\\n        ) AS cumulative_margin_eur\\n    FROM agg_unit_economics\\n    WHERE channel = 'paid_social'\\n), summary AS (\\n    SELECT\\n        MAX(months_since_activation) AS latest_observed_month,\\n        MAX(cumulative_margin_eur) FILTER (\\n            WHERE months_since_activation = (SELECT MAX(months_since_activation) FROM paid_social)\\n        ) AS cumulative_margin_at_latest_month_eur,\\n        MAX(cac_eur) AS cac_eur,\\n        MIN(months_since_activation) FILTER (WHERE cumulative_margin_eur >= cac_eur) AS first_payback_month,\\n        MAX(n_observable) FILTER (\\n            WHERE months_since_activation = (SELECT MAX(months_since_activation) FROM paid_social)\\n        ) AS n_observable_at_latest_month\\n    FROM paid_social\\n)\\nSELECT\\n    latest_observed_month,\\n    cumulative_margin_at_latest_month_eur,\\n    cac_eur,\\n    cumulative_margin_at_latest_month_eur - cac_eur AS net_margin_after_cac_eur,\\n    first_payback_month,\\n    n_observable_at_latest_month,\\n    cumulative_margin_at_latest_month_eur >= cac_eur AS paid_back_by_latest_observed_month\\nFROM summary;\",\"rationale\":\"Compare cumulative average contribution margin per activated paid-social user with channel CAC through the latest fully observed tenure; report whether and when the channel reaches payback.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 2226,
+   "output_tokens": 755,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

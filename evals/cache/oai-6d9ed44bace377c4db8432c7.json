@@ -1,0 +1,23 @@
+{
+ "latency_s": 3.25,
+ "response": {
+  "model": "gpt-6.1-sol",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_UqYO5Fl1QIrwGUrHjvtTZcN3",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "WITH m AS (SELECT signup_month, sum(n_activated)::DOUBLE/sum(n_signups) rate FROM agg_funnel_monthly WHERE channel='organic' AND signup_month < '2026-05-01' GROUP BY 1), d AS (SELECT *, rate-lag(rate) OVER (ORDER BY signup_month) delta FROM m) SELECT avg(rate) FILTER(WHERE signup_month<'2026-03-01') historical_mean, stddev_samp(rate) FILTER(WHERE signup_month<'2026-03-01') historical_monthly_sd, stddev_samp(delta) FILTER(WHERE signup_month<'2026-03-01') historical_mom_sd, (SELECT rate FROM m WHERE signup_month='2026-04-01')-(SELECT rate FROM m WHERE signup_month='2026-03-01') march_april_delta FROM d"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 6509,
+   "output_tokens": 198,
+   "cache_read_input_tokens": 4940,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

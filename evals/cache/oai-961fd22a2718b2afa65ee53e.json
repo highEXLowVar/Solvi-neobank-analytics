@@ -1,0 +1,23 @@
+{
+ "latency_s": 1.932,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_An4QdMx8WQX7zFbrwoMxzAMw",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT date_trunc('week', decision_date)::DATE week, SUM(n_decisions) decisions, SUM(n_approved)::DOUBLE/SUM(n_decisions) rate FROM agg_kyc_daily WHERE decision_date >= DATE '2025-09-01' GROUP BY 1 ORDER BY 1"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 7701,
+   "output_tokens": 82,
+   "cache_read_input_tokens": 3140,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

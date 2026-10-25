@@ -1,0 +1,23 @@
+{
+ "latency_s": 2.536,
+ "response": {
+  "model": "gpt-6.1-sol",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_7E4jjsRThLRlOrtNQI9KU0gM",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT DISTINCT channel FROM agg_unit_economics ORDER BY channel"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 3052,
+   "output_tokens": 34,
+   "cache_read_input_tokens": 3049,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

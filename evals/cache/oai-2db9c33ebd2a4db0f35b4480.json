@@ -1,0 +1,19 @@
+{
+ "latency_s": 8.802,
+ "response": {
+  "model": "gpt-6.1-sol",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\n  \"incident_detected\": false,\n  \"root_cause_hypothesis\": \"The bonus produces a genuine conversion lift, but subsidizes many users who would have converted anyway. Its cost per incremental conversion greatly exceeds observed converted-user contribution margin, making the experiment economically unattractive.\",\n  \"supporting_metrics\": [\n    {\n      \"name\": \"TOPUP10 first-top-up conversion rate within 14 days\",\n      \"baseline_value\": 0.6502,\n      \"anomaly_value\": 0.7019,\n      \"unit\": \"fraction\",\n      \"sql\": \"calculate_uplift_or_stats(metric_slice={analysis:'ab_test_readout', platform:null, doc_type:null, channel:null, segment_by:null, k_a:null, n_a:null, k_b:null, n_b:null})\"\n    },\n    {\n      \"name\": \"TOPUP10 conversion lift\",\n      \"baseline_value\": null,\n      \"anomaly_value\": 5.16,\n      \"unit\": \"pp\",\n      \"sql\": \"calculate_uplift_or_stats(metric_slice={analysis:'ab_test_readout', platform:null, doc_type:null, channel:null, segment_by:null, k_a:null, n_a:null, k_b:null, n_b:null})\"\n    },\n    {\n      \"name\": \"TOPUP10 bonus cost per incremental conversion\",\n      \"baseline_value\": null,\n      \"anomaly_value\": 133.1,\n      \"unit\": \"EUR\",\n      \"sql\": \"calculate_uplift_or_stats(metric_slice={analysis:'ab_test_readout', platform:null, doc_type:null, channel:null, segment_by:null, k_a:null, n_a:null, k_b:null, n_b:null})\"\n    },\n    {\n      \"name\": \"TOPUP10 observed 60-day pre-bonus contribution margin per converted user\",\n      \"baseline_value\": 1.17446,\n      \"anomaly_value\": 1.269548,\n      \"unit\": \"EUR/user\",\n      \"sql\": \"SELECT variant, sum(margin_60d_eur + bonus_cost_eur)/nullif(sum(conv_14d::INTEGER),0) AS pre_bonus_margin_per_converter_60d FROM fct_experiment_users WHERE experiment_id = 'topup10_2026q1' GROUP BY variant\"\n    },\n    {\n      \"name\": \"TOPUP10 60-day contribution margin per assigned user net of bonus\",\n      \"baseline_value\": 0.764,\n      \"anomaly_value\": -5.978,\n      \"unit\": \"EUR/user\",\n      \"sql\": \"calculate_uplift_or_stats(metric_slice={analysis:'ab_test_readout', platform:null, doc_type:null, channel:null, segment_by:null, k_a:null, n_a:null, k_b:null, n_b:null})\"\n    },\n    {\n      \"name\": \"TOPUP10 60-day contribution margin difference net of bonus\",\n      \"baseline_value\": null,\n      \"anomaly_value\": -6.741,\n      \"unit\": \"EUR/user\",\n      \"sql\": \"calculate_uplift_or_stats(metric_slice={analysis:'ab_test_readout', platform:null, doc_type:null, channel:null, segment_by:null, k_a:null, n_a:null, k_b:null, n_b:null})\"\n    }\n  ],\n  \"recommended_action\": \"DO_NOT_SHIP\",\n  \"reasoning_summary\": \"Conversion increased by 5.16 pp, with a 95% confidence interval of 3.35\u20136.98 pp, so the lift is beyond ordinary sampling variation. However, each incremental conversion costs EUR 133.1 versus observed pre-bonus contribution margin of EUR 1.17446 per control converter over 60 days\u2014not lifetime value. Net contribution margin falls from EUR 0.764 to EUR -5.978 per assigned user, a EUR -6.741 difference. Do not roll out the bonus in its current form.\"\n}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 3721,
+   "output_tokens": 823,
+   "cache_read_input_tokens": 3340,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

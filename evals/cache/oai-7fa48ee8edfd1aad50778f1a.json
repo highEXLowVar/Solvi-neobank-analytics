@@ -1,0 +1,19 @@
+{
+ "latency_s": 4.309,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":true,\"root_cause_hypothesis\":\"Paid social and influencer acquisition are unprofitable on the tool\u2019s estimated 36-month LTV versus CAC; organic and referral remain profitable. The churn estimates are implied monthly churn rates, not a direct observed monthly churn count.\",\"supporting_metrics\":[{\"name\":\"influencer implied monthly churn\",\"baseline_value\":null,\"anomaly_value\":0.0676,\"unit\":\"fraction\",\"sql\":\"calculate_uplift_or_stats: channel_unit_economics (all channels)\"},{\"name\":\"organic implied monthly churn\",\"baseline_value\":null,\"anomaly_value\":0.0412,\"unit\":\"fraction\",\"sql\":\"calculate_uplift_or_stats: channel_unit_economics (all channels)\"},{\"name\":\"paid_social implied monthly churn\",\"baseline_value\":null,\"anomaly_value\":0.0766,\"unit\":\"fraction\",\"sql\":\"calculate_uplift_or_stats: channel_unit_economics (all channels)\"},{\"name\":\"referral implied monthly churn\",\"baseline_value\":null,\"anomaly_value\":0.0326,\"unit\":\"fraction\",\"sql\":\"calculate_uplift_or_stats: channel_unit_economics (all channels)\"},{\"name\":\"influencer 36-month LTV minus CAC\",\"baseline_value\":null,\"anomaly_value\":-39.71,\"unit\":\"EUR/user\",\"sql\":\"calculate_uplift_or_stats: channel_unit_economics (all channels)\"},{\"name\":\"organic 36-month LTV minus CAC\",\"baseline_value\":null,\"anomaly_value\":19.58,\"unit\":\"EUR/user\",\"sql\":\"calculate_uplift_or_stats: channel_unit_economics (all channels)\"},{\"name\":\"paid_social 36-month LTV minus CAC\",\"baseline_value\":null,\"anomaly_value\":-86.76,\"unit\":\"EUR/user\",\"sql\":\"calculate_uplift_or_stats: channel_unit_economics (all channels)\"},{\"name\":\"referral 36-month LTV minus CAC\",\"baseline_value\":null,\"anomaly_value\":5.61,\"unit\":\"EUR/user\",\"sql\":\"calculate_uplift_or_stats: channel_unit_economics (all channels)\"}],\"recommended_action\":\"PAUSE_ACQUISITION_CHANNEL\",\"reasoning_summary\":\"Estimated monthly churn is 0.0766 for paid social, 0.0676 for influencer, 0.0412 for organic, and 0.0326 for referral. Paid social and influencer have negative estimated 36-month LTV minus CAC (-86.76 and -39.71 EUR/user), while organic and referral are positive (19.58 and 5.61 EUR/user). Pause spend on paid social and influencer; retain organic and referral.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 3476,
+   "output_tokens": 561,
+   "cache_read_input_tokens": 2945,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

@@ -1,0 +1,19 @@
+{
+ "latency_s": 3.639,
+ "response": {
+  "model": "gpt-5.6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":true,\"root_cause_hypothesis\":\"Android national-ID KYC approval rate dropped from 0.888 to 0.686 on 2025-11-10, coinciding with app release 5.27, and recovered on 2026-01-08 to 0.794. The changepoint is well above the normal-variation threshold (maximum LLR 568.4 vs threshold 25.0).\",\"supporting_metrics\":[{\"name\":\"android national_id KYC approval rate before break\",\"baseline_value\":0.888,\"anomaly_value\":null,\"unit\":\"fraction\",\"sql\":\"calculate_uplift_or_stats({\\\"analysis\\\":\\\"kyc_changepoint\\\",\\\"platform\\\":\\\"android\\\",\\\"doc_type\\\":\\\"national_id\\\"})\"},{\"name\":\"android national_id KYC approval rate during incident\",\"baseline_value\":null,\"anomaly_value\":0.686,\"unit\":\"fraction\",\"sql\":\"calculate_uplift_or_stats({\\\"analysis\\\":\\\"kyc_changepoint\\\",\\\"platform\\\":\\\"android\\\",\\\"doc_type\\\":\\\"national_id\\\"})\"},{\"name\":\"android national_id KYC approval rate after recovery\",\"baseline_value\":null,\"anomaly_value\":0.794,\"unit\":\"fraction\",\"sql\":\"calculate_uplift_or_stats({\\\"analysis\\\":\\\"kyc_changepoint\\\",\\\"platform\\\":\\\"android\\\",\\\"doc_type\\\":\\\"national_id\\\"})\"},{\"name\":\"changepoint maximum log-likelihood ratio\",\"baseline_value\":25.0,\"anomaly_value\":568.4,\"unit\":\"count\",\"sql\":\"calculate_uplift_or_stats({\\\"analysis\\\":\\\"kyc_changepoint\\\",\\\"platform\\\":\\\"android\\\",\\\"doc_type\\\":\\\"national_id\\\"})\"}],\"recommended_action\":\"ROLLBACK_RELEASE\",\"reasoning_summary\":\"Approval fell to 0.686 on 2025-11-10, from 0.888 before the break. It recovered on 2026-01-08 to 0.794, still below the pre-incident level. The break aligns with app release 5.27 and is materially beyond the 25.0 LLR threshold, so release rollback is recommended.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 3298,
+   "output_tokens": 518,
+   "cache_read_input_tokens": 3071,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

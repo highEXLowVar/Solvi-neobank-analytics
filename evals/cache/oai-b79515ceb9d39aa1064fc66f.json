@@ -1,0 +1,19 @@
+{
+ "latency_s": 2.638,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":false,\"root_cause_hypothesis\":\"The query returned no rows for experiment_id = 'TOPUP10', so the available result provides no evidence about either arm or the effect of the \u20ac10 activation bonus.\",\"supporting_metrics\":[],\"recommended_action\":\"DO_NOT_SHIP\",\"reasoning_summary\":\"The experiment query returned zero rows, so there are no treatment or control sample sizes, conversion rates, or 60-day margin results to assess. Without those results, the bonus's primary outcome and margin guardrail cannot be evaluated; do not roll it out based on this query.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 2719,
+   "output_tokens": 129,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

@@ -1,0 +1,23 @@
+{
+ "latency_s": 3.447,
+ "response": {
+  "model": "gpt-6.1-sol",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_izPzwOoWbHIclyKRmva4GBMe",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT CASE WHEN decision_date < DATE '2025-11-10' THEN 'before' WHEN decision_date < DATE '2026-01-08' THEN 'during' ELSE 'after' END AS period, SUM(n_approved) AS approved, SUM(n_decisions) AS decisions, SUM(n_approved)::DOUBLE/SUM(n_decisions) AS approval_rate FROM agg_kyc_daily WHERE platform = 'android' AND doc_type = 'national_id' GROUP BY 1 ORDER BY 1"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 3298,
+   "output_tokens": 148,
+   "cache_read_input_tokens": 3295,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

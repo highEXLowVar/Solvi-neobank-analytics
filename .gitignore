@@ -3,6 +3,7 @@ data/
 analysis/out/
 
 # environments & caches
+.env
 .venv/
 __pycache__/
 *.pyc

@@ -1,0 +1,19 @@
+{
+ "latency_s": 7.155,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"sql\":\"WITH monthly AS (\\n  SELECT\\n    date_trunc('month', f.event_ts)::DATE AS month,\\n    COUNT(*) FILTER (WHERE lower(f.event_type) LIKE '%approv%') AS approvals,\\n    COUNT(*) FILTER (WHERE lower(f.event_type) LIKE '%approv%' OR lower(f.event_type) LIKE '%reject%') AS decisions\\n  FROM funnel_events f\\n  JOIN users u USING (user_id)\\n  WHERE lower(u.device) LIKE '%android%'\\n    AND lower(f.doc_type) IN ('national_id', 'national id', 'national-id')\\n    AND f.event_ts >= TIMESTAMP '2024-01-01'\\n    AND f.event_ts < TIMESTAMP '2026-06-01'\\n  GROUP BY 1\\n)\\nSELECT month, approvals, decisions,\\n       approvals::DOUBLE / NULLIF(decisions, 0) AS approval_rate\\nFROM monthly\\nORDER BY month\",\"rationale\":\"Monthly Android national-ID approval rates and decision counts reveal the late-2025 low and subsequent recovery for comparison across the available time series.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 624,
+   "output_tokens": 586,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

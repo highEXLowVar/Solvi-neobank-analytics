@@ -1,0 +1,19 @@
+{
+ "latency_s": 8.607,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":false,\"root_cause_hypothesis\":\"No acquisition channel is shown to lose money on the available gross-revenue proxy: implied gross-revenue LTV exceeds CAC for all four channels. Churn varies by channel, but these aggregate results do not establish an unusual churn incident or justify a spend cut.\",\"supporting_metrics\":[{\"name\":\"influencer steady-state monthly churn\",\"baseline_value\":0.08773,\"anomaly_value\":0.097547,\"unit\":\"fraction\",\"sql\":\"Query result from the preceding DuckDB SQL: channel_summary.steady_state_monthly_churn and mean_monthly_churn, grouped by channel.\"},{\"name\":\"influencer implied gross-revenue LTV / CAC\",\"baseline_value\":19.0,\"anomaly_value\":53.172339,\"unit\":\"EUR\",\"sql\":\"Query result from the preceding DuckDB SQL: avg_monthly_mrr_per_active_subscriber / steady_state_monthly_churn, compared with channels.cac_eur.\"},{\"name\":\"organic steady-state monthly churn\",\"baseline_value\":0.095547,\"anomaly_value\":0.079899,\"unit\":\"fraction\",\"sql\":\"Query result from the preceding DuckDB SQL: channel_summary.steady_state_monthly_churn and mean_monthly_churn, grouped by channel.\"},{\"name\":\"organic implied gross-revenue LTV / CAC\",\"baseline_value\":2.0,\"anomaly_value\":65.511205,\"unit\":\"EUR\",\"sql\":\"Query result from the preceding DuckDB SQL: avg_monthly_mrr_per_active_subscriber / steady_state_monthly_churn, compared with channels.cac_eur.\"},{\"name\":\"paid_social steady-state monthly churn\",\"baseline_value\":0.117904,\"anomaly_value\":0.110151,\"unit\":\"fraction\",\"sql\":\"Query result from the preceding DuckDB SQL: channel_summary.steady_state_monthly_churn and mean_monthly_churn, grouped by channel.\"},{\"name\":\"paid_social implied gross-revenue LTV / CAC\",\"baseline_value\":26.0,\"anomaly_value\":47.555091,\"unit\":\"EUR\",\"sql\":\"Query result from the preceding DuckDB SQL: avg_monthly_mrr_per_active_subscriber / steady_state_monthly_churn, compared with channels.cac_eur.\"},{\"name\":\"referral steady-state monthly churn\",\"baseline_value\":0.054683,\"anomaly_value\":0.062761,\"unit\":\"fraction\",\"sql\":\"Query result from the preceding DuckDB SQL: channel_summary.steady_state_monthly_churn and mean_monthly_churn, grouped by channel.\"},{\"name\":\"referral implied gross-revenue LTV / CAC\",\"baseline_value\":12.0,\"anomaly_value\":83.68744,\"unit\":\"EUR\",\"sql\":\"Query result from the preceding DuckDB SQL: avg_monthly_mrr_per_active_subscriber / steady_state_monthly_churn, compared with channels.cac_eur.\"}],\"recommended_action\":\"NO_ACTION_NOISE\",\"reasoning_summary\":\"Steady-state monthly churn ranges from 0.062761 for referral to 0.110151 for paid_social; the query covers 27\u201328 observed months per channel. Implied gross-revenue LTV is \u20ac47.555091\u2013\u20ac83.68744 versus CAC of \u20ac2\u2013\u20ac26, so no channel is indicated for a spend cut by this proxy. This is not a net-profit calculation; it excludes costs beyond acquisition.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 1755,
+   "output_tokens": 993,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

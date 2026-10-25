@@ -1,0 +1,41 @@
+{
+ "latency_s": 4.055,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_ujAmcRnMjBJQaRoI4p0Y4Y2N",
+    "name": "calculate_uplift_or_stats",
+    "input": {
+     "metric_slice": {
+      "analysis": "two_proportion_test",
+      "platform": null,
+      "doc_type": null,
+      "channel": null,
+      "segment_by": null,
+      "k_a": 1254,
+      "n_a": 2981,
+      "k_b": 1168,
+      "n_b": 2961
+     }
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_viZ5AgsdTtLG1FKjYTXHM2XO",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT signup_month, SUM(n_signups) signups, SUM(n_email_verified) email_verified, SUM(n_kyc_started) kyc_started, SUM(n_doc_submitted) doc_submitted, SUM(n_kyc_approved) kyc_approved, SUM(n_first_topup) topup, SUM(n_activated) activated, SUM(n_email_verified)::DOUBLE/SUM(n_signups) email_rate, SUM(n_kyc_started)::DOUBLE/SUM(n_email_verified) kyc_start_rate, SUM(n_doc_submitted)::DOUBLE/SUM(n_kyc_started) doc_rate, SUM(n_kyc_approved)::DOUBLE/SUM(n_doc_submitted) approval_rate, SUM(n_first_topup)::DOUBLE/SUM(n_kyc_approved) topup_rate, SUM(n_activated)::DOUBLE/SUM(n_first_topup) activation_after_topup FROM agg_funnel_monthly WHERE channel='organic' AND signup_month IN (DATE '2026-03-01',DATE '2026-04-01') GROUP BY 1 ORDER BY 1"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 5063,
+   "output_tokens": 365,
+   "cache_read_input_tokens": 3402,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

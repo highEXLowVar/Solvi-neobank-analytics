@@ -1,0 +1,19 @@
+{
+ "latency_s": 11.188,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"sql\":\"WITH outcomes AS (\\n  SELECT\\n    date_trunc('week', f.event_ts)::DATE AS week_start,\\n    f.app_version,\\n    f.user_id,\\n    f.attempt,\\n    lower(f.event_type) AS event_type\\n  FROM funnel_events f\\n  JOIN users u USING (user_id)\\n  WHERE lower(u.device) = 'ios'\\n    AND lower(f.doc_type) IN ('driving licence', 'driving license', 'driver licence', 'driver license')\\n    AND f.event_ts >= TIMESTAMP '2024-01-01'\\n    AND f.event_ts < TIMESTAMP '2026-05-31'\\n    AND (lower(f.event_type) LIKE '%approv%' OR lower(f.event_type) LIKE '%reject%')\\n), weekly AS (\\n  SELECT\\n    week_start,\\n    app_version,\\n    COUNT(*) FILTER (WHERE event_type LIKE '%approv%') AS approvals,\\n    COUNT(*) AS decisions,\\n    COUNT(*) FILTER (WHERE event_type LIKE '%approv%')::DOUBLE / NULLIF(COUNT(*), 0) AS approval_rate\\n  FROM outcomes\\n  GROUP BY week_start, app_version\\n), week_totals AS (\\n  SELECT week_start, SUM(approvals) AS approvals, SUM(decisions) AS decisions,\\n         SUM(approvals)::DOUBLE / NULLIF(SUM(decisions), 0) AS approval_rate\\n  FROM weekly\\n  GROUP BY week_start\\n), historical AS (\\n  SELECT AVG(approval_rate) AS historical_weekly_mean,\\n         STDDEV_SAMP(approval_rate) AS historical_weekly_sd,\\n         MIN(approval_rate) AS historical_weekly_min,\\n         MAX(approval_rate) AS historical_weekly_max\\n  FROM week_totals\\n  WHERE week_start < DATE '2026-04-13'\\n    AND week_start >= DATE '2024-01-01'\\n)\\nSELECT w.week_start, w.app_version, w.approvals, w.decisions, w.approval_rate,\\n       h.historical_weekly_mean, h.historical_weekly_sd,\\n       h.historical_weekly_min, h.historical_weekly_max,\\n       r.version AS iOS_release_version, r.release_date\\nFROM weekly w\\nCROSS JOIN historical h\\nLEFT JOIN app_releases r\\n  ON lower(r.platform) = 'ios'\\n AND TRY_CAST(w.app_version AS DOUBLE) = r.version\\nWHERE w.week_start IN (DATE '2026-04-06', DATE '2026-04-13')\\nORDER BY w.week_start, w.app_version\",\"rationale\":\"Compare the two stated weeks by iOS app version and measure those changes against the historical weekly rate variation; the release-version join helps assess whether a release coincided with the drop.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 635,
+   "output_tokens": 1064,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

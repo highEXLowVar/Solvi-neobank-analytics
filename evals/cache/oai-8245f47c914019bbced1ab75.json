@@ -1,0 +1,23 @@
+{
+ "latency_s": 1.368,
+ "response": {
+  "model": "gpt-6.1-sol",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_npCm2PWLdtvlGlaXQL9wjb1m",
+    "name": "get_dbt_schema_context",
+    "input": {
+     "mart_name": null
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 1204,
+   "output_tokens": 22,
+   "cache_read_input_tokens": 1201,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

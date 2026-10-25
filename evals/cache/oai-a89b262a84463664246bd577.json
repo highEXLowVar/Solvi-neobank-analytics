@@ -1,0 +1,19 @@
+{
+ "latency_s": 10.914,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"sql\":\"WITH weekly AS (\\n    SELECT\\n        CAST(date_trunc('week', decision_date) AS DATE) AS week_start,\\n        SUM(n_decisions) AS decisions,\\n        SUM(n_approved) AS approved,\\n        SUM(n_approved)::DOUBLE / NULLIF(SUM(n_decisions), 0) AS approval_rate\\n    FROM agg_kyc_daily\\n    WHERE platform ILIKE 'iOS'\\n      AND doc_type ILIKE '%driv%'\\n      AND decision_date >= DATE '2026-01-19'\\n      AND decision_date < DATE '2026-04-27'\\n    GROUP BY 1\\n), historical AS (\\n    SELECT\\n        AVG(approval_rate) AS prior_12wk_avg_rate,\\n        STDDEV_SAMP(approval_rate) AS prior_12wk_sd_rate,\\n        MIN(approval_rate) AS prior_12wk_min_rate,\\n        MAX(approval_rate) AS prior_12wk_max_rate,\\n        COUNT(*) AS prior_12wk_weeks\\n    FROM weekly\\n    WHERE week_start >= DATE '2026-01-19'\\n      AND week_start < DATE '2026-04-13'\\n), release AS (\\n    SELECT\\n        MAX(release_date) FILTER (WHERE release_date < DATE '2026-04-13') AS latest_ios_release_before_prior_week,\\n        MAX(version) FILTER (WHERE release_date < DATE '2026-04-13') AS latest_ios_version_before_prior_week,\\n        MAX(release_date) FILTER (WHERE release_date >= DATE '2026-04-13' AND release_date < DATE '2026-04-20') AS ios_release_during_anomaly_week,\\n        MAX(version) FILTER (WHERE release_date >= DATE '2026-04-13' AND release_date < DATE '2026-04-20') AS ios_version_released_during_anomaly_week\\n    FROM stg_app_releases\\n    WHERE platform ILIKE 'iOS'\\n)\\nSELECT\\n    MAX(decisions) FILTER (WHERE week_start = DATE '2026-04-06') AS prior_week_decisions,\\n    MAX(approved) FILTER (WHERE week_start = DATE '2026-04-06') AS prior_week_approved,\\n    MAX(approval_rate) FILTER (WHERE week_start = DATE '2026-04-06') AS prior_week_approval_rate,\\n    MAX(decisions) FILTER (WHERE week_start = DATE '2026-04-13') AS anomaly_week_decisions,\\n    MAX(approved) FILTER (WHERE week_start = DATE '2026-04-13') AS anomaly_week_approved,\\n    MAX(approval_rate) FILTER (WHERE week_start = DATE '2026-04-13') AS anomaly_week_approval_rate,\\n    h.prior_12wk_avg_rate,\\n    h.prior_12wk_sd_rate,\\n    h.prior_12wk_min_rate,\\n    h.prior_12wk_max_rate,\\n    h.prior_12wk_weeks,\\n    r.latest_ios_release_before_prior_week,\\n    r.latest_ios_version_before_prior_week,\\n    r.ios_release_during_anomaly_week,\\n    r.ios_version_released_during_anomaly_week\\nFROM weekly\\nCROSS JOIN historical h\\nCROSS JOIN release r\\nGROUP BY ALL\",\"rationale\":\"Compare the two specified iOS driving-licence weeks with the preceding 12 weeks\u2019 rates and variability, and check whether an iOS release coincided with the anomaly.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 2259,
+   "output_tokens": 1104,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

@@ -1,0 +1,19 @@
+{
+ "latency_s": 5.09,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"sql\":\"SELECT date_trunc('month', decision_date)::DATE AS month, SUM(n_decisions) AS decisions, SUM(n_approved) AS approvals, SUM(n_approved)::DOUBLE / NULLIF(SUM(n_decisions), 0) AS approval_rate FROM agg_kyc_daily WHERE lower(platform) = 'android' AND lower(doc_type) LIKE '%national%' GROUP BY 1 ORDER BY 1;\",\"rationale\":\"Monthly approval rates show the late-2025 decline and subsequent recovery for Android national-ID KYC, with counts to assess how much data supports each level.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 2248,
+   "output_tokens": 415,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

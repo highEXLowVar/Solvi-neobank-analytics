@@ -1,0 +1,39 @@
+{
+ "latency_s": 3.206,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_Mk5EkMouxm1jksxA7UdWV0z6",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT signup_month, channel, n_signups, n_email_verified, n_kyc_started, n_doc_submitted, n_kyc_approved, n_first_topup, n_activated, n_activated::DOUBLE/n_signups AS activation_rate FROM agg_funnel_monthly WHERE channel='organic' AND signup_month IN (DATE '2026-03-01', DATE '2026-04-01') ORDER BY signup_month"
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_GCEueLedC13Kug67npQyCaw5",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT signup_month, SUM(n_signups) n_signups, SUM(n_activated) n_activated, SUM(n_activated)::DOUBLE/SUM(n_signups) activation_rate FROM agg_funnel_monthly WHERE channel='organic' AND signup_month >= DATE '2025-01-01' AND signup_month <= DATE '2026-05-01' GROUP BY 1 ORDER BY 1"
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_Pwpl6dBag24Pk2TtmwKGvXYp",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT channel, signup_month, n_signups, n_activated, n_activated::DOUBLE/n_signups rate FROM agg_funnel_monthly WHERE signup_month IN (DATE '2026-03-01',DATE '2026-04-01') ORDER BY channel,signup_month"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 3405,
+   "output_tokens": 303,
+   "cache_read_input_tokens": 1206,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

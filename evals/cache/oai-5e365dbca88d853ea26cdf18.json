@@ -1,0 +1,19 @@
+{
+ "latency_s": 7.699,
+ "response": {
+  "model": "gpt-5.6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":false,\"root_cause_hypothesis\":\"No statistically supported iOS app incident is evident. The 13 April 2026 driving-licence approval dip was within the metric's normal variation: the changepoint scan found no break, with maximum LLR 3.1 versus a threshold of 25.0, and approval returned to 0.882353 the following week before reaching 0.909091 after the 28 April iOS 8.33 release.\",\"supporting_metrics\":[{\"name\":\"iOS driving_licence KYC approval rate \u2014 week of 6 April 2026\",\"baseline_value\":0.886076,\"anomaly_value\":null,\"unit\":\"fraction\",\"sql\":\"SELECT CASE WHEN decision_date BETWEEN DATE '2026-04-06' AND DATE '2026-04-12' THEN 'week_before' WHEN decision_date BETWEEN DATE '2026-04-13' AND DATE '2026-04-19' THEN 'incident_week' END AS period, SUM(n_decisions) AS decisions, SUM(n_approved) AS approved, SUM(n_approved)::DOUBLE/SUM(n_decisions) AS approval_rate FROM agg_kyc_daily WHERE platform='ios' AND doc_type='driving_licence' AND decision_date BETWEEN DATE '2026-04-06' AND DATE '2026-04-19' GROUP BY 1 ORDER BY 1\"},{\"name\":\"iOS driving_licence KYC approval rate \u2014 week of 13 April 2026\",\"baseline_value\":null,\"anomaly_value\":0.804598,\"unit\":\"fraction\",\"sql\":\"SELECT CASE WHEN decision_date BETWEEN DATE '2026-04-06' AND DATE '2026-04-12' THEN 'week_before' WHEN decision_date BETWEEN DATE '2026-04-13' AND DATE '2026-04-19' THEN 'incident_week' END AS period, SUM(n_decisions) AS decisions, SUM(n_approved) AS approved, SUM(n_approved)::DOUBLE/SUM(n_decisions) AS approval_rate FROM agg_kyc_daily WHERE platform='ios' AND doc_type='driving_licence' AND decision_date BETWEEN DATE '2026-04-06' AND DATE '2026-04-19' GROUP BY 1 ORDER BY 1\"},{\"name\":\"iOS driving_licence KYC changepoint maximum LLR\",\"baseline_value\":25.0,\"anomaly_value\":3.1,\"unit\":\"count\",\"sql\":\"calculate_uplift_or_stats({\\\"analysis\\\":\\\"kyc_changepoint\\\",\\\"platform\\\":\\\"ios\\\",\\\"doc_type\\\":\\\"driving_licence\\\"})\"},{\"name\":\"iOS driving_licence KYC approval rate \u2014 week of 20 April 2026\",\"baseline_value\":null,\"anomaly_value\":0.882353,\"unit\":\"fraction\",\"sql\":\"SELECT DATE_TRUNC('week', decision_date)::DATE AS week_start, SUM(n_decisions) AS decisions, SUM(n_approved) AS approved, SUM(n_approved)::DOUBLE/SUM(n_decisions) AS approval_rate FROM agg_kyc_daily WHERE platform='ios' AND doc_type='driving_licence' AND decision_date BETWEEN DATE '2026-01-01' AND DATE '2026-05-31' GROUP BY 1 ORDER BY 1\"},{\"name\":\"iOS app release immediately before dip\",\"baseline_value\":8.32,\"anomaly_value\":null,\"unit\":\"count\",\"sql\":\"SELECT platform, version, release_date FROM stg_app_releases WHERE platform ILIKE '%ios%' AND release_date BETWEEN DATE '2026-03-15' AND DATE '2026-05-01' ORDER BY release_date\"},{\"name\":\"iOS app release after dip\",\"baseline_value\":null,\"anomaly_value\":8.33,\"unit\":\"count\",\"sql\":\"SELECT platform, version, release_date FROM stg_app_releases WHERE platform ILIKE '%ios%' AND release_date BETWEEN DATE '2026-03-15' AND DATE '2026-05-01' ORDER BY release_date\"}],\"recommended_action\":\"NO_ACTION_NOISE\",\"reasoning_summary\":\"Approval fell from 0.886076 in the week of 6 April to 0.804598 in the week of 13 April, based on 79 and 87 decisions respectively. However, the changepoint scan found no incident-level break: maximum LLR was 3.1 versus a 25.0 threshold, and the rate recovered to 0.882353 the next week. Do not roll back the iOS app; continue monitoring.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 5478,
+   "output_tokens": 1022,
+   "cache_read_input_tokens": 4441,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

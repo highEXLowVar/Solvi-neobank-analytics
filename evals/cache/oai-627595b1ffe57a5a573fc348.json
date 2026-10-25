@@ -1,0 +1,49 @@
+{
+ "latency_s": 3.286,
+ "response": {
+  "model": "gpt-5.6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_gfVWMQAyVL8SV23qedgIf8J0",
+    "name": "calculate_uplift_or_stats",
+    "input": {
+     "metric_slice": {
+      "analysis": "kyc_changepoint",
+      "platform": "ios",
+      "doc_type": "driving_licence",
+      "channel": null,
+      "segment_by": null,
+      "k_a": null,
+      "n_a": null,
+      "k_b": null,
+      "n_b": null
+     }
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_lPrhro9Dx3Fsm2bgRtRUOZSq",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT CASE WHEN decision_date BETWEEN DATE '2026-04-06' AND DATE '2026-04-12' THEN 'week_before' WHEN decision_date BETWEEN DATE '2026-04-13' AND DATE '2026-04-19' THEN 'incident_week' END AS period, SUM(n_decisions) AS decisions, SUM(n_approved) AS approved, SUM(n_approved)::DOUBLE/SUM(n_decisions) AS approval_rate FROM agg_kyc_daily WHERE platform='ios' AND doc_type='driving_licence' AND decision_date BETWEEN DATE '2026-04-06' AND DATE '2026-04-19' GROUP BY 1 ORDER BY 1"
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_hfpXnIOG0fwkCpZ3yNTUulrA",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT CASE WHEN decision_date BETWEEN DATE '2026-04-06' AND DATE '2026-04-12' THEN 'week_before' WHEN decision_date BETWEEN DATE '2026-04-13' AND DATE '2026-04-19' THEN 'incident_week' END AS period, reject_reason, SUM(n_rejections) AS rejections FROM agg_kyc_reject_reasons_monthly WHERE 1=0 GROUP BY 1,2"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 3819,
+   "output_tokens": 389,
+   "cache_read_input_tokens": 3192,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

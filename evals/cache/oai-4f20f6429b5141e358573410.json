@@ -1,0 +1,23 @@
+{
+ "latency_s": 2.749,
+ "response": {
+  "model": "gpt-6.1-sol",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_albOUd132lijMCeJd9cwPh7b",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT CASE WHEN event_date < DATE '2025-11-10' THEN 'baseline' ELSE 'recent' END period, app_version, count(*) attempts, avg(is_kyc_approved::INT) approval_rate, avg((reject_reason='doc_unreadable')::INT) unreadable_rate FROM fct_kyc_attempts WHERE event_date BETWEEN DATE '2025-10-01' AND DATE '2025-12-15' AND platform='android' AND doc_type='national_id' GROUP BY 1,2 ORDER BY 1,2"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 7781,
+   "output_tokens": 139,
+   "cache_read_input_tokens": 7410,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

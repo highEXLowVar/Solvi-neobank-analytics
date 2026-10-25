@@ -1,4 +1,4 @@
-# Solvi: a product-analytics project on a neobank I made up
+# Solvi: My own fictional Neobank, with an imperfect LLM analyst
 
 I wanted a project that felt like the actual job of a data scientist at a fintech:
 event-level data, a warehouse, sign-up funnels, retention, an A/B test, and a real
@@ -12,13 +12,23 @@ A validation script grades the result by comparing what the analysis found again
 actually planted. It recovers all 17 things I checked for, including the dates of an
 outage down to the exact day.
 
+On top of the warehouse sits an LLM triage agent. It uses tool calling to read the
+documented dbt semantic layer, query DuckDB in read-only SQL (with DuckDB's error messages
+fed back so it can fix its own queries) and run the pipeline's statistical checks, then
+answers in a strict Pydantic schema. Because I know the true answers, I could grade it
+properly: a deterministic eval suite scores it against the same 17 planted checks plus
+three noise traps, and a number only counts if DuckDB actually returned it in that run.
+The agent retrieved 13 of the 17 with no made-up numbers, against 2 for single-shot
+text-to-SQL on the raw tables ([details below](#an-llm-triage-agent-graded-against-the-same-ground-truth)).
+
 The whole thing runs end to end:
 
 - a Python **simulator** generates the raw events (181k users, 6.1M card transactions, 29 months),
 - a **dbt + DuckDB** warehouse turns those events into clean tables (20 models, 42 tests),
-- a set of Python **analyses** produce the findings and the numbers behind the dashboard.
+- a set of Python **analyses** produce the findings and the numbers behind the dashboard,
+- an **LLM triage agent** and its **eval harness** (`agent/`, `evals/`) answer product questions from the marts and get scored against the planted truth.
 
-Live interactive dashboard: [parkhouse.fr](https://parkhouse.fr) (the Solvi card).
+Live interactive dashboard: [hugoparkhouse.com](https://hugoparkhouse.com) (the Solvi card, including the AI Analyst & Evals tab).
 
 ## The three things I planted, and what the analysis found
 
@@ -158,6 +168,8 @@ warehouse/   dbt + DuckDB
   tests/        funnel never grows down the stages, 50/50 split holds, payouts only to treatment, ...
 analysis/    Python: the KYC scan, channel economics, the A/B test write-up,
              the peeking demo, the ground-truth check, and the dashboard export
+agent/       LLM triage agent: tool calling over the marts, Pydantic verdicts
+evals/       benchmark of three LLM setups against the planted truth, with a replay cache
 DESIGN.md    every rule and number the simulator uses, written out
 ```
 
@@ -183,6 +195,67 @@ being re-derived slightly differently in every dashboard query. Point Lightdash 
 dbt project and the whole warehouse is explorable without writing SQL. Slicing approval
 rate by platform, document type and date puts the v5.27 incident straight on the screen.
 
+## An LLM triage agent, graded against the same ground truth
+
+`agent/` is a tool-calling triage agent that answers product questions from the marts.
+It has three tools: the dbt docs (model and column descriptions plus the metric
+definitions above), read-only DuckDB SQL (200-row cap, 20-second timeout, and DuckDB's
+exact error message sent back when a query fails), and a stats tool that runs the same
+estimators as `analysis/` (changepoint scan, CAC/LTV/churn, the A/B read-out with bonus
+economics). Its final answer has to fit a Pydantic `ProductTriageVerdict`: the action, the
+numbers behind it, and the SQL that produced them. The warehouse session switches off
+file access once the tables are attached, so the agent can't read `data/ground_truth/`
+either.
+
+`evals/run_evals.py` compares three ways of wiring an LLM to the warehouse:
+
+- A: one SQL query against the raw event tables, given only table and column names.
+- B: one SQL query against the dbt marts, given the documented semantic layer.
+- C: the agent loop, with SQL self-correction and a unit-economics guardrail. Before it
+  can recommend shipping, it has to check the bonus cost per incremental conversion
+  against what a converted user is worth. The prompt says so, and the loop rejects a SHIP
+  that skipped the check.
+
+There are 9 questions. 6 of them cover the 17 checks from `validate_truth.py`, and the
+mapping is written out in `evals/cases.py` (three of the checks compare against ground
+truth the warehouse doesn't hold, so they're graded on the warehouse number that carries
+the same conclusion). The other 3 are noise traps, slices that move enough to look
+worrying where nothing was planted. Grading is deterministic, with no LLM judge. A target
+only counts as retrieved if the verdict states it within 1% and the same value came back
+from a query in that run, and every number in a verdict is traced back to the tool
+outputs to catch made-up figures. Responses are cached by request hash in `evals/cache/`,
+so `python -m evals.run_evals --offline` replays the whole benchmark with no API calls
+and gives identical results.
+
+### What the benchmark found
+
+All three setups ran on OpenAI's gpt-6-luna. I tried it against gpt-5.6-luna and gpt-6.1-sol
+on the agent first (`evals/results/eval_results_trial_*.json`): all three made 8 of 8 calls,
+and Sol retrieved one number fewer than Luna at about 24 times the cost, so I kept the
+cheapest.
+
+| | Raw text-to-SQL | Single-pass dbt SQL | Agent + guardrail |
+|---|---|---|---|
+| Ground-truth checks retrieved | 2 / 17 | 3 / 17 | 13 / 17 |
+| Right product decision | 6 / 8 | 8 / 8 | 8 / 8 |
+| ...with the evidence retrieved | 4 / 8 | 3 / 8 | 8 / 8 |
+| Incidents invented on noise traps | 0 / 3 | 0 / 3 | 1 / 3 |
+| Reported numbers not returned by DuckDB | 0 / 46 | 0 / 41 | 0 / 76 |
+| Median latency | 18 s | 15 s | 13 s |
+| Cost per question | $0.0011 | $0.0014 | $0.0008 |
+
+I expected the single-query setups to see p = 2.7e-8 on the bonus and say ship. Neither
+did, but neither had a real reason for its answer. The raw one looked for an
+activation event in a table that doesn't record one, so both arms came out at 0%. The dbt
+one filtered on an experiment ID that doesn't exist and got no rows. Both then said "don't
+ship" because they had nothing, which is why the evidence row matters more than the
+decision row. The agent ran the A/B read-out, found EUR 133 of bonus per extra conversion and
+a 60-day margin of -EUR 6.74 per user, and said no for that reason. Switching its
+unit-economics guardrail off (`C_no_guardrail`) gave the same eight decisions, so on this
+model the stats tool is what carries the call. The agent's four misses are numbers it left
+out of its answer (three per-channel lifts and the margin excluding the bonus), and it marked
+one noise trap as an incident while still recommending no action.
+
 ## Running it
 
 ```bash
@@ -190,6 +263,10 @@ python -m venv .venv
 .venv/Scripts/pip install -r requirements.txt # Linux/Mac: .venv/bin/pip
 .venv/Scripts/python scripts/run_pipeline.py
 ```
+
+The evals replay from the committed cache with `python -m evals.run_evals --offline`. A live
+run needs `OPENAI_API_KEY` in a gitignored `.env`, and costs about four cents for all 36
+runs.
 
 A couple of minutes total: simulate (around 7 seconds), `dbt build` (62 models and tests
 pass), the analyses (the uplift and CUPED model fits are the slow part), then the 17/17

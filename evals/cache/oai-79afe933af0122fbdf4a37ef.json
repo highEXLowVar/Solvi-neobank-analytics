@@ -1,0 +1,23 @@
+{
+ "latency_s": 3.53,
+ "response": {
+  "model": "gpt-6.1-sol",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_BFccZA6086JjQfF6YRXcL3bE",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT variant, count(*) AS n, min(assigned_date) AS first_assignment, max(assigned_date) AS last_assignment, avg(conv_14d::INTEGER) AS conversion_rate, avg(margin_60d_eur) AS margin_per_assigned_user_60d, sum(margin_60d_eur)/nullif(sum(conv_14d::INTEGER),0) AS net_margin_per_converter_60d, sum(margin_60d_eur + bonus_cost_eur)/nullif(sum(conv_14d::INTEGER),0) AS pre_bonus_margin_per_converter_60d, sum(bonus_cost_eur) AS bonus_total FROM fct_experiment_users WHERE experiment_id = 'topup10_2026q1' GROUP BY variant"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 3343,
+   "output_tokens": 178,
+   "cache_read_input_tokens": 3340,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

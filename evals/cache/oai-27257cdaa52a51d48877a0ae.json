@@ -1,0 +1,23 @@
+{
+ "latency_s": 1.014,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_BPpD4zQ9Bt8CIc1WC86l0trE",
+    "name": "get_dbt_schema_context",
+    "input": {
+     "mart_name": null
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 1193,
+   "output_tokens": 22,
+   "cache_read_input_tokens": 1190,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

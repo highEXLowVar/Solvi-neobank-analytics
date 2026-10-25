@@ -1,0 +1,49 @@
+{
+ "latency_s": 2.977,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_OhkDp5J2mJflH7JNBXpVDwnn",
+    "name": "calculate_uplift_or_stats",
+    "input": {
+     "metric_slice": {
+      "analysis": "kyc_changepoint",
+      "platform": "ios",
+      "doc_type": "driving_licence",
+      "channel": null,
+      "segment_by": null,
+      "k_a": null,
+      "n_a": null,
+      "k_b": null,
+      "n_b": null
+     }
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_xm1auxV6Sc64scpz2OJd928y",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT platform, version, release_date FROM stg_app_releases WHERE lower(platform) LIKE '%ios%' ORDER BY release_date DESC"
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_Qat3mjqOSX5BD5DhiuxwHuzz",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT month, reject_reason, SUM(n_rejections) AS rejections FROM agg_kyc_reject_reasons_monthly WHERE lower(platform)='ios' AND lower(doc_type) LIKE '%driv%' AND month >= TIMESTAMP '2026-01-01' GROUP BY 1,2 ORDER BY 1,2"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 4163,
+   "output_tokens": 266,
+   "cache_read_input_tokens": 3082,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

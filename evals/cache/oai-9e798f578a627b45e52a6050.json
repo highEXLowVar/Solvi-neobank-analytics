@@ -1,0 +1,23 @@
+{
+ "latency_s": 2.952,
+ "response": {
+  "model": "gpt-6.1-sol",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_IFg6YD1cLdn04yQEvkXPyNeI",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT signup_month, device, sum(n_signups) n, sum(n_activated) activated, sum(n_activated)::DOUBLE/sum(n_signups) activation_rate, sum(n_email_verified)::DOUBLE/sum(n_signups) email_rate, sum(n_kyc_started)::DOUBLE/sum(n_email_verified) kyc_start_rate, sum(n_doc_submitted)::DOUBLE/sum(n_kyc_started) doc_rate, sum(n_kyc_approved)::DOUBLE/sum(n_doc_submitted) approval_rate, sum(n_first_topup)::DOUBLE/sum(n_kyc_approved) topup_rate, sum(n_activated)::DOUBLE/sum(n_first_topup) card_rate FROM agg_funnel_monthly WHERE channel='organic' AND signup_month >= '2025-10-01' GROUP BY GROUPING SETS ((signup_month,device),(signup_month)) ORDER BY signup_month,device"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 3075,
+   "output_tokens": 207,
+   "cache_read_input_tokens": 3072,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

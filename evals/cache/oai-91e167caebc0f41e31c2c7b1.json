@@ -1,0 +1,19 @@
+{
+ "latency_s": 7.297,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"sql\":\"WITH attempts AS (\\n    SELECT\\n        date_trunc('week', event_date)::DATE AS week_start,\\n        platform,\\n        doc_type,\\n        app_version,\\n        COUNT(*) AS n_attempts,\\n        AVG(CASE WHEN is_kyc_approved THEN 1.0 ELSE 0.0 END) AS approval_rate,\\n        AVG(CASE WHEN reject_reason = 'doc_unreadable' THEN 1.0 ELSE 0.0 END) AS doc_unreadable_share,\\n        COUNT(*) FILTER (WHERE reject_reason = 'doc_unreadable') AS doc_unreadable_attempts\\n    FROM fct_kyc_attempts\\n    WHERE event_date >= DATE '2025-09-15'\\n      AND event_date <= DATE '2025-12-15'\\n    GROUP BY 1, 2, 3, 4\\n), releases AS (\\n    SELECT platform, version, release_date\\n    FROM stg_app_releases\\n    WHERE release_date <= DATE '2025-12-15'\\n)\\nSELECT\\n    a.week_start,\\n    a.platform,\\n    a.doc_type,\\n    a.app_version,\\n    r.release_date,\\n    a.n_attempts,\\n    a.approval_rate,\\n    a.doc_unreadable_attempts,\\n    a.doc_unreadable_share\\nFROM attempts a\\nLEFT JOIN releases r\\n  ON r.platform = a.platform\\n AND r.version = a.app_version\\nORDER BY a.week_start, a.platform, a.doc_type, a.app_version\",\"rationale\":\"This compares weekly KYC attempt approval rates and unreadable-document rejection shares by platform, document type, and app version, with release dates, to identify whether a recent release explains the drop.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 2260,
+   "output_tokens": 675,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

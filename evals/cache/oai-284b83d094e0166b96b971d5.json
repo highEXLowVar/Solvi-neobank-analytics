@@ -1,0 +1,19 @@
+{
+ "latency_s": 9.364,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"sql\":\"WITH monthly AS (\\n    SELECT\\n        date_trunc('month', t.txn_ts)::DATE AS month,\\n        SUM(t.amount_eur) / NULLIF(COUNT(DISTINCT t.user_id), 0) AS spend_per_active_user_eur\\n    FROM card_transactions t\\n    JOIN users u ON u.user_id = t.user_id\\n    WHERE u.country = 'Romania'\\n      AND t.txn_ts >= TIMESTAMP '2024-01-01'\\n      AND t.txn_ts <  TIMESTAMP '2026-06-01'\\n    GROUP BY 1\\n), two_month_changes AS (\\n    SELECT\\n        month,\\n        spend_per_active_user_eur,\\n        LAG(spend_per_active_user_eur, 2) OVER (ORDER BY month) AS value_two_months_prior,\\n        100.0 * (spend_per_active_user_eur / NULLIF(LAG(spend_per_active_user_eur, 2) OVER (ORDER BY month), 0) - 1) AS change_pct\\n    FROM monthly\\n), historical AS (\\n    SELECT change_pct\\n    FROM two_month_changes\\n    WHERE month < DATE '2026-05-01'\\n      AND value_two_months_prior IS NOT NULL\\n), march_may AS (\\n    SELECT\\n        MAX(spend_per_active_user_eur) FILTER (WHERE month = DATE '2026-03-01') AS march_spend_per_active_user_eur,\\n        MAX(spend_per_active_user_eur) FILTER (WHERE month = DATE '2026-05-01') AS may_spend_per_active_user_eur,\\n        MAX(change_pct) FILTER (WHERE month = DATE '2026-05-01') AS march_to_may_change_pct\\n    FROM two_month_changes\\n)\\nSELECT\\n    march_spend_per_active_user_eur,\\n    may_spend_per_active_user_eur,\\n    march_to_may_change_pct,\\n    (SELECT quantile_cont(change_pct, 0.10) FROM historical) AS historical_two_month_change_p10_pct,\\n    (SELECT quantile_cont(change_pct, 0.50) FROM historical) AS historical_two_month_change_median_pct,\\n    (SELECT quantile_cont(change_pct, 0.90) FROM historical) AS historical_two_month_change_p90_pct,\\n    (SELECT COUNT(*) FROM historical) AS historical_two_month_comparisons\\nFROM march_may;\",\"rationale\":\"Compares Romania\u2019s March-to-May 2026 card spend per monthly active card user with the distribution of prior two-month changes, to distinguish a decline from normal variation.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 620,
+   "output_tokens": 915,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}
