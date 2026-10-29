@@ -1,0 +1,19 @@
+{
+ "latency_s": 7.415,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":false,\"root_cause_hypothesis\":\"The March-to-April organic activation dip is real in the monthly aggregates but does not look like a clear onboarding failure: KYC approval was essentially unchanged, while first top-up and activation after top-up both weakened modestly. The decline is not clearly outside the historical month-to-month variation, so the available data do not establish that something broke.\",\"supporting_metrics\":[{\"name\":\"Organic activation rate\",\"baseline_value\":0.420664,\"anomaly_value\":0.394461,\"unit\":\"fraction\",\"sql\":\"SELECT signup_month, SUM(n_activated)::DOUBLE/SUM(n_signups) activation_rate FROM agg_funnel_monthly WHERE channel='organic' AND signup_month IN (TIMESTAMP '2026-03-01', TIMESTAMP '2026-04-01') GROUP BY 1\"},{\"name\":\"Organic sign-ups\",\"baseline_value\":2981,\"anomaly_value\":2961,\"unit\":\"count\",\"sql\":\"SELECT signup_month, SUM(n_signups) n_signups FROM agg_funnel_monthly WHERE channel='organic' AND signup_month IN (TIMESTAMP '2026-03-01', TIMESTAMP '2026-04-01') GROUP BY 1\"},{\"name\":\"Organic KYC approval rate\",\"baseline_value\":0.635357,\"anomaly_value\":0.636947,\"unit\":\"fraction\",\"sql\":\"SELECT signup_month, SUM(n_kyc_approved)::DOUBLE/SUM(n_signups) kyc_approval_rate FROM agg_funnel_monthly WHERE channel='organic' AND signup_month IN (TIMESTAMP '2026-03-01', TIMESTAMP '2026-04-01') GROUP BY 1\"},{\"name\":\"Organic first top-up rate\",\"baseline_value\":0.467964,\"anomaly_value\":0.454914,\"unit\":\"fraction\",\"sql\":\"SELECT signup_month, SUM(n_first_topup)::DOUBLE/SUM(n_signups) topup_rate FROM agg_funnel_monthly WHERE channel='organic' AND signup_month IN (TIMESTAMP '2026-03-01', TIMESTAMP '2026-04-01') GROUP BY 1\"},{\"name\":\"Organic activation rate historical range (June 2025\u2013April 2026)\",\"baseline_value\":0.371915,\"anomaly_value\":0.434097,\"unit\":\"fraction\",\"sql\":\"SELECT signup_month, SUM(n_activated)::DOUBLE/SUM(n_signups) activation FROM agg_funnel_monthly WHERE channel='organic' AND signup_month BETWEEN TIMESTAMP '2025-06-01' AND TIMESTAMP '2026-04-01' GROUP BY 1 ORDER BY 1\"},{\"name\":\"Organic activation among first-top-up users\",\"baseline_value\":0.899899,\"anomaly_value\":0.863014,\"unit\":\"fraction\",\"sql\":\"SELECT signup_month, device, SUM(n_activated)::DOUBLE/SUM(n_first_topup) activation_per_topup FROM agg_funnel_monthly WHERE channel='organic' AND signup_month IN (TIMESTAMP '2026-03-01',TIMESTAMP '2026-04-01') GROUP BY 1,2\"}],\"recommended_action\":\"NO_ACTION_NOISE\",\"reasoning_summary\":\"Organic activation moved from 0.420664 in March to 0.394461 in April, on 2,981 and 2,961 sign-ups respectively. That April rate remains within the observed June 2025\u2013April 2026 monthly range of 0.371915\u20130.434097. KYC approval was stable at 0.635357 versus 0.636947; weaker top-up and post-top-up activation are worth monitoring, but the evidence does not identify a distinct onboarding break.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 7722,
+   "output_tokens": 771,
+   "cache_read_input_tokens": 5074,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

@@ -41,6 +41,13 @@ economics, two-proportion test). Investigate step by step: read the schema for t
 need, query, check your numbers, then answer. If a query errors, read the error and fix the \
 query. When you are done, reply with the verdict JSON only."""
 
+# the same brief for the run without the stats tool: everything has to come from SQL
+TOOL_AGENT_SQL_ONLY = """\
+You have two tools: get_dbt_schema_context (the documented dbt semantic layer) and \
+execute_readonly_duckdb_sql (read-only SQL, max 200 rows). Investigate step by step: read the \
+schema for the marts you need, query, check your numbers, then answer. If a query errors, read \
+the error and fix the query. When you are done, reply with the verdict JSON only."""
+
 UNIT_ECONOMICS_GUARDRAIL = """\
 Guardrail, mandatory: a statistically significant lift is not a reason to ship. Before you \
 recommend SHIP for an experiment, or recommend keeping spend on an acquisition channel, check \

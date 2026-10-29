@@ -1,0 +1,23 @@
+{
+ "latency_s": 3.562,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_IUw7AzXxVvzWqh6JelHMPd3B",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "WITH a AS (SELECT variant, COUNT(*) n, AVG(CASE WHEN conv_14d THEN 1.0 ELSE 0.0 END) p, AVG(margin_60d_eur) m, SUM(bonus_cost_eur) b FROM fct_experiment_users WHERE experiment_id='topup10_2026q1' GROUP BY variant), x AS (SELECT MAX(CASE WHEN variant='control' THEN n END) nc, MAX(CASE WHEN variant='treatment' THEN n END) nt, MAX(CASE WHEN variant='control' THEN p END) pc, MAX(CASE WHEN variant='treatment' THEN p END) pt, MAX(CASE WHEN variant='control' THEN m END) mc, MAX(CASE WHEN variant='treatment' THEN m END) mt, MAX(CASE WHEN variant='treatment' THEN b END) bt FROM a) SELECT pt-pc AS lift_rate, SQRT(pc*(1-pc)/nc + pt*(1-pt)/nt) AS lift_se, mt-mc AS margin_difference_per_user, bt/(nt*(pt-pc)) AS incentive_cost_per_incremental_conversion, mc, mt FROM x"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 3356,
+   "output_tokens": 265,
+   "cache_read_input_tokens": 3032,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

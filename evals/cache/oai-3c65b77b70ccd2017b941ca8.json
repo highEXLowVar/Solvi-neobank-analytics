@@ -1,0 +1,23 @@
+{
+ "latency_s": 1.884,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_jJYyRGCG1bC5aexJbJhLOyAG",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT variant, AVG(CASE WHEN conv_14d THEN margin_60d_eur END) AS margin_per_converted_user, AVG(CASE WHEN conv_14d THEN bonus_cost_eur END) AS incentive_per_converted_user, AVG(CASE WHEN conv_14d THEN first_topup_amount END) AS avg_first_topup_amount FROM fct_experiment_users WHERE experiment_id='topup10_2026q1' GROUP BY variant ORDER BY variant"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 3730,
+   "output_tokens": 117,
+   "cache_read_input_tokens": 3353,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

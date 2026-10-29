@@ -1,0 +1,19 @@
+{
+ "latency_s": 5.663,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":true,\"root_cause_hypothesis\":\"Paid social is unprofitable on the available unit-economics data: cumulative contribution margin remains below CAC through the latest observed tenure. The data only observe this channel through month 28, so this does not establish its full 36-month LTV.\",\"supporting_metrics\":[{\"name\":\"paid_social CAC per activated user\",\"baseline_value\":null,\"anomaly_value\":26.0,\"unit\":\"EUR\",\"sql\":\"SELECT channel, months_since_activation, n_observable, avg_margin_eur, cac_eur, SUM(avg_margin_eur) OVER (PARTITION BY channel ORDER BY months_since_activation ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS cumulative_margin_eur, SUM(avg_margin_eur) OVER (PARTITION BY channel ORDER BY months_since_activation ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) - cac_eur AS net_after_cac_eur FROM agg_unit_economics WHERE lower(channel) LIKE '%social%' ORDER BY channel, months_since_activation\"},{\"name\":\"paid_social cumulative contribution margin per activated user, latest observed tenure (month 28)\",\"baseline_value\":null,\"anomaly_value\":9.981345,\"unit\":\"EUR\",\"sql\":\"SELECT channel, months_since_activation, n_observable, SUM(avg_margin_eur) OVER (PARTITION BY channel ORDER BY months_since_activation ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS cumulative_margin_eur, MAX(months_since_activation) OVER (PARTITION BY channel) AS max_observed_month, MAX(cac_eur) AS cac_eur FROM agg_unit_economics WHERE lower(channel) LIKE '%social%' GROUP BY channel, months_since_activation, n_observable, avg_margin_eur ORDER BY channel, months_since_activation DESC LIMIT 1\"},{\"name\":\"paid_social net contribution margin after CAC, latest observed tenure (month 28)\",\"baseline_value\":null,\"anomaly_value\":-16.018655,\"unit\":\"EUR\",\"sql\":\"Calculated from returned values: cumulative margin 9.981345 EUR minus CAC 26.0 EUR, from agg_unit_economics query results.\"}],\"recommended_action\":\"PAUSE_ACQUISITION_CHANNEL\",\"reasoning_summary\":\"Paid social CAC is \u20ac26.00 per activated user. Cumulative contribution margin reaches only \u20ac9.981345 by the latest observed tenure, month 28 (139 observable users), leaving a \u20ac16.018655 shortfall versus CAC. The available data do not cover 36 months, so full 36-month LTV is not established; on observed economics, pause the channel rather than continue spend.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 4203,
+   "output_tokens": 555,
+   "cache_read_input_tokens": 3962,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

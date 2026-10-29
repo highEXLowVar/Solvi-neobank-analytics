@@ -1,0 +1,19 @@
+{
+ "latency_s": 8.802,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":true,\"root_cause_hypothesis\":\"The drop is concentrated in Android national-ID KYC and is consistent with a document-readability regression introduced in Android app version 5.27. From Nov 10 onward, Android national-ID approval fell sharply; the rejection-reason mix shows a corresponding surge in doc_unreadable rejections. This points to a release-related capture or image-processing issue, rather than a broad KYC deterioration across platforms and document types.\",\"supporting_metrics\":[{\"name\":\"Overall KYC approval rate (Sep 1\u2013Oct 31 baseline vs Nov 1\u2013Dec 15 recent)\",\"baseline_value\":0.89211,\"anomaly_value\":0.837695,\"unit\":\"fraction\",\"sql\":\"SELECT CASE WHEN decision_date < DATE '2025-11-01' THEN 'baseline' ELSE 'recent' END period, SUM(n_approved)*1.0/SUM(n_decisions) rate FROM agg_kyc_daily WHERE decision_date BETWEEN DATE '2025-09-01' AND DATE '2025-12-15' GROUP BY 1\"},{\"name\":\"Android national-ID KYC approval rate (pre-5.27 vs post-5.27 release date)\",\"baseline_value\":0.88809,\"anomaly_value\":0.692246,\"unit\":\"fraction\",\"sql\":\"SELECT CASE WHEN decision_date < DATE '2025-11-10' THEN 'pre_5.27' ELSE 'post_5.27' END period, SUM(n_approved)*1.0/SUM(n_decisions) rate FROM agg_kyc_daily WHERE platform='android' AND doc_type='national_id' AND decision_date BETWEEN DATE '2025-09-01' AND DATE '2025-12-15' GROUP BY 1\"},{\"name\":\"Android national-ID doc_unreadable rejections (Sep\u2013Oct baseline vs Nov\u2013Dec recent)\",\"baseline_value\":155,\"anomaly_value\":906,\"unit\":\"count\",\"sql\":\"SELECT platform, doc_type, reject_reason, CASE WHEN month < TIMESTAMP '2025-11-01' THEN 'baseline' ELSE 'recent' END period, SUM(n_rejections) n FROM agg_kyc_reject_reasons_monthly WHERE month BETWEEN TIMESTAMP '2025-09-01' AND TIMESTAMP '2025-12-01' AND platform='android' AND doc_type='national_id' AND reject_reason='doc_unreadable' GROUP BY 1,2,3,4\"},{\"name\":\"Android app version 5.27 release date\",\"baseline_value\":null,\"anomaly_value\":null,\"unit\":\"date\",\"sql\":\"SELECT version, platform, release_date FROM stg_app_releases WHERE platform='android' AND version=5.27\"}],\"recommended_action\":\"ROLLBACK_RELEASE\",\"reasoning_summary\":\"Overall KYC approval moved from 0.89211 in the Sep\u2013Oct baseline to 0.837695 in Nov\u2013Dec. The clearest break is Android national-ID: approval was 0.88809 before the Nov 10 release and 0.692246 after it. In that slice, doc_unreadable rejections increased from 155 to 906; iOS national-ID and other Android document types do not show a comparable approval collapse. Roll back or hotfix Android 5.27 and verify image capture/readability before re-release.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 8144,
+   "output_tokens": 706,
+   "cache_read_input_tokens": 7913,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

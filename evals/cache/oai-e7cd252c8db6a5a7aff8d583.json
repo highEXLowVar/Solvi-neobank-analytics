@@ -1,0 +1,19 @@
+{
+ "latency_s": 7.087,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":true,\"root_cause_hypothesis\":\"The \u20ac10 bonus increased 14-day top-up conversion, but its incentive cost and weaker 60-day net margin make the treatment economically unattractive. The observed conversion lift is larger than its standard error, but that lift does not offset the negative economics.\",\"supporting_metrics\":[{\"name\":\"14-day top-up conversion rate\",\"baseline_value\":0.650226,\"anomaly_value\":0.701876,\"unit\":\"fraction\",\"sql\":\"SELECT experiment_id, variant, COUNT(*) AS n, AVG(CASE WHEN conv_14d THEN 1.0 ELSE 0.0 END) AS conversion_rate FROM fct_experiment_users GROUP BY 1,2; \u2014 topup10_2026q1\"},{\"name\":\"Conversion lift standard error\",\"baseline_value\":null,\"anomaly_value\":0.009274,\"unit\":\"fraction\",\"sql\":\"WITH arm conversion rates and counts from fct_experiment_users for experiment_id='topup10_2026q1'; calculate SQRT(pc*(1-pc)/nc + pt*(1-pt)/nt).\"},{\"name\":\"Bonus incentive cost per incremental conversion\",\"baseline_value\":null,\"anomaly_value\":132.98654,\"unit\":\"EUR\",\"sql\":\"WITH arm counts, conversion rates, and treatment bonus spend from fct_experiment_users for experiment_id='topup10_2026q1'; calculate treatment_bonus_spend/(treatment_n*(treatment_rate-control_rate)).\"},{\"name\":\"60-day net contribution margin per subject\",\"baseline_value\":0.763664,\"anomaly_value\":-5.977642,\"unit\":\"EUR/user\",\"sql\":\"SELECT experiment_id, variant, AVG(margin_60d_eur) AS avg_margin_60d FROM fct_experiment_users GROUP BY 1,2; \u2014 topup10_2026q1\"},{\"name\":\"60-day margin difference, treatment minus control\",\"baseline_value\":0.763664,\"anomaly_value\":-5.977642,\"unit\":\"EUR/user\",\"sql\":\"WITH arm averages from fct_experiment_users for experiment_id='topup10_2026q1'; calculate treatment_avg_margin-control_avg_margin.\"},{\"name\":\"60-day margin per converted user\",\"baseline_value\":1.162729,\"anomaly_value\":-8.524257,\"unit\":\"EUR/user\",\"sql\":\"SELECT variant, AVG(CASE WHEN conv_14d THEN margin_60d_eur END) AS margin_per_converted_user FROM fct_experiment_users WHERE experiment_id='topup10_2026q1' GROUP BY variant;\"}],\"recommended_action\":\"DO_NOT_SHIP\",\"reasoning_summary\":\"In experiment topup10_2026q1, conversion rose from 0.650226 to 0.701876 (lift 0.05165; standard error 0.009274). Yet treatment 60-day net margin was -5.977642 EUR/user versus 0.763664 EUR/user in control, a -6.741307 EUR/user difference. Incentive cost was 132.98654 EUR per incremental conversion, and converted treatment users averaged -8.524257 EUR 60-day margin; do not roll out.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 3958,
+   "output_tokens": 670,
+   "cache_read_input_tokens": 3727,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

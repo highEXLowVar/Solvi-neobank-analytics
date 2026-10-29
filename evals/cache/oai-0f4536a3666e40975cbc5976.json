@@ -1,0 +1,31 @@
+{
+ "latency_s": 3.123,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_wTteh87b0OmnVhNubu8QlEpC",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT platform, doc_type, reject_reason, CASE WHEN month < TIMESTAMP '2025-11-01' THEN 'baseline' ELSE 'recent' END period, SUM(n_rejections) n FROM agg_kyc_reject_reasons_monthly WHERE month BETWEEN TIMESTAMP '2025-09-01' AND TIMESTAMP '2025-12-01' GROUP BY 1,2,3,4 ORDER BY 1,2,4,5 DESC"
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_NC7xSImQZyoHJgwPo4hTXLY7",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT version, platform, release_date FROM stg_app_releases WHERE release_date BETWEEN DATE '2025-09-01' AND DATE '2025-12-15' ORDER BY platform,release_date"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 6234,
+   "output_tokens": 194,
+   "cache_read_input_tokens": 3840,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

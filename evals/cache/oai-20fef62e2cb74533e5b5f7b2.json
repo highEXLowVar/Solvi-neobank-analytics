@@ -1,0 +1,23 @@
+{
+ "latency_s": 2.731,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_99oNIGtFkZJBpnwl6mMGUaP3",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "WITH rates AS (SELECT channel, months_since_activation, sum(n_active)::DOUBLE/sum(cohort_size) retention FROM agg_retention_cohorts WHERE months_since_activation BETWEEN 6 AND 12 GROUP BY 1,2), avg_rates AS (SELECT channel, avg(retention) steady_retention_6_12 FROM rates GROUP BY 1), economics AS (SELECT channel, sum(avg_margin_eur) FILTER (WHERE months_since_activation <= 28) AS observed_ltv_28m, max(cac_eur) cac FROM agg_unit_economics GROUP BY 1) SELECT a.channel, a.steady_retention_6_12, e.observed_ltv_28m, e.cac, e.observed_ltv_28m-e.cac AS net_margin FROM avg_rates a JOIN economics e USING(channel) ORDER BY 1"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 3859,
+   "output_tokens": 198,
+   "cache_read_input_tokens": 2897,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

@@ -1,0 +1,23 @@
+{
+ "latency_s": 1.626,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_LfMPuFu88RlM8fDdAKt6fmRu",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT country, COUNT(*) users FROM dim_users GROUP BY country ORDER BY users DESC"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 3042,
+   "output_tokens": 38,
+   "cache_read_input_tokens": 2774,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

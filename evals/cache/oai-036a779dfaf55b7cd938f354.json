@@ -1,0 +1,23 @@
+{
+ "latency_s": 1.996,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_FqjLMQeOGXDY6XfpWJ1kTF8S",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT date_trunc('week', decision_date)::DATE AS week, SUM(n_approved)::DOUBLE / NULLIF(SUM(n_decisions),0) AS approval_rate, SUM(n_decisions) AS decisions FROM agg_kyc_daily WHERE lower(platform)='android' AND lower(doc_type) IN ('national_id','national id') AND decision_date >= DATE '2025-07-01' AND decision_date < DATE '2026-02-01' GROUP BY 1 ORDER BY 1"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 2781,
+   "output_tokens": 124,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

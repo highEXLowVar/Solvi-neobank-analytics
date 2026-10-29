@@ -1,0 +1,23 @@
+{
+ "latency_s": 3.031,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_2pWKnDugHRdXQz8VmpE3MoTs",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "WITH x AS (SELECT channel, variant, COUNT(*) n, AVG(CASE WHEN conv_14d THEN 1.0 ELSE 0.0 END) p, AVG(margin_60d_eur) m, AVG(bonus_cost_eur) b FROM fct_experiment_users GROUP BY 1,2), p AS (SELECT a.channel, (a.p-b.p) lift, a.n tn,b.n cn, a.m tm,b.m cm,a.b bonus, (a.b/(a.p-b.p)) incentive_per_incremental, (a.m-b.m) margin_diff FROM x a JOIN x b USING(channel) WHERE a.variant='treatment' AND b.variant='control') SELECT *, 10.0 AS converted_user_worth_proxy FROM p"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 3354,
+   "output_tokens": 179,
+   "cache_read_input_tokens": 2773,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

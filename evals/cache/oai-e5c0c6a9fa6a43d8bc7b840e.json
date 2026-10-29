@@ -1,0 +1,23 @@
+{
+ "latency_s": 2.488,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_DFlTdMW0UkRxf8aZxvaksyGs",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "WITH daily AS (SELECT decision_date, SUM(n_decisions) n, SUM(n_approved) approved, SUM(n_approved)*1.0/SUM(n_decisions) rate FROM agg_kyc_daily WHERE decision_date BETWEEN DATE '2025-09-01' AND DATE '2025-12-15' GROUP BY 1), w AS (SELECT CASE WHEN decision_date < DATE '2025-11-01' THEN 'baseline' ELSE 'recent' END period, SUM(n) n, SUM(approved) approved, SUM(approved)*1.0/SUM(n) rate FROM daily GROUP BY 1) SELECT * FROM w ORDER BY period"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 3023,
+   "output_tokens": 159,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

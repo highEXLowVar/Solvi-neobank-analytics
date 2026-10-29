@@ -1,0 +1,23 @@
+{
+ "latency_s": 1.689,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_068EASGraXKEIdIcoKr8KjDi",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT CASE WHEN decision_date < DATE '2025-11-10' THEN 'pre_5.27' ELSE 'post_5.27' END period, SUM(n_decisions) decisions, SUM(n_approved) approved, SUM(n_approved)*1.0/SUM(n_decisions) rate FROM agg_kyc_daily WHERE platform='android' AND doc_type='national_id' AND decision_date BETWEEN DATE '2025-09-01' AND DATE '2025-12-15' GROUP BY 1"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 7916,
+   "output_tokens": 130,
+   "cache_read_input_tokens": 6231,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

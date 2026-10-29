@@ -1,0 +1,23 @@
+{
+ "latency_s": 1.936,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_FmjoxlVYUMbvg8M09or7xmTG",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT channel, months_since_activation, n_observable, SUM(avg_margin_eur) OVER (PARTITION BY channel ORDER BY months_since_activation ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS cumulative_margin_eur, MAX(months_since_activation) OVER (PARTITION BY channel) AS max_observed_month, MAX(cac_eur) AS cac_eur FROM agg_unit_economics WHERE lower(channel) LIKE '%social%' GROUP BY channel, months_since_activation, n_observable, avg_margin_eur ORDER BY channel, months_since_activation DESC LIMIT 1"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 3965,
+   "output_tokens": 140,
+   "cache_read_input_tokens": 2756,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

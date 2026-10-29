@@ -1,0 +1,23 @@
+{
+ "latency_s": 2.653,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_ge8ErX5lKEy10ufFbFhC7w1O",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT channel, months_since_activation, n_observable, avg_margin_eur, cac_eur, SUM(avg_margin_eur) OVER (PARTITION BY channel ORDER BY months_since_activation ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) ltv_to_date FROM agg_unit_economics WHERE months_since_activation <= 36 ORDER BY channel, months_since_activation"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 3826,
+   "output_tokens": 97,
+   "cache_read_input_tokens": 3351,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

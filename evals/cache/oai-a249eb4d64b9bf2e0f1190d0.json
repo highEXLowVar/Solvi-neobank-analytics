@@ -1,0 +1,23 @@
+{
+ "latency_s": 1.947,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_O8GXAnYDAjLeLBZZmdF0Ws33",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT DISTINCT platform, doc_type FROM agg_kyc_daily ORDER BY 1,2"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 3232,
+   "output_tokens": 40,
+   "cache_read_input_tokens": 2789,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

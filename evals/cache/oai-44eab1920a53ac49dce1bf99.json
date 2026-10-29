@@ -1,0 +1,19 @@
+{
+ "latency_s": 6.251,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"incident_detected\":false,\"root_cause_hypothesis\":\"The week of 13 April shows a dip, but it is not enough to conclude the iOS app is broken. The following week recovered, and the low week\u2019s rate is consistent with the ordinary week-to-week variation visible in the preceding weeks. Version 8.32 had a lower rate that week, but the data does not establish that it caused a persistent issue.\",\"supporting_metrics\":[{\"name\":\"iOS driving_licence weekly KYC approval rate\",\"baseline_value\":0.886076,\"anomaly_value\":0.804598,\"unit\":\"fraction\",\"sql\":\"SELECT date_trunc('week', decision_date)::DATE week_start, SUM(n_decisions) decisions, SUM(n_approved) approved, SUM(n_approved)::DOUBLE/SUM(n_decisions) rate FROM agg_kyc_daily WHERE platform='ios' AND doc_type='driving_licence' AND decision_date >= DATE '2026-03-02' AND decision_date < DATE '2026-04-27' GROUP BY 1 ORDER BY 1. Baseline week 2026-04-06: 70/79; anomaly week 2026-04-13: 70/87.\"},{\"name\":\"iOS driving_licence weekly KYC approval rate\",\"baseline_value\":0.804598,\"anomaly_value\":0.882353,\"unit\":\"fraction\",\"sql\":\"Same query as above. Week 2026-04-20: 90/102, following the 2026-04-13 week.\"},{\"name\":\"iOS driving_licence approval rate by app version, week of 2026-04-13\",\"baseline_value\":0.923077,\"anomaly_value\":0.776699,\"unit\":\"fraction\",\"sql\":\"SELECT date_trunc('week', event_date)::DATE week_start, app_version, COUNT(*) attempts, COUNT(*) FILTER (WHERE is_kyc_approved) approved, AVG(CASE WHEN is_kyc_approved THEN 1.0 ELSE 0.0 END) approval_rate FROM fct_kyc_attempts WHERE platform='ios' AND doc_type='driving_licence' AND event_date >= DATE '2026-03-30' AND event_date < DATE '2026-04-27' GROUP BY 1,2 ORDER BY 1,2. For week 2026-04-13, version 8.31 was 12/13; version 8.32 was 80/103.\"}],\"recommended_action\":\"NO_ACTION_NOISE\",\"reasoning_summary\":\"The 13 April week recorded 70 approvals from 87 decisions (0.804598), versus 70/79 (0.886076) the prior week. The rate rebounded to 90/102 (0.882353) the following week; preceding weekly rates also varied from 0.813725 to 0.926471. Version 8.32 was lower that week, but the observed one-week movement and recovery do not support calling the app broken or rolling back.\"}"
+   }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+   "input_tokens": 6041,
+   "output_tokens": 650,
+   "cache_read_input_tokens": 5703,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

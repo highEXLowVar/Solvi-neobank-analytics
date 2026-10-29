@@ -1,0 +1,23 @@
+{
+ "latency_s": 2.089,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_vR9E59KDApA8eAZlndiW5EFN",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT experiment_id, variant, COUNT(*) AS n, AVG(CASE WHEN conv_14d THEN 1.0 ELSE 0.0 END) AS conversion_rate, AVG(margin_60d_eur) AS avg_margin_60d, SUM(bonus_cost_eur) AS total_bonus_cost, AVG(bonus_cost_eur) AS bonus_per_subject FROM fct_experiment_users GROUP BY 1,2 ORDER BY 1,2"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 2766,
+   "output_tokens": 114,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

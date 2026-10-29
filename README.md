@@ -256,6 +256,24 @@ model the stats tool is what carries the call. The agent's four misses are numbe
 out of its answer (three per-channel lifts and the margin excluding the bonus), and it marked
 one noise trap as an incident while still recommending no action.
 
+How much of the agent's lead is the stats tool? I ran it again without that tool
+(`C_no_stats_tool`), so every number had to come from its own SQL. It retrieved **6 of 17**,
+against 13 with the tool and 3 for a single dbt query, and still made all eight calls, six of
+them with the evidence behind them. What it lost were the numbers that need an estimator
+rather than a query: the exact day the KYC incident started, the four churn rates (a
+geometric fit over cohort retention) and paid social's 36-month LTV (an extrapolation). So
+the loop and SQL self-correction take retrieval from 3 to 6, and the vetted estimators take
+it from 6 to 13. It is also the only agent run that flagged none of the noise traps.
+
+| | Agent | Agent, no guardrail | Agent, no stats tool |
+|---|---|---|---|
+| Ground-truth checks retrieved | 13 / 17 | 11 / 17 | 6 / 17 |
+| Right product decision | 8 / 8 | 8 / 8 | 8 / 8 |
+| ...with the evidence retrieved | 8 / 8 | 8 / 8 | 6 / 8 |
+| Incidents invented on noise traps | 1 / 3 | 1 / 3 | 0 / 3 |
+| Median latency | 13 s | 12 s | 19 s |
+| Cost per question | $0.0008 | $0.0009 | $0.0015 |
+
 ## Running it
 
 ```bash
@@ -265,7 +283,7 @@ python -m venv .venv
 ```
 
 The evals replay from the committed cache with `python -m evals.run_evals --offline`. A live
-run needs `OPENAI_API_KEY` in a gitignored `.env`, and costs about four cents for all 36
+run needs `OPENAI_API_KEY` in a gitignored `.env`, and costs about five cents for all 45
 runs.
 
 A couple of minutes total: simulate (around 7 seconds), `dbt build` (62 models and tests

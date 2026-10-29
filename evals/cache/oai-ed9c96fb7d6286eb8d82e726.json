@@ -1,0 +1,23 @@
+{
+ "latency_s": 2.908,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_9i8hD5s2Es8de2iVCCUZiL6v",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT signup_month, device, SUM(n_signups) n, SUM(n_activated)::DOUBLE/SUM(n_signups) activation, SUM(n_kyc_approved)::DOUBLE/SUM(n_signups) kyc_approved, SUM(n_first_topup)::DOUBLE/SUM(n_signups) first_topup, SUM(n_activated)::DOUBLE/SUM(n_first_topup) activation_per_topup FROM agg_funnel_monthly WHERE channel='organic' AND signup_month IN (TIMESTAMP '2026-03-01',TIMESTAMP '2026-04-01') GROUP BY 1,2 ORDER BY 2,1"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 4022,
+   "output_tokens": 200,
+   "cache_read_input_tokens": 2779,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

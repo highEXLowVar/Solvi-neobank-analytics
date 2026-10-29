@@ -1,0 +1,31 @@
+{
+ "latency_s": 1.367,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_FuPIPpPGAcfNq4aKzkxAoiqv",
+    "name": "get_dbt_schema_context",
+    "input": {
+     "mart_name": null
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_JSN3u8qR35YmzQIjRkgRO7zq",
+    "name": "get_dbt_schema_context",
+    "input": {
+     "mart_name": "acquisition"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 906,
+   "output_tokens": 57,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

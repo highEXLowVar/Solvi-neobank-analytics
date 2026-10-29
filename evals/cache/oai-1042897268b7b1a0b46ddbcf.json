@@ -1,0 +1,31 @@
+{
+ "latency_s": 4.263,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_j7tE58oYt2EdWVzBVcNtfNHk",
+    "name": "get_dbt_schema_context",
+    "input": {
+     "mart_name": null
+    }
+   },
+   {
+    "type": "tool_use",
+    "id": "call_btfefykojCZa35PpUm41Qee1",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT table_schema, table_name FROM information_schema.tables WHERE table_type='BASE TABLE' ORDER BY table_schema, table_name"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 906,
+   "output_tokens": 80,
+   "cache_read_input_tokens": 0,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}

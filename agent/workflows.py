@@ -40,7 +40,10 @@ CONFIGS = {
 }
 # same agent with the unit-economics guardrail switched off, to check whether
 # the guardrail is what actually stops it shipping the bonus
-ABLATIONS = {"C_no_guardrail": "Agent without the guardrail"}
+# and with the stats tool taken away, to see what the loop and SQL
+# self-correction buy on their own
+ABLATIONS = {"C_no_guardrail": "Agent without the guardrail",
+             "C_no_stats_tool": "Agent without the stats tool"}
 
 TOOLS = [
     {
@@ -240,15 +243,17 @@ def _exec_tool(rec: RunRecord, wh: Warehouse, name: str, args: dict) -> tuple[di
 
 
 def tool_agent(llm: LLM, case_id: str, question: str, as_of: str | None = None,
-               guardrail: bool = True) -> RunRecord:
+               guardrail: bool = True, stats_tool: bool = True) -> RunRecord:
     rec = RunRecord("C_tool_agent", case_id, question)
     wh = Warehouse("marts", as_of)
     q = _question_text(question, as_of)
     rec.steps.append({"kind": "user_prompt", "text": q})
-    system = "\n".join([P.ANALYST_BRIEF, P.TOOL_AGENT] + ([P.UNIT_ECONOMICS_GUARDRAIL] if guardrail else []))
+    brief = P.TOOL_AGENT if stats_tool else P.TOOL_AGENT_SQL_ONLY
+    tools = TOOLS if stats_tool else [t for t in TOOLS if t["name"] != "calculate_uplift_or_stats"]
+    system = "\n".join([P.ANALYST_BRIEF, brief] + ([P.UNIT_ECONOMICS_GUARDRAIL] if guardrail else []))
     msgs: list = [{"role": "user", "content": q}]
     for turn in range(MAX_TURNS + 1):
-        resp = llm.create(system=system, messages=msgs, json_schema=VERDICT_SCHEMA, tools=TOOLS)
+        resp = llm.create(system=system, messages=msgs, json_schema=VERDICT_SCHEMA, tools=tools)
         rec.add_usage(resp, llm)
         msgs.append(assistant_turn(resp))
         calls = [b for b in resp["content"] if b["type"] == "tool_use"]
@@ -294,6 +299,10 @@ def run(llm: LLM, config: str, case_id: str, question: str, as_of: str | None = 
         return single_pass(llm, case_id, question, "marts", as_of)
     if config == "C_no_guardrail":
         rec = tool_agent(llm, case_id, question, as_of, guardrail=False)
+        rec.config = config
+        return rec
+    if config == "C_no_stats_tool":
+        rec = tool_agent(llm, case_id, question, as_of, stats_tool=False)
         rec.config = config
         return rec
     return tool_agent(llm, case_id, question, as_of)

@@ -1,0 +1,23 @@
+{
+ "latency_s": 2.947,
+ "response": {
+  "model": "gpt-6-luna",
+  "content": [
+   {
+    "type": "tool_use",
+    "id": "call_D2OLqsDw5iRClD5sNEaVaSY0",
+    "name": "execute_readonly_duckdb_sql",
+    "input": {
+     "query": "SELECT date_trunc('week', decision_date)::DATE week_start, SUM(n_decisions) decisions, SUM(n_approved) approved, SUM(n_approved)::DOUBLE/SUM(n_decisions) rate FROM agg_kyc_daily WHERE platform='ios' AND doc_type='driving_licence' AND decision_date >= DATE '2026-03-02' AND decision_date < DATE '2026-04-27' GROUP BY 1 ORDER BY 1"
+    }
+   }
+  ],
+  "stop_reason": "tool_use",
+  "usage": {
+   "input_tokens": 5706,
+   "output_tokens": 118,
+   "cache_read_input_tokens": 3384,
+   "cache_creation_input_tokens": 0
+  }
+ }
+}
